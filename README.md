@@ -6,7 +6,9 @@
 
 # caustic
 
-The lensing pipeline of the future: GPU-accelerated, automatically-differentiable,
+## Getting Started
+
+Welcome to the lensing pipeline of the future: GPU-accelerated, automatically-differentiable,
 highly modular. Currently under heavy development: expect interface changes and
 some imprecise/untested calculations.
 
@@ -21,15 +23,15 @@ pip install caustic
 
 Please see our [documentation page](Ciela-Institute.github.io/caustic/) for more detailed information.
 
-## Contributing
+## Contribution
 
-Please reach out to one of us if you're interested in contributing!
+We welcome contributions from collaborators and researchers interested in our work. If you have improvements, suggestions, or new findings to share, please submit a pull request. Your contributions help advance our research and analysis efforts.
 
-To start, follow the installation instructions, replacing the last line with
-```bash
-pip install -e ".[dev]"
-```
-This creates an editable install and installs the dev dependencies.
+To get started with your development (or fork), click the "Open with GitHub Codespaces" button below to launch a fully configured development environment with all the necessary tools and extensions.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/uw-ssec/caustic/?quickstart=1)
+
+Instruction on how to contribute to this project can be found in the CONTRIBUTION.md
 
 Some guidelines:
 - Please use `isort` and `black` to format your code.
