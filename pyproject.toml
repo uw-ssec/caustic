@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "caustic"
+version = "0.4.8"
+authors = [
+  { name="Connor Stone", email="connor.stone@mila.quebec" },
+  { name="Alexandre Adam", email="alexandre.adam@mila.quebec" },
+  { name="UW SSEC", email="ssec@uw.edu" }
+]
+description = "The lensing pipeline of the future: GPU-accelerated, automatically-differentiable, highly modular. Currently under heavy development: expect interface changes and some imprecise/untested calculations."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+keywords = ["caustic", "lensing", "astronomy", "strong lensing", "gravitational"]
+
+[project.urls]
+Homepage = "https://mila.quebec/en/"
+Documentation = ""
+Repository = "https://github.com/Ciela-Institute/caustic.git"
+Changelog = ""
+Issues = "https://github.com/Ciela-Institute/caustic/issues"
+
+[tool.hatch.build]
+sources = ["src"]
