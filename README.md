@@ -29,7 +29,7 @@ We welcome contributions from collaborators and researchers interested in our wo
 
 To get started with your development (or fork), click the "Open with GitHub Codespaces" button below to launch a fully configured development environment with all the necessary tools and extensions.
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/uw-ssec/caustic/tree/cdc-setup?quickstart=1)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/uw-ssec/caustic?quickstart=1)
 
 Instruction on how to contribute to this project can be found in the CONTRIBUTION.md
 
