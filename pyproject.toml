@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "caustic"
+name = "caustics"
 version = "0.4.8"
 authors = [
   { name="Connor Stone", email="connor.stone@mila.quebec" },
@@ -15,7 +15,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = {file = "LICENSE"}
 keywords = [
-        "caustic",
+        "caustics",
         "lensing",
         "astronomy",
         "strong lensing",
@@ -35,9 +35,9 @@ classifiers=[
 [project.urls]
 Homepage = "https://mila.quebec/en/"
 Documentation = ""
-Repository = "https://github.com/Ciela-Institute/caustic.git"
+Repository = "https://github.com/Ciela-Institute/caustics.git"
 Changelog = ""
-Issues = "https://github.com/Ciela-Institute/caustic/issues"
+Issues = "https://github.com/Ciela-Institute/caustics/issues"
 
 [tool.hatch.build]
 sources = ["src"]

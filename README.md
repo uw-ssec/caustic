@@ -3,7 +3,7 @@
 [![PyPI version](https://badge.fury.io/py/caustic.svg)](https://pypi.org/project/caustic/)
 [![coverage](https://img.shields.io/codecov/c/github/Ciela-Institute/caustic)](https://app.codecov.io/gh/Ciela-Institute/caustic)
 
-# caustic
+# caustics
 
 ## Getting Started
 
@@ -13,9 +13,9 @@ some imprecise/untested calculations.
 
 ## Installation 
 
-Simply install caustic from PyPI:
+Simply install caustics from PyPI:
 ```bash
-pip install caustic
+pip install caustics
 ```
 
 ## Documentation
