@@ -7,7 +7,9 @@
 		  "extensions": [
 			"ms-toolsai.jupyter",
 			"ms-python.python",
-			"ms-vsliveshare.vsliveshare"
+			"ms-vsliveshare.vsliveshare",
+			"DavidAnson.vscode-markdownlint",
+			"GitHub.copilot"
 		]
 		}
 	},
