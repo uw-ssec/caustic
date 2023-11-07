@@ -11,5 +11,9 @@
 		]
 		}
 	},
-	"postCreateCommand": "sh .devcontainer/postBuild.sh"
+	"postCreateCommand": "sh .devcontainer/postBuild.sh",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/black:2": {},
+		"ghcr.io/devcontainers-contrib/features/pylint:2": {}
+	}
 }
