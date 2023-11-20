@@ -8,31 +8,35 @@
 
 ## Getting Started
 
-Welcome to the lensing pipeline of the future: GPU-accelerated, automatically-differentiable,
-highly modular. Currently under heavy development: expect interface changes and
-some imprecise/untested calculations.
+Welcome to the lensing pipeline of the future: GPU-accelerated,
+automatically-differentiable, highly modular. Currently under heavy development:
+expect interface changes and some imprecise/untested calculations.
 
-## Installation 
+## Installation
 
 Simply install caustics from PyPI:
+
 ```bash
 pip install caustics
 ```
 
 ## Documentation
 
-Please see our [documentation page](Ciela-Institute.github.io/caustic/) for more detailed information.
+Please see our [documentation page](Ciela-Institute.github.io/caustic/) for more
+detailed information.
 
 ## Contributing
 
 Please reach out to one of us if you're interested in contributing!
 
 To start, follow the installation instructions, replacing the last line with
+
 ```bash
 pip install -e ".[dev]"
 ```
+
 This creates an editable install and installs the dev dependencies.
 
-Please use `isort` and `black` to format your code. Open up issues for bugs/missing
-features. Use pull requests for additions to the code. Write tests that can be run
-by [`pytest`](https://docs.pytest.org/).
+Please use `isort` and `black` to format your code. Open up issues for
+bugs/missing features. Use pull requests for additions to the code. Write tests
+that can be run by [`pytest`](https://docs.pytest.org/).

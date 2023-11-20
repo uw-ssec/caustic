@@ -1,5 +1,4 @@
 from math import pi
-from operator import mul
 
 import lenstronomy.Util.param_util as param_util
 import torch
@@ -11,6 +10,7 @@ import numpy as np
 from caustic.cosmology import FlatLambdaCDM
 from caustic.lenses import SIE, Multiplane, PixelatedConvergence
 from caustic.utils import get_meshgrid
+
 
 def test():
     rtol = 0
@@ -30,9 +30,11 @@ def test():
     x = torch.tensor([p for _xs in xs for p in _xs], dtype=torch.float32)
 
     lens = Multiplane(
-        name="multiplane", cosmology=cosmology, lenses=[SIE(name=f"sie_{i}", cosmology=cosmology) for i in range(len(xs))]
+        name="multiplane",
+        cosmology=cosmology,
+        lenses=[SIE(name=f"sie_{i}", cosmology=cosmology) for i in range(len(xs))],
     )
-    #lens.effective_reduced_deflection_angle = lens.raytrace
+    # lens.effective_reduced_deflection_angle = lens.raytrace
 
     # lenstronomy
     kwargs_ls = []
@@ -73,40 +75,46 @@ def test_params():
     planes = []
     for p in range(n_planes):
         lens = PixelatedConvergence(
-                name=f"plane_{p}",
-                pixelscale=pixel_size,
-                n_pix=pixels,
-                cosmology=cosmology,
-                z_l=z[p],
-                x0=0.,
-                y0=0.,
-                shape=(pixels, pixels),
-                padding="tile"
-                )
-        planes.append(lens) 
+            name=f"plane_{p}",
+            pixelscale=pixel_size,
+            n_pix=pixels,
+            cosmology=cosmology,
+            z_l=z[p],
+            x0=0.0,
+            y0=0.0,
+            shape=(pixels, pixels),
+            padding="tile",
+        )
+        planes.append(lens)
     multiplane_lens = Multiplane(cosmology=cosmology, lenses=planes)
     z_s = torch.tensor(z_s)
     x, y = get_meshgrid(pixel_size, 32, 32)
     params = [torch.randn(pixels, pixels) for i in range(10)]
 
     # Test out the computation of a few quantities to make sure params are passed correctly
-    
+
     # First case, params as list of tensors
     kappa_eff = multiplane_lens.effective_convergence_div(x, y, z_s, params)
     assert kappa_eff.shape == torch.Size([32, 32])
-    alphax, alphay = multiplane_lens.effective_reduced_deflection_angle(x, y, z_s, params)
+    alphax, alphay = multiplane_lens.effective_reduced_deflection_angle(
+        x, y, z_s, params
+    )
 
-    # Second case, params given as a kwargs 
+    # Second case, params given as a kwargs
     kappa_eff = multiplane_lens.effective_convergence_div(x, y, z_s, params=params)
     assert kappa_eff.shape == torch.Size([32, 32])
-    alphax, alphay = multiplane_lens.effective_reduced_deflection_angle(x, y, z_s, params=params)
+    alphax, alphay = multiplane_lens.effective_reduced_deflection_angle(
+        x, y, z_s, params=params
+    )
 
     # Test that we can pass a dictionary
     params = {f"plane_{p}": torch.randn(pixels, pixels) for p in range(n_planes)}
     kappa_eff = multiplane_lens.effective_convergence_div(x, y, z_s, params)
     assert kappa_eff.shape == torch.Size([32, 32])
-    alphax, alphay = multiplane_lens.effective_reduced_deflection_angle(x, y, z_s, params)
+    alphax, alphay = multiplane_lens.effective_reduced_deflection_angle(
+        x, y, z_s, params
+    )
 
-    
+
 if __name__ == "__main__":
     test()

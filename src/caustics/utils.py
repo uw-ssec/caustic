@@ -7,6 +7,7 @@ from torch import Tensor
 from torch.func import jacfwd
 import numpy as np
 
+
 def flip_axis_ratio(q, phi):
     """
     Makes the value of 'q' positive, then swaps x and y axes if 'q' is larger than 1.
@@ -100,12 +101,22 @@ def get_meshgrid(
     Returns:
         Tuple[Tensor, Tensor]: The generated meshgrid as a tuple of Tensors.
     """
-    xs = torch.linspace(-1, 1, nx, device=device, dtype=dtype) * pixelscale * (nx - 1) / 2
-    ys = torch.linspace(-1, 1, ny, device=device, dtype=dtype) * pixelscale * (ny - 1) / 2
+    xs = (
+        torch.linspace(-1, 1, nx, device=device, dtype=dtype)
+        * pixelscale
+        * (nx - 1)
+        / 2
+    )
+    ys = (
+        torch.linspace(-1, 1, ny, device=device, dtype=dtype)
+        * pixelscale
+        * (ny - 1)
+        / 2
+    )
     return torch.meshgrid([xs, ys], indexing="xy")
 
 
-def safe_divide(num, denom, places = 7):
+def safe_divide(num, denom, places=7):
     """
     Safely divides two tensors, returning zero where the denominator is zero.
 
@@ -342,28 +353,28 @@ def get_cluster_means(xs: Tensor, k: int):
 
     return torch.stack(means)
 
-def _lm_step(f, X, Y, Cinv, L, Lup, Ldn, epsilon):
 
+def _lm_step(f, X, Y, Cinv, L, Lup, Ldn, epsilon):
     # Forward
     fY = f(X)
     dY = Y - fY
-    
+
     # Jacobian
     J = jacfwd(f)(X)
-    J = J.to(dtype = X.dtype)
+    J = J.to(dtype=X.dtype)
     chi2 = (dY @ Cinv @ dY).sum(-1)
-    
+
     # Gradient
     grad = J.T @ Cinv @ dY
-    
+
     # Hessian
     hess = J.T @ Cinv @ J
-    hess_perturb = L * (torch.diag(hess) + 0.1*torch.eye(hess.shape[0]))
+    hess_perturb = L * (torch.diag(hess) + 0.1 * torch.eye(hess.shape[0]))
     hess = hess + hess_perturb
 
     # Step
     h = torch.linalg.solve(hess, grad)
-    
+
     # New chi^2
     fYnew = f(X + h)
     dYnew = Y - fYnew
@@ -379,32 +390,33 @@ def _lm_step(f, X, Y, Cinv, L, Lup, Ldn, epsilon):
 
     return X, L, chi2
 
+
 def batch_lm(
-        X, # B, Din
-        Y, # B, Dout
-        f, # Din -> Dout
-        C = None, # B, Dout, Dout
-        epsilon = 1e-1,
-        L = 1e0,
-        L_dn = 11.,
-        L_up = 9.,
-        max_iter = 50,
-        L_min = 1e-9,
-        L_max = 1e9,
-        stopping = 1e-4,
-        f_args = (),
-        f_kwargs = {},
+    X,  # B, Din
+    Y,  # B, Dout
+    f,  # Din -> Dout
+    C=None,  # B, Dout, Dout
+    epsilon=1e-1,
+    L=1e0,
+    L_dn=11.0,
+    L_up=9.0,
+    max_iter=50,
+    L_min=1e-9,
+    L_max=1e9,
+    stopping=1e-4,
+    f_args=(),
+    f_kwargs={},
 ):
     B, Din = X.shape
     B, Dout = Y.shape
-    
+
     if len(X) != len(Y):
         raise ValueError("x and y must having matching batch dimension")
 
     if C is None:
         C = torch.eye(Dout).repeat(B, 1, 1)
     Cinv = torch.linalg.inv(C)
-    
+
     v_lm_step = torch.vmap(partial(_lm_step, lambda x: f(x, *f_args, **f_kwargs)))
     L = L * torch.ones(B)
     Lup = L_up * torch.ones(B)
@@ -412,22 +424,33 @@ def batch_lm(
     e = epsilon * torch.ones(B)
     for _ in range(max_iter):
         Xnew, L, C = v_lm_step(X, Y, Cinv, L, Lup, Ldn, e)
-        if torch.all((Xnew - X).abs() < stopping) and torch.sum(L < 1e-2).item() > B/3:
+        if (
+            torch.all((Xnew - X).abs() < stopping)
+            and torch.sum(L < 1e-2).item() > B / 3
+        ):
             break
         X = Xnew
-        
+
     return X, L, C
 
-def gaussian(pixelscale, nx, ny, sigma, upsample = 1, dtype = torch.float32, device = None):
-    
+
+def gaussian(pixelscale, nx, ny, sigma, upsample=1, dtype=torch.float32, device=None):
     X, Y = np.meshgrid(
-        np.linspace(-(nx*upsample - 1) * pixelscale / 2, (nx*upsample - 1) * pixelscale / 2, nx*upsample),
-        np.linspace(-(ny*upsample - 1) * pixelscale / 2, (ny*upsample - 1) * pixelscale / 2, ny*upsample),
-        indexing = "xy",
+        np.linspace(
+            -(nx * upsample - 1) * pixelscale / 2,
+            (nx * upsample - 1) * pixelscale / 2,
+            nx * upsample,
+        ),
+        np.linspace(
+            -(ny * upsample - 1) * pixelscale / 2,
+            (ny * upsample - 1) * pixelscale / 2,
+            ny * upsample,
+        ),
+        indexing="xy",
     )
 
-    Z = np.exp(- 0.5 * (X**2 + Y**2) / sigma**2)
-    
+    Z = np.exp(-0.5 * (X**2 + Y**2) / sigma**2)
+
     Z = Z.reshape(ny, upsample, nx, upsample).sum(axis=(1, 3))
 
-    return torch.tensor(Z / np.sum(Z), dtype = dtype, device = device)
+    return torch.tensor(Z / np.sum(Z), dtype=dtype, device=device)

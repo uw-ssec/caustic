@@ -12,8 +12,12 @@ from caustic.utils import get_meshgrid
 from caustic.sims import Simulator
 from caustic.cosmology import FlatLambdaCDM
 
-def setup_simulator(cosmo_static=False, use_nfw=True, simulator_static=False, batched_params=False):
+
+def setup_simulator(
+    cosmo_static=False, use_nfw=True, simulator_static=False, batched_params=False
+):
     n_pix = 20
+
     class Sim(Simulator):
         def __init__(self, name="simulator"):
             super().__init__(name)
@@ -24,7 +28,9 @@ def setup_simulator(cosmo_static=False, use_nfw=True, simulator_static=False, ba
             z_l = 0.5
             self.cosmo = FlatLambdaCDM(h0=0.7 if cosmo_static else None, name="cosmo")
             if use_nfw:
-                self.lens = NFW(self.cosmo, z_l=z_l, name="lens") # NFW  wactually depend on cosmology, so a better test for Parametrized
+                self.lens = NFW(
+                    self.cosmo, z_l=z_l, name="lens"
+                )  # NFW  wactually depend on cosmology, so a better test for Parametrized
             else:
                 self.lens = EPL(self.cosmo, z_l=z_l, name="lens")
             self.sersic = Sersic(name="source")
@@ -32,8 +38,10 @@ def setup_simulator(cosmo_static=False, use_nfw=True, simulator_static=False, ba
             self.n_pix = n_pix
 
         def forward(self, params):
-            z_s, = self.unpack(params)
-            alphax, alphay = self.lens.reduced_deflection_angle(x=self.thx, y=self.thy, z_s=z_s, params=params) 
+            (z_s,) = self.unpack(params)
+            alphax, alphay = self.lens.reduced_deflection_angle(
+                x=self.thx, y=self.thy, z_s=z_s, params=params
+            )
             bx = self.thx - alphax
             by = self.thy - alphay
             return self.sersic.brightness(bx, by, params)
@@ -44,10 +52,10 @@ def setup_simulator(cosmo_static=False, use_nfw=True, simulator_static=False, ba
     # default cosmo params
     h0 = torch.tensor([0.68, 0.75])
     cosmo_params = [h0]
-    # default lens params 
+    # default lens params
     if use_nfw:
-        x0 = torch.tensor([0., 0.1])
-        y0 = torch.tensor([0., 0.1])
+        x0 = torch.tensor([0.0, 0.1])
+        y0 = torch.tensor([0.0, 0.1])
         m = torch.tensor([1e12, 1e13])
         c = torch.tensor([10, 5])
         lens_params = [x0, y0, m, c]
@@ -59,16 +67,16 @@ def setup_simulator(cosmo_static=False, use_nfw=True, simulator_static=False, ba
         b = torch.tensor([1.5, 1.2])
         t = torch.tensor([1.2, 1.0])
         lens_params = [x0, y0, q, phi, b, t]
-    # default source params    
+    # default source params
     x0s = torch.tensor([0, 0.1])
     y0s = torch.tensor([0, 0.1])
     qs = torch.tensor([0.9, 0.8])
     phis = torch.tensor([-0.56, 0.8])
-    n = torch.tensor([1., 4.])
-    Re = torch.tensor([.2, .5])
-    Ie = torch.tensor([1.2, 10.])
+    n = torch.tensor([1.0, 4.0])
+    Re = torch.tensor([0.2, 0.5])
+    Ie = torch.tensor([1.2, 10.0])
     source_params = [x0s, y0s, qs, phis, n, Re, Ie]
-   
+
     if not batched_params:
         sim_params = [_x[0] for _x in sim_params]
         cosmo_params = [_x[0] for _x in cosmo_params]
@@ -79,6 +87,7 @@ def setup_simulator(cosmo_static=False, use_nfw=True, simulator_static=False, ba
 
 def setup_image_simulator(cosmo_static=False, batched_params=False):
     n_pix = 20
+
     class Sim(Simulator):
         def __init__(self, name="test"):
             super().__init__(name)
@@ -87,21 +96,38 @@ def setup_image_simulator(cosmo_static=False, batched_params=False):
             self.z_s = torch.tensor(1.0)
             self.cosmo = FlatLambdaCDM(h0=0.7 if cosmo_static else None, name="cosmo")
             self.epl = EPL(self.cosmo, z_l=z_l, name="lens")
-            self.kappa = PixelatedConvergence(pixel_scale, n_pix, self.cosmo, z_l=z_l, shape=(n_pix, n_pix), name="kappa")
-            self.source = Pixelated(x0=0., y0=0., pixelscale=pixel_scale/2, shape=(n_pix, n_pix), name="source")
+            self.kappa = PixelatedConvergence(
+                pixel_scale,
+                n_pix,
+                self.cosmo,
+                z_l=z_l,
+                shape=(n_pix, n_pix),
+                name="kappa",
+            )
+            self.source = Pixelated(
+                x0=0.0,
+                y0=0.0,
+                pixelscale=pixel_scale / 2,
+                shape=(n_pix, n_pix),
+                name="source",
+            )
             self.thx, self.thy = get_meshgrid(pixel_scale, n_pix, n_pix)
             self.n_pix = n_pix
 
         def forward(self, params):
-            alphax, alphay = self.epl.reduced_deflection_angle(x=self.thx, y=self.thy, z_s=self.z_s, params=params) 
-            alphax_h, alphay_h = self.kappa.reduced_deflection_angle(x=self.thx, y=self.thy, z_s=self.z_s, params=params)
+            alphax, alphay = self.epl.reduced_deflection_angle(
+                x=self.thx, y=self.thy, z_s=self.z_s, params=params
+            )
+            alphax_h, alphay_h = self.kappa.reduced_deflection_angle(
+                x=self.thx, y=self.thy, z_s=self.z_s, params=params
+            )
             bx = self.thx - alphax - alphax_h
             by = self.thy - alphay - alphay_h
             return self.source.brightness(bx, by, params)
 
     # default cosmo params
     h0 = torch.tensor([0.68, 0.75])
-    # default lens params 
+    # default lens params
     x0 = torch.tensor([0, 0.1])
     y0 = torch.tensor([0, 0.1])
     q = torch.tensor([0.9, 0.8])

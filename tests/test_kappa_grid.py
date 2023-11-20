@@ -5,9 +5,9 @@ from caustic.lenses import PixelatedConvergence, PseudoJaffe
 from caustic.utils import get_meshgrid
 
 
-def _setup(n_pix, mode, use_next_fast_len, padding = "zero"):
+def _setup(n_pix, mode, use_next_fast_len, padding="zero"):
     # TODO understand why this test fails for resolutions != 0.025
-    res = 0.025 
+    res = 0.025
     thx, thy = get_meshgrid(res, n_pix, n_pix)
 
     z_l = torch.tensor(0.5)
@@ -25,16 +25,25 @@ def _setup(n_pix, mode, use_next_fast_len, padding = "zero"):
     rho_0 = torch.tensor(1.0)
 
     d_l = cosmology.angular_diameter_distance(z_l)
-    arcsec_to_rad = 1 / (180 / torch.pi * 60 ** 2)
-    
-    kappa_0 = lens_pj.central_convergence(z_l, z_s, rho_0, th_core * d_l * arcsec_to_rad, th_s * d_l * arcsec_to_rad, cosmology.critical_surface_density(z_l, z_s))
+    arcsec_to_rad = 1 / (180 / torch.pi * 60**2)
+
+    kappa_0 = lens_pj.central_convergence(
+        z_l,
+        z_s,
+        rho_0,
+        th_core * d_l * arcsec_to_rad,
+        th_s * d_l * arcsec_to_rad,
+        cosmology.critical_surface_density(z_l, z_s),
+    )
     # z_l, thx0, thy0, kappa_0, th_core, th_s
     x_pj = torch.tensor([z_l, thx0, thy0, kappa_0, th_core, th_s])
 
     # Exact calculations
     Psi = lens_pj.potential(thx, thy, z_l, lens_pj.pack(x_pj))
     Psi -= Psi.min()
-    alpha_x, alpha_y = lens_pj.reduced_deflection_angle(thx, thy, z_l, lens_pj.pack(x_pj))
+    alpha_x, alpha_y = lens_pj.reduced_deflection_angle(
+        thx, thy, z_l, lens_pj.pack(x_pj)
+    )
 
     # Approximate calculations
     lens_kap = PixelatedConvergence(
@@ -92,20 +101,27 @@ def test_consistency():
             assert torch.allclose(alpha_x_fft, alpha_x_conv2d, atol=1e-20, rtol=0)
             assert torch.allclose(alpha_y_fft, alpha_y_conv2d, atol=1e-20, rtol=0)
 
+
 def test_padoptions():
     """
     Checks whether using fft and conv2d give the same results.
     """
     _, Psi_fft_circ, _, alpha_x_fft_circ, _, alpha_y_fft_circ = _setup(
-        100, "fft", True, "circular",
+        100,
+        "fft",
+        True,
+        "circular",
     )
     _, Psi_fft_tile, _, alpha_x_fft_tile, _, alpha_y_fft_tile = _setup(
-        100, "fft", True, "tile",
+        100,
+        "fft",
+        True,
+        "tile",
     )
     assert torch.allclose(Psi_fft_circ, Psi_fft_tile, atol=1e-20, rtol=0)
     assert torch.allclose(alpha_x_fft_circ, alpha_x_fft_tile, atol=1e-20, rtol=0)
     assert torch.allclose(alpha_y_fft_circ, alpha_y_fft_tile, atol=1e-20, rtol=0)
-    
+
 
 def _check_center(
     x, x_approx, center_c, center_r, rtol=1e-5, atol=1e-8, half_buffer=20
@@ -128,4 +144,3 @@ def _check_center(
         rtol,
         atol,
     )
-

@@ -1,4 +1,4 @@
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict
 from math import prod
 from typing import Optional, Union
 import functools
@@ -13,13 +13,15 @@ from .packed import Packed
 from .namespace_dict import NamespaceDict, NestedNamespaceDict
 from .parameter import Parameter
 
-__all__ = ("Parametrized","unpack")
+__all__ = ("Parametrized", "unpack")
 
 
 def check_valid_name(name):
     if keyword.iskeyword(name) or not bool(re.match("^[a-zA-Z_][a-zA-Z0-9_]*$", name)):
-        raise NameError(f"The string {name} contains illegal characters (like space or '-'). "\
-                        "Please use snake case or another valid python variable naming style.")
+        raise NameError(
+            f"The string {name} contains illegal characters (like space or '-'). "
+            "Please use snake case or another valid python variable naming style."
+        )
 
 
 class Parametrized:
@@ -56,16 +58,18 @@ class Parametrized:
         self._params: OrderedDict[str, Parameter] = NamespaceDict()
         self._childs: OrderedDict[str, Parametrized] = NamespaceDict()
         self._module_key_map = {}
-   
+
     def _default_name(self):
         return re.search("([A-Z])\w+", str(self.__class__)).group()
-    
+
     def __getattribute__(self, key):
         try:
             return super().__getattribute__(key)
         except AttributeError as e:
             # Check if key refers to a parametrized module name (different from its attribute key)
-            _map = super().__getattribute__("_module_key_map") # use super to avoid recursion error
+            _map = super().__getattribute__(
+                "_module_key_map"
+            )  # use super to avoid recursion error
             if key in _map.keys():
                 return super().__getattribute__(_map[key])
             else:
@@ -82,18 +86,18 @@ class Parametrized:
             elif isinstance(value, Parametrized):
                 # Update map from attribute key to module name for __getattribute__ method
                 self._module_key_map[value.name] = key
-                self.add_parametrized(value, set_attr=False) 
+                self.add_parametrized(value, set_attr=False)
                 # set attr only to user defined key, not module name (self.{module.name} is still accessible, see __getattribute__ method)
                 super().__setattr__(key, value)
             else:
                 super().__setattr__(key, value)
-        except AttributeError: # _params or another attribute in here do not exist yet
-                super().__setattr__(key, value)
+        except AttributeError:  # _params or another attribute in here do not exist yet
+            super().__setattr__(key, value)
 
     @property
     def name(self) -> str:
         return self._name
-    
+
     @name.setter
     def name(self, new_name: str):
         check_valid_name(new_name)
@@ -106,7 +110,9 @@ class Parametrized:
             child._parents[new_name] = self
         self._name = new_name
 
-    def to(self, device: Optional[torch.device] = None, dtype: Optional[torch.dtype] = None):
+    def to(
+        self, device: Optional[torch.device] = None, dtype: Optional[torch.dtype] = None
+    ):
         """
         Moves static Params for this component and its childs to the specified device and casts them to the specified data type.
         """
@@ -122,7 +128,7 @@ class Parametrized:
         while f"{name}_{i}" in module_names:
             i += 1
         return f"{name}_{i}"
-                
+
     def add_parametrized(self, p: "Parametrized", set_attr=True):
         """
         Add a child to this module, and create edges for the DAG
@@ -130,7 +136,7 @@ class Parametrized:
         # If self.name is already in the module parents, we need to update self.name
         if self.name in p._parents.keys():
             new_name = self._generate_unique_name(self.name, p._parents.keys())
-            self.name = new_name # from name.setter, this updates the DAG edges as well
+            self.name = new_name  # from name.setter, this updates the DAG edges as well
         p._parents[self.name] = self
         # If the module name is already in self._childs, we need to update module name
         if p.name is self._childs.keys():
@@ -156,7 +162,7 @@ class Parametrized:
         """
         self._params[name] = Parameter(value, shape)
         # __setattr__ inside add_param to catch all uses of this method
-        super().__setattr__(name, self._params[name]) 
+        super().__setattr__(name, self._params[name])
 
     @property
     def n_dynamic(self) -> int:
@@ -180,7 +186,7 @@ class Parametrized:
     ) -> Packed:
         """
         Converts a list or tensor into a dict that can subsequently be unpacked
-        into arguments to this component and its childs. Also, add a batch dimension 
+        into arguments to this component and its childs. Also, add a batch dimension
         to each Tensor without such a dimension.
 
         Args:
@@ -197,14 +203,15 @@ class Parametrized:
             ValueError: If the input is a tensor and the shape does not match the expected shape.
         """
         if isinstance(x, (dict, Packed)):
-            missing_names = [name for name in self.params.dynamic.keys() if name not in x]
+            missing_names = [
+                name for name in self.params.dynamic.keys() if name not in x
+            ]
             if len(missing_names) > 0:
                 raise ValueError(f"missing x keys for {missing_names}")
 
             # TODO: check structure!
             return Packed(x)
-        
-        
+
         elif isinstance(x, (list, tuple)):
             n_passed = len(x)
             n_dynamic_params = len(self.params.dynamic.flatten())
@@ -217,17 +224,19 @@ class Parametrized:
                     cur_offset += module.n_dynamic
             elif n_passed == n_dynamic_modules:
                 for i, name in enumerate(self.dynamic_modules.keys()):
-                    x_repacked[name] = x[i] 
+                    x_repacked[name] = x[i]
             else:
                 raise ValueError(
                     f"{n_passed} dynamic args were passed, but {n_dynamic_params} parameters or "
                     f"{n_dynamic_modules} Tensor (1 per dynamic module) are required"
                 )
             return Packed(x_repacked)
-        
+
         elif isinstance(x, Tensor):
             n_passed = x.shape[-1]
-            n_expected = sum([module.dynamic_size for module in self.dynamic_modules.values()]) 
+            n_expected = sum(
+                [module.dynamic_size for module in self.dynamic_modules.values()]
+            )
             if n_passed != n_expected:
                 # TODO: give component and arg names
                 raise ValueError(
@@ -250,7 +259,7 @@ class Parametrized:
     ) -> list[Tensor]:
         """
         Unpacks a dict of kwargs, list of args or flattened vector of args to retrieve
-        this object's static and dynamic parameters. 
+        this object's static and dynamic parameters.
 
         Args:
             x (Optional[dict[str, Union[list[Tensor], dict[str, Tensor], Tensor]]]):
@@ -268,11 +277,13 @@ class Parametrized:
         # Check if module has dynamic parameters
         if self.module_params.dynamic:
             dynamic_x = x[self.name]
-        else: # all parameters are static and module is not present in x
+        else:  # all parameters are static and module is not present in x
             dynamic_x = []
             if isinstance(x, dict):
                 if self.name in x.keys() and x.get(self.name, {}):
-                    print(f"Module {self.name} is static, the parameters {' '.join(x[self.name].keys())} passed dynamically will be ignored ignored")
+                    print(
+                        f"Module {self.name} is static, the parameters {' '.join(x[self.name].keys())} passed dynamically will be ignored ignored"
+                    )
         unpacked_x = []
         offset = 0
         for name, param in self._params.items():
@@ -284,17 +295,23 @@ class Parametrized:
                     offset += 1
                 elif isinstance(dynamic_x, Tensor):
                     size = prod(param.shape)
-                    param_value = dynamic_x[..., offset: offset + size].reshape(param.shape)
+                    param_value = dynamic_x[..., offset : offset + size].reshape(
+                        param.shape
+                    )
                     offset += size
                 else:
-                    raise ValueError(f"Invalid data type found when unpacking parameters for {self.name}."
-                                     f"Expected argument of unpack to be a list/tuple/dict of Tensor, or simply a flattened tensor"
-                                     f"but found {type(dynamic_x)}.")
-            else: # param is static
+                    raise ValueError(
+                        f"Invalid data type found when unpacking parameters for {self.name}."
+                        f"Expected argument of unpack to be a list/tuple/dict of Tensor, or simply a flattened tensor"
+                        f"but found {type(dynamic_x)}."
+                    )
+            else:  # param is static
                 param_value = param.value
             if not isinstance(param_value, Tensor):
-                raise ValueError(f"Invalid data type found when unpacking parameters for {self.name}."
-                                 f"Argument of unpack must contain Tensor, but found {type(param_value)}")
+                raise ValueError(
+                    f"Invalid data type found when unpacking parameters for {self.name}."
+                    f"Argument of unpack must contain Tensor, but found {type(param_value)}"
+                )
             unpacked_x.append(param_value)
         return unpacked_x
 
@@ -308,12 +325,13 @@ class Parametrized:
             else:
                 dynamic[name] = param
         return NestedNamespaceDict([("static", static), ("dynamic", dynamic)])
-    
+
     @property
     def params(self) -> NestedNamespaceDict:
         # todo make this an ordinary dict and reorder at the end.
         static = NestedNamespaceDict()
         dynamic = NestedNamespaceDict()
+
         def _get_params(module):
             if module.module_params.static:
                 static[module.name] = module.module_params.static
@@ -321,6 +339,7 @@ class Parametrized:
                 dynamic[module.name] = module.module_params.dynamic
             for child in module._childs.values():
                 _get_params(child)
+
         _get_params(self)
         # TODO reorder
         return NestedNamespaceDict([("static", static), ("dynamic", dynamic)])
@@ -328,7 +347,10 @@ class Parametrized:
     @property
     def dynamic_modules(self) -> NamespaceDict[str, "Parametrized"]:
         # Only catch modules with dynamic parameters
-        modules = NamespaceDict() # todo make this an ordinary dict and reorder at the end.
+        modules = (
+            NamespaceDict()
+        )  # todo make this an ordinary dict and reorder at the end.
+
         def _get_childs(module):
             # Start from root, and move down the DAG
             if module.module_params.dynamic:
@@ -336,6 +358,7 @@ class Parametrized:
             if module._childs != {}:
                 for child in module._childs.values():
                     _get_childs(child)
+
         _get_childs(self)
         # TODO reorder
         return modules
@@ -355,7 +378,9 @@ class Parametrized:
 
         for n, d in self._childs.items():
             if d.n_dynamic > 0:
-                desc_dynamic_strs.append(f"('{n}': {list(d.module_params.dynamic.keys())})")
+                desc_dynamic_strs.append(
+                    f"('{n}': {list(d.module_params.dynamic.keys())})"
+                )
 
         desc_dynamic_str = ", ".join(desc_dynamic_strs)
 
@@ -419,6 +444,7 @@ class Parametrized:
 
         return dot
 
+
 def unpack(n_leading_args=0):
     def decorator(method):
         sig = inspect.signature(method)
@@ -436,7 +462,7 @@ def unpack(n_leading_args=0):
                     leading_args.append(kwargs.pop(param))
                 elif args:
                     leading_args.append(args.pop(0))
-                                
+
             # Collect module parameters passed in argument (dynamic or otherwise)
             if args and isinstance(args[0], Packed):
                 # Case 1: Params is already Packed (or no params were passed)
@@ -453,7 +479,9 @@ def unpack(n_leading_args=0):
                         trailing_args.append(kwargs.pop(param))
                     elif args:
                         trailing_args.append(args.pop(0))
-                if not trailing_args or (len(trailing_args) == 1 and trailing_args[0] is None):
+                if not trailing_args or (
+                    len(trailing_args) == 1 and trailing_args[0] is None
+                ):
                     # No params were passed, module is static and was expecting no params
                     x = Packed()
                 elif isinstance(trailing_args[0], (list, dict)):
@@ -463,7 +491,7 @@ def unpack(n_leading_args=0):
                     # all parameters were passed individually in args or kwargs
                     x = self.pack(trailing_args)
             unpacked_args = self.unpack(x)
-            kwargs['params'] = x
+            kwargs["params"] = x
             return method(self, *leading_args, *unpacked_args, **kwargs)
 
         return wrapped

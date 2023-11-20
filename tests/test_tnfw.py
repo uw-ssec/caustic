@@ -25,7 +25,7 @@ def test():
     # Models
     cosmology = CausticFlatLambdaCDM(name="cosmo")
     z_l = torch.tensor(0.1)
-    lens = TNFW(name="tnfw", cosmology=cosmology, z_l=z_l, interpret_m_total_mass = False)
+    lens = TNFW(name="tnfw", cosmology=cosmology, z_l=z_l, interpret_m_total_mass=False)
     lens_model_list = ["TNFW"]
     lens_ls = LensModel(lens_model_list=lens_model_list)
 
@@ -40,7 +40,7 @@ def test():
     c = 8.0
     t = 3.0
     x = torch.tensor([thx0, thy0, m, c, t])
-    
+
     # Lenstronomy
     cosmo = FlatLambdaCDM_AP(H0=h0_default * 100, Om0=Om0_default, Ob0=Ob0_default)
     lens_cosmo = LensCosmo(z_lens=z_l.item(), z_source=z_s.item(), cosmo=cosmo)
@@ -49,16 +49,34 @@ def test():
 
     # lenstronomy params ['Rs', 'alpha_Rs', 'center_x', 'center_y']
     kwargs_ls = [
-        {"Rs": Rs_angle, "alpha_Rs": alpha_Rs, "r_trunc": Rs_angle * t, "center_x": thx0, "center_y": thy0}
+        {
+            "Rs": Rs_angle,
+            "alpha_Rs": alpha_Rs,
+            "r_trunc": Rs_angle * t,
+            "center_x": thx0,
+            "center_y": thy0,
+        }
     ]
 
-    lens_test_helper(lens, lens_ls, z_s, x, kwargs_ls, atol, rtol, test_alpha = True, test_Psi = False, test_kappa = True)
+    lens_test_helper(
+        lens,
+        lens_ls,
+        z_s,
+        x,
+        kwargs_ls,
+        atol,
+        rtol,
+        test_alpha=True,
+        test_Psi=False,
+        test_kappa=True,
+    )
+
 
 def test_runs():
     cosmology = CausticFlatLambdaCDM(name="cosmo")
     z_l = torch.tensor(0.1)
-    lens = TNFW(name="tnfw", cosmology=cosmology, z_l=z_l, use_case = "differentiable")
-    
+    lens = TNFW(name="tnfw", cosmology=cosmology, z_l=z_l, use_case="differentiable")
+
     # Parameters
     z_s = torch.tensor(0.5)
 
@@ -68,9 +86,9 @@ def test_runs():
     rs = 8.0
     t = 3.0
     x = torch.tensor([thx0, thy0, m, rs, t])
-    
+
     thx, thy, thx_ls, thy_ls = setup_grids()
-    
+
     Psi = lens.potential(thx, thy, z_s, lens.pack(x))
     assert torch.all(torch.isfinite(Psi))
 

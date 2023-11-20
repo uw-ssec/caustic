@@ -23,7 +23,5 @@ class Simulator(Parametrized):
         else:
             packed_args = self.pack()
             rest_args = tuple()
-        
-            
-        return self.forward(packed_args, *rest_args, **kwargs)
 
+        return self.forward(packed_args, *rest_args, **kwargs)

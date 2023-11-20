@@ -39,7 +39,7 @@ def test():
     m = 1e12
     c = 8.0
     x = torch.tensor([thx0, thy0, m, c])
-    
+
     # Lenstronomy
     cosmo = FlatLambdaCDM_AP(H0=h0_default * 100, Om0=Om0_default, Ob0=Ob0_default)
     lens_cosmo = LensCosmo(z_lens=z_l.item(), z_source=z_s.item(), cosmo=cosmo)
@@ -52,11 +52,12 @@ def test():
 
     lens_test_helper(lens, lens_ls, z_s, x, kwargs_ls, atol, rtol)
 
+
 def test_runs():
     cosmology = CausticFlatLambdaCDM(name="cosmo")
     z_l = torch.tensor(0.1)
-    lens = NFW(name="nfw", cosmology=cosmology, z_l=z_l, use_case = "differentiable")
-    
+    lens = NFW(name="nfw", cosmology=cosmology, z_l=z_l, use_case="differentiable")
+
     # Parameters
     z_s = torch.tensor(0.5)
 
@@ -65,9 +66,9 @@ def test_runs():
     m = 1e12
     rs = 8.0
     x = torch.tensor([thx0, thy0, m, rs])
-    
+
     thx, thy, thx_ls, thy_ls = setup_grids()
-    
+
     Psi = lens.potential(thx, thy, z_s, lens.pack(x))
     assert torch.all(torch.isfinite(Psi))
     alpha = lens.reduced_deflection_angle(thx, thy, z_s, lens.pack(x))
@@ -75,7 +76,7 @@ def test_runs():
     assert torch.all(torch.isfinite(alpha[1]))
     kappa = lens.convergence(thx, thy, z_s, lens.pack(x))
     assert torch.all(torch.isfinite(kappa))
-    
+
 
 if __name__ == "__main__":
     test()

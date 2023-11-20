@@ -7,7 +7,6 @@ from utils import lens_test_helper
 
 from caustic.cosmology import FlatLambdaCDM
 from caustic.lenses import SIE
-from caustic.utils import get_meshgrid
 
 
 def test():
@@ -36,6 +35,6 @@ def test():
 
     lens_test_helper(lens, lens_ls, z_s, x, kwargs_ls, rtol, atol)
 
-    
+
 if __name__ == "__main__":
     test()

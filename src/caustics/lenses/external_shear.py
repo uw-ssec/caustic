@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 from torch import Tensor
 
@@ -21,9 +21,10 @@ class ExternalShear(ThinLens):
         x0, y0 (Optional[Union[Tensor, float]]): Coordinates of the shear center in the lens plane.
         gamma_1, gamma_2 (Optional[Union[Tensor, float]]): Shear components.
 
-    Note: The shear components gamma_1 and gamma_2 represent an external shear, a gravitational 
-    distortion that can be caused by nearby structures outside of the main lens galaxy. 
+    Note: The shear components gamma_1 and gamma_2 represent an external shear, a gravitational
+    distortion that can be caused by nearby structures outside of the main lens galaxy.
     """
+
     def __init__(
         self,
         cosmology: Cosmology,
@@ -35,7 +36,6 @@ class ExternalShear(ThinLens):
         s: float = 0.0,
         name: str = None,
     ):
-        
         super().__init__(cosmology, z_l, name=name)
 
         self.add_param("x0", x0)
@@ -46,7 +46,18 @@ class ExternalShear(ThinLens):
 
     @unpack(3)
     def reduced_deflection_angle(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, gamma_1, gamma_2, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        gamma_1,
+        gamma_2,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
         """
         Calculates the reduced deflection angle.
@@ -63,17 +74,28 @@ class ExternalShear(ThinLens):
         x, y = translate_rotate(x, y, x0, y0)
         # Meneghetti eq 3.83
         # TODO, why is it not:
-        #th = (x**2 + y**2).sqrt() + self.s
-        #a1 = x/th + x * gamma_1 + y * gamma_2
-        #a2 = y/th + x * gamma_2 - y * gamma_1
+        # th = (x**2 + y**2).sqrt() + self.s
+        # a1 = x/th + x * gamma_1 + y * gamma_2
+        # a2 = y/th + x * gamma_2 - y * gamma_1
         a1 = x * gamma_1 + y * gamma_2
         a2 = x * gamma_2 - y * gamma_1
-        
+
         return a1, a2  # I'm not sure but I think no derotation necessary
 
     @unpack(3)
     def potential(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, gamma_1, gamma_2, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        gamma_1,
+        gamma_2,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Calculates the lensing potential.
@@ -93,7 +115,18 @@ class ExternalShear(ThinLens):
 
     @unpack(3)
     def convergence(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, gamma_1, gamma_2, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        gamma_1,
+        gamma_2,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         The convergence is undefined for an external shear.
@@ -105,7 +138,7 @@ class ExternalShear(ThinLens):
             params (Packed, optional): Dynamic parameter container.
 
         Raises:
-            NotImplementedError: This method is not implemented as the convergence is not defined 
+            NotImplementedError: This method is not implemented as the convergence is not defined
             for an external shear.
         """
         raise NotImplementedError("convergence undefined for external shear")
