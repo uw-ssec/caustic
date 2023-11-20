@@ -15,16 +15,20 @@ class EPL(ThinLens):
     """
     Elliptical power law (EPL, aka singular power-law ellipsoid) profile.
 
-    This class represents a thin gravitational lens model with an elliptical power law profile. The lensing equations are solved 
+    This class represents a thin gravitational lens model with an elliptical power law profile. The lensing equations are solved
     iteratively using an approach based on Tessore et al. 2015.
 
-    Attributes:
-        n_iter (int): Number of iterations for the iterative solver.
-        s (float): Softening length for the elliptical power-law profile.
-    
-    Parameters:
-        z_l (Optional[Union[Tensor, float]]): This is the redshift of the lens. In the context of gravitational lensing, the lens is the galaxy or other mass distribution that is bending the light from a more distant source.
-        x0 and y0 (Optional[Union[Tensor, float]]): These are the coordinates of the lens center in the lens plane. The lens plane is the plane perpendicular to the line of sight in which the deflection of light by the lens is considered.
+    Attributes
+    ----------
+    n_iter: int
+        Number of iterations for the iterative solver.
+    s: float
+        Softening length for the elliptical power-law profile.
+
+    Parameters
+    ----------
+    z_l (Optional[Union[Tensor, float]]): This is the redshift of the lens. In the context of gravitational lensing, the lens is the galaxy or other mass distribution that is bending the light from a more distant source.
+    x0 and y0 (Optional[Union[Tensor, float]]): These are the coordinates of the lens center in the lens plane. The lens plane is the plane perpendicular to the line of sight in which the deflection of light by the lens is considered.
         q (Optional[Union[Tensor, float]]): This is the axis ratio of the lens, i.e., the ratio of the minor axis to the major axis of the elliptical lens.
         phi (Optional[Union[Tensor, float]]): This is the orientation of the lens on the sky, typically given as an angle measured counter-clockwise from some reference direction.
         b (Optional[Union[Tensor, float]]): This is the scale length of the lens, which sets the overall scale of the lensing effect. In some contexts, this is referred to as the Einstein radius.
