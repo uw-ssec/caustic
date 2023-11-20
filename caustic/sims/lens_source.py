@@ -11,7 +11,7 @@ __all__ = ("Lens_Source",)
 
 class Lens_Source(Simulator):
     """Lens image of a source.
-    
+
     Striaghtforward simulator to sample a lensed image of a source
     object. Constructs a sampling grid internally based on the
     pixelscale and gridding parameters. It can automatically upscale
@@ -28,23 +28,35 @@ class Lens_Source(Simulator):
        lens = caustic.lenses.SIS(cosmology = cosmo, x0 = 0., y0 = 0., th_ein = 1.)
        source = caustic.sources.Sersic(x0 = 0., y0 = 0., q = 0.5, phi = 0.4, n = 2., Re = 1., Ie = 1.)
        sim = caustic.sims.Lens_Source(lens, source, pixelscale = 0.05, gridx = 100, gridy = 100, upsample_factor = 2, z_s = 1.)
-       
+
        img = sim()
        plt.imshow(img, origin = "lower")
        plt.show()
 
-    Attributes:
-      lens: caustic lens mass model object
-      source: caustic light object which defines the background source
-      pixelscale: pixelscale of the sampling grid.
-      pixels_x: number of pixels on the x-axis for the sampling grid
-      lens_light (optional): caustic light object which defines the lensing object's light
-      psf (optional): An image to convolve with the scene. Note that if ``upsample_factor > 1`` the psf must also be at the higher resolution.
-      pixels_y (optional): number of pixels on the y-axis for the sampling grid. If left as ``None`` then this will simply be equal to ``gridx``
-      upsample_factor (default 1): Amount of upsampling to model the image. For example ``upsample_factor = 2`` indicates that the image will be sampled at double the resolution then summed back to the original resolution (given by pixelscale and gridx/y).
-      psf_pad (default True): If convolving the PSF it is important to sample the model in a larger FOV equal to half the PSF size in order to account for light that scatters from outside the requested FOV inwards. Internally this padding will be added before sampling, then cropped off before returning the final image to the user.
-      z_s (optional): redshift of the source
-      name (default "sim"): a name for this simulator in the parameter DAG.
+    Attributes
+    ----------
+    lens
+        caustic lens mass model object
+    source
+        caustic light object which defines the background source
+    pixelscale: float
+        pixelscale of the sampling grid.
+    pixels_x: int
+        number of pixels on the x-axis for the sampling grid
+    lens_light: (optional)
+        caustic light object which defines the lensing object's light
+    psf: (optional)
+        An image to convolve with the scene. Note that if ``upsample_factor > 1`` the psf must also be at the higher resolution.
+    pixels_y: Optional[int]
+        number of pixels on the y-axis for the sampling grid. If left as ``None`` then this will simply be equal to ``gridx``
+    upsample_factor (default 1)
+        Amount of upsampling to model the image. For example ``upsample_factor = 2`` indicates that the image will be sampled at double the resolution then summed back to the original resolution (given by pixelscale and gridx/y).
+    psf_pad: Boolean(default True)
+        If convolving the PSF it is important to sample the model in a larger FOV equal to half the PSF size in order to account for light that scatters from outside the requested FOV inwards. Internally this padding will be added before sampling, then cropped off before returning the final image to the user.
+    z_s: optional
+        redshift of the source
+    name: string (default "sim")
+        a name for this simulator in the parameter DAG.
 
     """
     def __init__(
@@ -95,8 +107,8 @@ class Lens_Source(Simulator):
         self.grid = torch.meshgrid(tx, ty, indexing = "xy")
 
         if self.psf is not None:
-            self.psf_fft = self._fft2_padded(self.psf)            
-        
+            self.psf_fft = self._fft2_padded(self.psf)
+
     def _fft2_padded(self, x):
         """
         Compute the 2D Fast Fourier Transform (FFT) of a tensor with zero-padding.
@@ -110,28 +122,41 @@ class Lens_Source(Simulator):
         npix = copy(self.n_pix)
         npix = (next_fast_len(npix[0]), next_fast_len(npix[1]))
         self._s = npix
-        
+
         return torch.fft.rfft2(x, self._s)
-    
+
     def _unpad_fft(self, x):
         """
         Remove padding from the result of a 2D FFT.
 
-        Args:
-            x (Tensor): The input tensor with padding.
+        Parameters
+        ---------
+        x: Tensor
+            The input tensor with padding.
 
-        Returns:
-            Tensor: The input tensor without padding.
+        Returns
+        -------
+        Tensor
+            The input tensor without padding.
         """
         return torch.roll(x, (-self.psf_pad[0],-self.psf_pad[1]), dims = (-2,-1))[..., :self.n_pix[0], :self.n_pix[1]]
 
     def forward(self, params, source_light=True, lens_light=True, lens_source=True, psf_convolve=True):
         """
-        params: Packed object
-        source_light: when true the source light will be sampled
-        lens_light: when true the lens light will be sampled
-        lens_source: when true, the source light model will be lensed by the lens mass distribution 
-        psf_convolve: when true the image will be convolved with the psf
+        forward function
+
+        Parameters
+        ----------
+        params:
+            Packed object
+        source_light: boolean
+            when true the source light will be sampled
+        lens_light: boolean
+            when true the lens light will be sampled
+        lens_source: boolean
+            when true, the source light model will be lensed by the lens mass distribution
+        psf_convolve: boolean
+            when true the image will be convolved with the psf
         """
         z_s, = self.unpack(params)
 
