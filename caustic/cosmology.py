@@ -42,20 +42,27 @@ class Cosmology(Parametrized):
     This class provides an interface for cosmological computations used in lensing
     such as comoving distance and critical surface density.
 
-    Units:
-        - Distance: Mpc
-        - Mass: solar mass
+    Units
+    -----
+    Distance
+        Mpc
+    Mass
+        solar mass
 
-    Attributes:
-        name (str): Name of the cosmological model.
+    Attributes
+    ----------
+    name: str
+        Name of the cosmological model.
     """
 
     def __init__(self, name: str = None):
         """
         Initialize the Cosmology.
 
-        Args:
-            name (str): Name of the cosmological model.
+        Parameters
+        ----------
+        name: str
+            Name of the cosmological model.
         """
         super().__init__(name)
 
@@ -64,12 +71,17 @@ class Cosmology(Parametrized):
         """
         Compute the critical density at redshift z.
 
-        Args:
-            z (Tensor): The redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z: Tensor
+            The redshifts.
+        params: Packed, optional
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The critical density at each redshift.
+        Returns
+        -------
+        Tensor
+            The critical density at each redshift.
         """
         ...
 
@@ -79,12 +91,17 @@ class Cosmology(Parametrized):
         """
         Compute the comoving distance to redshift z.
 
-        Args:
-            z (Tensor): The redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z: Tensor
+            The redshifts.
+        params: (Packed, optional0
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The comoving distance to each redshift.
+        Returns
+        -------
+        Tensor
+            The comoving distance to each redshift.
         """
         ...
 
@@ -94,12 +111,17 @@ class Cosmology(Parametrized):
         """
         Compute the transverse comoving distance to redshift z (Mpc).
 
-        Args:
-            z (Tensor): The redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z: Tensor
+            The redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The transverse comoving distance to each redshift in Mpc.
+        Returns
+        -------
+        Tensor
+            The transverse comoving distance to each redshift in Mpc.
         """
         ...
 
@@ -110,13 +132,19 @@ class Cosmology(Parametrized):
         """
         Compute the comoving distance between two redshifts.
 
-        Args:
-            z1 (Tensor): The starting redshifts.
-            z2 (Tensor): The ending redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z1: Tensor
+            The starting redshifts.
+        z2: Tensor
+            The ending redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The comoving distance between each pair of redshifts.
+        Returns
+        -------
+        Tensor
+            The comoving distance between each pair of redshifts.
         """
         return self.comoving_distance(z2, params) - self.comoving_distance(z1, params)
 
@@ -127,13 +155,18 @@ class Cosmology(Parametrized):
         """
         Compute the transverse comoving distance between two redshifts (Mpc).
 
-        Args:
-            z1 (Tensor): The starting redshifts.
-            z2 (Tensor): The ending redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters:
+        z1: Tensor
+            The starting redshifts.
+        z2: Tensor
+            The ending redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The transverse comoving distance between each pair of redshifts in Mpc.
+        Returns
+        -------
+        Tensor
+            The transverse comoving distance between each pair of redshifts in Mpc.
         """
         return self.transverse_comoving_distance(z2, params) - self.transverse_comoving_distance(z1, params)
 
@@ -142,12 +175,17 @@ class Cosmology(Parametrized):
         """
         Compute the angular diameter distance to redshift z.
 
-        Args:
-            z (Tensor): The redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters:
+        -----------
+        z: Tensor
+            The redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The angular diameter distance to each redshift.
+        Returns
+        -------
+        Tensor
+            The angular diameter distance to each redshift.
         """
         return self.comoving_distance(z, params) / (1 + z)
 
@@ -158,13 +196,19 @@ class Cosmology(Parametrized):
         """
         Compute the angular diameter distance between two redshifts.
 
-        Args:
-            z1 (Tensor): The starting redshifts.
-            z2 (Tensor): The ending redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z1: Tensor
+            The starting redshifts.
+        z2: Tensor
+            The ending redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The angular diameter distance between each pair of redshifts.
+        Returns
+        -------
+        Tensor
+            The angular diameter distance between each pair of redshifts.
         """
         return self.comoving_distance_z1z2(z1, z2, params) / (1 + z2)
 
@@ -175,13 +219,19 @@ class Cosmology(Parametrized):
         """
         Compute the time delay distance between lens and source planes.
 
-        Args:
-            z_l (Tensor): The lens redshifts.
-            z_s (Tensor): The source redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z_l: Tensor
+            The lens redshifts.
+        z_s: Tensor
+            The source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The time delay distance for each pair of lens and source redshifts.
+        Returns
+        -------
+        Tensor
+            The time delay distance for each pair of lens and source redshifts.
         """
         d_l = self.angular_diameter_distance(z_l, params)
         d_s = self.angular_diameter_distance(z_s, params)
@@ -195,13 +245,19 @@ class Cosmology(Parametrized):
         """
         Compute the critical surface density between lens and source planes.
 
-        Args:
-            z_l (Tensor): The lens redshifts.
-            z_s (Tensor): The source redshifts.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z_l: Tensor
+            The lens redshifts.
+        z_s: Tensor
+            The source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: The critical surface density for each pair of lens and source redshifts.
+        Returns
+        -------
+        Tensor
+            The critical surface density for each pair of lens and source redshifts.
         """
         d_l = self.angular_diameter_distance(z_l, params)
         d_s = self.angular_diameter_distance(z_s, params)
@@ -224,11 +280,16 @@ class FlatLambdaCDM(Cosmology):
         """
         Initialize a new instance of the FlatLambdaCDM class.
 
-        Args:
-            name (str): Name of the cosmology.
-            h0 (Optional[Tensor]): Hubble constant over 100. Default is h0_default.
-            critical_density_0 (Optional[Tensor]): Critical density at z=0. Default is critical_density_0_default.
-            Om0 (Optional[Tensor]): Matter density parameter at z=0. Default is Om0_default.
+        Parameters
+        ----------
+        name: str
+        Name of the cosmology.
+        h0: Optional[Tensor]
+            Hubble constant over 100. Default is h0_default.
+        critical_density_0: (Optional[Tensor])
+            Critical density at z=0. Default is critical_density_0_default.
+        Om0: Optional[Tensor]
+            Matter density parameter at z=0. Default is Om0_default.
         """
         super().__init__(name)
 
@@ -242,7 +303,7 @@ class FlatLambdaCDM(Cosmology):
         self._comoving_distance_helper_y_grid = _comoving_distance_helper_y_grid.to(
             dtype=torch.float32
         )
-    
+
     def to(self, device: Optional[torch.device] = None, dtype: Optional[torch.dtype] = None):
         super().to(device, dtype)
         self._comoving_distance_helper_y_grid = self._comoving_distance_helper_y_grid.to(device, dtype)
@@ -252,11 +313,15 @@ class FlatLambdaCDM(Cosmology):
         """
         Calculate the Hubble distance.
 
-        Args:
-            h0 (Tensor): Hubble constant.
+        Parameters
+        ----------
+        h0: Tensor
+            Hubble constant.
 
-        Returns:
-            Tensor: Hubble distance.
+        Returns
+        -------
+        Tensor
+            Hubble distance.
         """
         return c_Mpc_s / (100 * km_to_Mpc) / h0
 
@@ -265,12 +330,17 @@ class FlatLambdaCDM(Cosmology):
         """
         Calculate the critical density at redshift z.
 
-        Args:
-            z (Tensor): Redshift.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z: Tensor
+            Redshift.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            torch.Tensor: Critical density at redshift z.
+        Returns
+        -------
+        torch.Tensor
+            Critical density at redshift z.
         """
         Ode0 = 1 - Om0
         return central_critical_density * (Om0 * (1 + z) ** 3 + Ode0)
@@ -280,11 +350,15 @@ class FlatLambdaCDM(Cosmology):
         """
         Helper method for computing comoving distances.
 
-        Args:
-            x (Tensor): Input tensor.
+        Parameters
+        ----------
+        x: Tensor
+            Input tensor.
 
-        Returns:
-            Tensor: Computed comoving distances.
+        Returns
+        -------
+        Tensor
+            Computed comoving distances.
         """
         return interp1d(
             self._comoving_distance_helper_x_grid,
@@ -297,12 +371,17 @@ class FlatLambdaCDM(Cosmology):
         """
         Calculate the comoving distance to redshift z.
 
-        Args:
-            z (Tensor): Redshift.
-            params (Packed, optional): Dynamic parameter container for the computation.
+        Parameters
+        ----------
+        z: Tensor
+            Redshift.
+        params: (Packed, optional)
+            Dynamic parameter container for the computation.
 
-        Returns:
-            Tensor: Comoving distance to redshift z.
+        Returns
+        -------
+        Tensor
+            Comoving distance to redshift z.
         """
         Ode0 = 1 - Om0
         ratio = (Om0 / Ode0) ** (1 / 3)

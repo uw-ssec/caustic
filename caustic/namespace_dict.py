@@ -35,9 +35,11 @@ class _NestedNamespaceDict(NamespaceDict):
     def flatten(self) -> NamespaceDict:
         """
         Flatten the nested dictionary into a NamespaceDict
-        
-        Returns:
-            NamespaceDict: Flattened dictionary as a NamespaceDict
+
+        Returns
+        -------
+        NamespaceDict
+            Flattened dictionary as a NamespaceDict
         """
         flattened_dict = NamespaceDict()
         def _flatten_dict(dictionary, parent_key=""):
@@ -52,11 +54,13 @@ class _NestedNamespaceDict(NamespaceDict):
 
     def collapse(self) -> NamespaceDict:
         """
-        Flatten the nested dictionary and collapse keys into the first level 
+        Flatten the nested dictionary and collapse keys into the first level
         of the NamespaceDict
-        
-        Returns:
-            NamespaceDict: Flattened dictionary as a NamespaceDict
+
+        Returns
+        -------
+        NamespaceDict
+            Flattened dictionary as a NamespaceDict
         """
         flattened_dict = NamespaceDict()
         def _flatten_dict(dictionary):
@@ -91,7 +95,7 @@ class _NestedNamespaceProxy(_NestedNamespaceDict):
     # Hide the private keys from common usage
     def keys(self):
         return [key for key in super().keys() if not key.startswith("_")]
-            
+
     def items(self):
         for key, value in super().items():
             if not key.startswith('_'):
@@ -99,7 +103,7 @@ class _NestedNamespaceProxy(_NestedNamespaceDict):
 
     def values(self):
         return [v for k, v in super().items() if not k.startswith("_")]
-    
+
     def __len__(self):
         # make sure hidden keys don't count in the length of the object
         return len(self.keys())
@@ -108,7 +112,7 @@ class _NestedNamespaceProxy(_NestedNamespaceDict):
 class NestedNamespaceDict(_NestedNamespaceDict):
     """
     Example usage
-    ```python 
+    ```python
         nested_namespace = NestedNamespaceDict()
         nested_namespace.foo = 'Hello'
         nested_namespace.bar = {'baz': 'World'}
@@ -119,30 +123,30 @@ class NestedNamespaceDict(_NestedNamespaceDict):
         print(nested_namespace)
         # Output:
         # {'foo': 'Hello', 'bar': {'baz': 'World', 'qux': 42 }}
-        
+
         #==============================
         # Flattened key access
         #==============================
         print(nested_dict['foo'])        # Output: Hello
         print(nested_dict['bar.baz'])    # Output: World
         print(nested_dict['bar.qux'])    # Output: 42
-        
+
         #==============================
         # Nested namespace access
         #==============================
         print(nested_dict.bar.qux)       # Output: 42
-        
+
         #==============================
         # Flatten and collapse method
         #==============================
         print(nested_dict.flatten())
         # Output:
         # {'foo': 'Hello', 'bar.baz': 'World', 'bar.qux': 42}
-        
+
         print(nested_dict.collapse()
         # Output:
         # {'foo': 'Hello', 'baz': 'World', 'qux': 42}
-    
+
     """
     def __getattr__(self, key):
         if key in self:

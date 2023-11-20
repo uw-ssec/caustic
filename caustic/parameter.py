@@ -13,9 +13,12 @@ class Parameter:
 
     A static parameter has a fixed value, while a dynamic parameter must be passed in each time it's required.
 
-    Attributes:
-        value (Optional[Tensor]): The value of the parameter.
-        shape (tuple[int, ...]): The shape of the parameter.
+    Attributes
+    ----------
+    value: (Optional[Tensor])
+        The value of the parameter.
+    shape: (tuple[int, ...])
+        The shape of the parameter.
     """
 
     def __init__(
@@ -45,7 +48,7 @@ class Parameter:
     @property
     def value(self) -> Optional[Tensor]:
         return self._value
-    
+
     @value.setter
     def value(self, value: Union[None, Tensor, float]):
         if value is not None:
@@ -54,7 +57,7 @@ class Parameter:
                 raise ValueError(f"Cannot set Parameter value with a different shape. Received {value.shape}, expected {self.shape}")
         self._value = value
         self._dtype = None if value is None else value.dtype
-    
+
     @property
     def dtype(self):
         return self._dtype
@@ -62,7 +65,7 @@ class Parameter:
     @property
     def shape(self) -> tuple[int, ...]:
         return self._shape
-    
+
     def set_static(self):
         self.value = None
 
@@ -70,9 +73,11 @@ class Parameter:
         """
         Moves and/or casts the values of the parameter.
 
-        Args:
-            device (Optional[torch.device], optional): The device to move the values to. Defaults to None.
-            dtype (Optional[torch.dtype], optional): The desired data type. Defaults to None.
+        Parameters:
+        device: (Optional[torch.device], optional)
+            The device to move the values to. Defaults to None.
+        dtype: (Optional[torch.dtype], optional)
+            The desired data type. Defaults to None.
         """
         if self.static:
             self.value = self._value.to(device=device, dtype=dtype)
