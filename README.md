@@ -1,5 +1,6 @@
 [![ssec](https://img.shields.io/badge/SSEC-Project-purple?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAQAAABedl5ZAAAACXBIWXMAAAHKAAABygHMtnUxAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAMNJREFUGBltwcEqwwEcAOAfc1F2sNsOTqSlNUopSv5jW1YzHHYY/6YtLa1Jy4mbl3Bz8QIeyKM4fMaUxr4vZnEpjWnmLMSYCysxTcddhF25+EvJia5hhCudULAePyRalvUteXIfBgYxJufRuaKuprKsbDjVUrUj40FNQ11PTzEmrCmrevPhRcVQai8m1PRVvOPZgX2JttWYsGhD3atbHWcyUqX4oqDtJkJiJHUYv+R1JbaNHJmP/+Q1HLu2GbNoSm3Ft0+Y1YMdPSTSwQAAAABJRU5ErkJggg==&style=plastic)](https://escience.washington.edu/wetai/)
 [![tests](https://github.com/Ciela-Institute/caustic/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/Ciela-Institute/caustic/actions)
+[![Docs](https://github.com/Ciela-Institute/caustic/actions/workflows/documentation.yaml/badge.svg)](https://github.com/Ciela-Institute/caustic/actions/workflows/documentation.yaml)
 [![PyPI version](https://badge.fury.io/py/caustic.svg)](https://pypi.org/project/caustic/)
 [![coverage](https://img.shields.io/codecov/c/github/Ciela-Institute/caustic)](https://app.codecov.io/gh/Ciela-Institute/caustic)
 
@@ -22,15 +23,15 @@ pip install caustics
 
 Please see our [documentation page](Ciela-Institute.github.io/caustic/) for more detailed information.
 
-## Contribution
+## Contributing
 
-We welcome contributions from collaborators and researchers interested in our work. If you have improvements, suggestions, or new findings to share, please submit a pull request. Your contributions help advance our research and analysis efforts.
+Please reach out to one of us if you're interested in contributing!
 
-To get started with your development (or fork), click the "Open with GitHub Codespaces" button below to launch a fully configured development environment with all the necessary tools and extensions.
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/uw-ssec/caustic?quickstart=1)
-
-Instruction on how to contribute to this project can be found in the CONTRIBUTION.md
+To start, follow the installation instructions, replacing the last line with
+```bash
+pip install -e ".[dev]"
+```
+This creates an editable install and installs the dev dependencies.
 
 Please use `isort` and `black` to format your code. Open up issues for bugs/missing
 features. Use pull requests for additions to the code. Write tests that can be run
