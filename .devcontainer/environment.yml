@@ -9,4 +9,6 @@ dependencies:
   - pandas
   - scipy
   - h5py
+  - sphinx
+  - myst-parser
   - pip
