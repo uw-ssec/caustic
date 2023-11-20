@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 from torch import Tensor
 
@@ -12,9 +12,9 @@ __all__ = ("SIE",)
 
 class SIE(ThinLens):
     """
-    A class representing a Singular Isothermal Ellipsoid (SIE) strong gravitational lens model. 
+    A class representing a Singular Isothermal Ellipsoid (SIE) strong gravitational lens model.
     This model is based on Keeton 2001, which can be found at https://arxiv.org/abs/astro-ph/0102341.
-    
+
     Attributes:
         name (str): The name of the lens.
         cosmology (Cosmology): An instance of the Cosmology class.
@@ -33,7 +33,7 @@ class SIE(ThinLens):
         z_l: Optional[Union[Tensor, float]] = None,
         x0: Optional[Union[Tensor, float]] = None,
         y0: Optional[Union[Tensor, float]] = None,
-        q: Optional[Union[Tensor, float]] = None,# TODO change to true axis ratio
+        q: Optional[Union[Tensor, float]] = None,  # TODO change to true axis ratio
         phi: Optional[Union[Tensor, float]] = None,
         b: Optional[Union[Tensor, float]] = None,
         s: float = 0.0,
@@ -67,7 +67,19 @@ class SIE(ThinLens):
 
     @unpack(3)
     def reduced_deflection_angle(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, q, phi, b, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        q,
+        phi,
+        b,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
         """
         Calculate the physical deflection angle.
@@ -90,8 +102,20 @@ class SIE(ThinLens):
         return derotate(ax, ay, phi)
 
     @unpack(3)
-    def potential( 
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, q, phi, b, *args, params: Optional["Packed"] = None, **kwargs
+    def potential(
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        q,
+        phi,
+        b,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Compute the lensing potential.
@@ -112,7 +136,19 @@ class SIE(ThinLens):
 
     @unpack(3)
     def convergence(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, q, phi, b, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        q,
+        phi,
+        b,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Calculate the projected mass density.

@@ -78,7 +78,6 @@ def test_nested_namespace_dict_collapse_shared_node():
     nested_namespace["bar.qux.corge"] = 98
 
 
-
 def test_nested_namespace_errors():
     nested_namespace = NestedNamespaceDict()
     with raises(AttributeError):
@@ -95,4 +94,3 @@ def test_nested_namespace_errors():
     with raises(KeyError):
         nested_namespace.foo = {"bar": 42}
         print(nested_namespace["qux.baz"])
-    

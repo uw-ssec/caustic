@@ -50,7 +50,7 @@ def get_pix_magnification(raytrace, x, y, z_s) -> Tensor:
 
 def get_magnification(raytrace, x, y, z_s) -> Tensor:
     """
-    Computes the magnification over a grid on the lensing plane. This is done by calling `get_pix_magnification` 
+    Computes the magnification over a grid on the lensing plane. This is done by calling `get_pix_magnification`
     for each point on the grid.
 
     Args:
@@ -62,6 +62,4 @@ def get_magnification(raytrace, x, y, z_s) -> Tensor:
     Returns:
         A tensor representing the magnification at each point on the grid.
     """
-    return vmap_n(get_pix_magnification, 2, (None, 0, 0, None))(
-        raytrace, x, y, z_s
-    )
+    return vmap_n(get_pix_magnification, 2, (None, 0, 0, None))(raytrace, x, y, z_s)

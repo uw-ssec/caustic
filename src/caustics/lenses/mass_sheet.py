@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 import torch
 from torch import Tensor
@@ -22,9 +22,10 @@ class MassSheet(ThinLens):
         x0, y0 (Optional[Union[Tensor, float]]): Coordinates of the shear center in the lens plane.
         gamma_1, gamma_2 (Optional[Union[Tensor, float]]): Shear components.
 
-    Note: The shear components gamma_1 and gamma_2 represent an external shear, a gravitational 
-    distortion that can be caused by nearby structures outside of the main lens galaxy. 
+    Note: The shear components gamma_1 and gamma_2 represent an external shear, a gravitational
+    distortion that can be caused by nearby structures outside of the main lens galaxy.
     """
+
     def __init__(
         self,
         cosmology: Cosmology,
@@ -34,7 +35,6 @@ class MassSheet(ThinLens):
         surface_density: Optional[Union[Tensor, float]] = None,
         name: str = None,
     ):
-        
         super().__init__(cosmology, z_l, name=name)
 
         self.add_param("x0", x0)
@@ -43,7 +43,17 @@ class MassSheet(ThinLens):
 
     @unpack(3)
     def reduced_deflection_angle(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, surface_density, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        surface_density,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
         """
         Calculates the reduced deflection angle.
@@ -65,16 +75,34 @@ class MassSheet(ThinLens):
 
     @unpack(3)
     def potential(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, surface_density, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        surface_density,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
-
         # Meneghetti eq 3.81
         return surface_density * 0.5 * (x**2 + y**2)
 
     @unpack(3)
     def convergence(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, surface_density, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        surface_density,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
-
         # Essentially by definition
         return surface_density * torch.ones_like(x)

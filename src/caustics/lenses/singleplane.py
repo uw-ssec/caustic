@@ -1,4 +1,4 @@
-from typing import Any, Optional
+from typing import Optional
 
 import torch
 from torch import Tensor
@@ -12,16 +12,18 @@ __all__ = ("SinglePlane",)
 
 class SinglePlane(ThinLens):
     """
-    A class for combining multiple thin lenses into a single lensing plane. 
+    A class for combining multiple thin lenses into a single lensing plane.
     This model inherits from the base `ThinLens` class.
-    
+
     Attributes:
         name (str): The name of the single plane lens.
         cosmology (Cosmology): An instance of the Cosmology class.
         lenses (List[ThinLens]): A list of ThinLens objects that are being combined into a single lensing plane.
     """
 
-    def __init__(self, cosmology: Cosmology, lenses: list[ThinLens], name: str = None, **kwargs):
+    def __init__(
+        self, cosmology: Cosmology, lenses: list[ThinLens], name: str = None, **kwargs
+    ):
         """
         Initialize the SinglePlane lens model.
         """
@@ -33,7 +35,13 @@ class SinglePlane(ThinLens):
 
     @unpack(3)
     def reduced_deflection_angle(
-            self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
         """
         Calculate the total deflection angle by summing the deflection angles of all individual lenses.
@@ -57,7 +65,13 @@ class SinglePlane(ThinLens):
 
     @unpack(3)
     def convergence(
-            self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Calculate the total projected mass density by summing the mass densities of all individual lenses.
@@ -79,7 +93,13 @@ class SinglePlane(ThinLens):
 
     @unpack(3)
     def potential(
-            self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Compute the total lensing potential by summing the lensing potentials of all individual lenses.
