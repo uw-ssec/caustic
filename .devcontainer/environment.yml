@@ -11,4 +11,5 @@ dependencies:
   - h5py
   - sphinx
   - myst-parser
+  - jupyter-book
   - pip
