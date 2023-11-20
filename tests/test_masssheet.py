@@ -1,4 +1,3 @@
-
 import torch
 
 from caustics.cosmology import FlatLambdaCDM
@@ -7,7 +6,6 @@ from caustics.utils import get_meshgrid
 
 
 def test():
-
     # Models
     cosmology = FlatLambdaCDM(name="cosmo")
     lens = MassSheet(name="sheet", cosmology=cosmology)
