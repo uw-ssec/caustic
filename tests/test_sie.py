@@ -5,9 +5,8 @@ import torch
 from lenstronomy.LensModel.lens_model import LensModel
 from utils import lens_test_helper
 
-from caustics.cosmology import FlatLambdaCDM
-from caustics.lenses import SIE
-from caustics.utils import get_meshgrid
+from caustic.cosmology import FlatLambdaCDM
+from caustic.lenses import SIE
 
 
 def test():
@@ -36,6 +35,6 @@ def test():
 
     lens_test_helper(lens, lens_ls, z_s, x, kwargs_ls, rtol, atol)
 
-    
+
 if __name__ == "__main__":
     test()

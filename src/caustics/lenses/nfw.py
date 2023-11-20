@@ -1,5 +1,5 @@
 from math import pi
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 import torch
 from torch import Tensor
@@ -14,21 +14,22 @@ DELTA = 200.0
 
 __all__ = ("NFW",)
 
+
 class NFW(ThinLens):
     """
     NFW lens class. This class models a lens using the Navarro-Frenk-White (NFW) profile.
-    The NFW profile is a spatial density profile of dark matter halo that arises in 
+    The NFW profile is a spatial density profile of dark matter halo that arises in
     cosmological simulations.
 
     Attributes:
         z_l (Optional[Tensor]): Redshift of the lens. Default is None.
-        x0 (Optional[Tensor]): x-coordinate of the lens center in the lens plane. 
+        x0 (Optional[Tensor]): x-coordinate of the lens center in the lens plane.
             Default is None.
-        y0 (Optional[Tensor]): y-coordinate of the lens center in the lens plane. 
+        y0 (Optional[Tensor]): y-coordinate of the lens center in the lens plane.
             Default is None.
         m (Optional[Tensor]): Mass of the lens. Default is None.
         c (Optional[Tensor]): Concentration parameter of the lens. Default is None.
-        s (float): Softening parameter to avoid singularities at the center of the lens. 
+        s (float): Softening parameter to avoid singularities at the center of the lens.
             Default is 0.0.
         use_case (str): Due to an idyosyncratic behaviour of PyTorch, the NFW/TNFW profile
             specifically cant be both batchable and differentiable. You may select which version
@@ -46,6 +47,7 @@ class NFW(ThinLens):
         convergence: Computes the convergence (dimensionless surface mass density).
         potential: Computes the lensing potential.
     """
+
     def __init__(
         self,
         cosmology: Cosmology,
@@ -55,7 +57,7 @@ class NFW(ThinLens):
         m: Optional[Union[Tensor, float]] = None,
         c: Optional[Union[Tensor, float]] = None,
         s: float = 0.0,
-        use_case = "batchable",
+        use_case="batchable",
         name: str = None,
     ):
         """
@@ -63,16 +65,16 @@ class NFW(ThinLens):
 
         Args:
             name (str): Name of the lens instance.
-            cosmology (Cosmology): An instance of the Cosmology class which contains 
+            cosmology (Cosmology): An instance of the Cosmology class which contains
                 information about the cosmological model and parameters.
             z_l (Optional[Union[Tensor, float]]): Redshift of the lens. Default is None.
-            x0 (Optional[Union[Tensor, float]]): x-coordinate of the lens center in the lens plane. 
+            x0 (Optional[Union[Tensor, float]]): x-coordinate of the lens center in the lens plane.
                 Default is None.
-            y0 (Optional[Union[Tensor, float]]): y-coordinate of the lens center in the lens plane. 
+            y0 (Optional[Union[Tensor, float]]): y-coordinate of the lens center in the lens plane.
                 Default is None.
             m (Optional[Union[Tensor, float]]): Mass of the lens. Default is None.
             c (Optional[Union[Tensor, float]]): Concentration parameter of the lens. Default is None.
-            s (float): Softening parameter to avoid singularities at the center of the lens. 
+            s (float): Softening parameter to avoid singularities at the center of the lens.
                 Default is 0.0.
         """
         super().__init__(cosmology, z_l, name=name)
@@ -94,7 +96,9 @@ class NFW(ThinLens):
             raise ValueError("use case should be one of: batchable, differentiable")
 
     @unpack(0)
-    def get_scale_radius(self, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs) -> Tensor:
+    def get_scale_radius(
+        self, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs
+    ) -> Tensor:
         """
         Calculate the scale radius of the lens.
 
@@ -112,7 +116,9 @@ class NFW(ThinLens):
         return 1 / c * r_delta
 
     @unpack(0)
-    def get_scale_density(self, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs) -> Tensor:
+    def get_scale_density(
+        self, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs
+    ) -> Tensor:
         """
         Calculate the scale density of the lens.
 
@@ -133,7 +139,9 @@ class NFW(ThinLens):
         )
 
     @unpack(1)
-    def get_convergence_s(self, z_s, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs) -> Tensor:
+    def get_convergence_s(
+        self, z_s, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs
+    ) -> Tensor:
         """
         Calculate the dimensionless surface mass density of the lens.
 
@@ -147,8 +155,14 @@ class NFW(ThinLens):
         Returns:
             Tensor: The dimensionless surface mass density of the lens.
         """
-        critical_surface_density = self.cosmology.critical_surface_density(z_l, z_s, params)
-        return self.get_scale_density(params) * self.get_scale_radius(params) / critical_surface_density
+        critical_surface_density = self.cosmology.critical_surface_density(
+            z_l, z_s, params
+        )
+        return (
+            self.get_scale_density(params)
+            * self.get_scale_radius(params)
+            / critical_surface_density
+        )
 
     @staticmethod
     def _f_differentiable(x: Tensor) -> Tensor:
@@ -163,9 +177,20 @@ class NFW(ThinLens):
         """
         # TODO: generalize beyond torch, or patch Tensor
         f = torch.zeros_like(x)
-        f[x > 1] = 1 - 2 / (x[x > 1]**2 - 1).sqrt() * ((x[x > 1] - 1) / (x[x > 1] + 1)).sqrt().arctan()
-        f[x < 1] = 1 - 2 / (1 - x[x < 1]**2).sqrt() * ((1 - x[x < 1]) / (1 + x[x < 1])).sqrt().arctanh()
+        f[x > 1] = (
+            1
+            - 2
+            / (x[x > 1] ** 2 - 1).sqrt()
+            * ((x[x > 1] - 1) / (x[x > 1] + 1)).sqrt().arctan()
+        )
+        f[x < 1] = (
+            1
+            - 2
+            / (1 - x[x < 1] ** 2).sqrt()
+            * ((1 - x[x < 1]) / (1 + x[x < 1])).sqrt().arctanh()
+        )
         return f
+
     @staticmethod
     def _f_batchable(x: Tensor) -> Tensor:
         """
@@ -184,8 +209,8 @@ class NFW(ThinLens):
             torch.where(
                 x < 1,
                 1 - 2 / (1 - x**2).sqrt() * ((1 - x) / (1 + x)).sqrt().arctanh(),
-                torch.zeros_like(x), # x == 1
-            )
+                torch.zeros_like(x),  # x == 1
+            ),
         )
 
     @staticmethod
@@ -205,6 +230,7 @@ class NFW(ThinLens):
         term_2[x > 1] = (1 / x[x > 1]).arccos() ** 2
         term_2[x < 1] = -(1 / x[x < 1]).arccosh() ** 2
         return term_1 + term_2
+
     @staticmethod
     def _g_batchable(x: Tensor) -> Tensor:
         """
@@ -224,8 +250,8 @@ class NFW(ThinLens):
             torch.where(
                 x < 1,
                 -(1 / x).arccosh() ** 2,
-                torch.zeros_like(x), # x == 1
-            )
+                torch.zeros_like(x),  # x == 1
+            ),
         )
         return term_1 + term_2
 
@@ -242,9 +268,10 @@ class NFW(ThinLens):
         """
         term_1 = (x / 2).log()
         term_2 = torch.ones_like(x)
-        term_2[x > 1] = (1 / x[x > 1]).arccos() * 1 / (x[x > 1]**2 - 1).sqrt()
-        term_2[x < 1] = (1 / x[x < 1]).arccosh() * 1 / (1 - x[x < 1]**2).sqrt()
+        term_2[x > 1] = (1 / x[x > 1]).arccos() * 1 / (x[x > 1] ** 2 - 1).sqrt()
+        term_2[x < 1] = (1 / x[x < 1]).arccosh() * 1 / (1 - x[x < 1] ** 2).sqrt()
         return term_1 + term_2
+
     @staticmethod
     def _h_batchable(x: Tensor) -> Tensor:
         """
@@ -261,17 +288,25 @@ class NFW(ThinLens):
             x > 1,
             (1 / x).arccos() * 1 / (x**2 - 1).sqrt(),
             torch.where(
-                x < 1,
-                (1 / x).arccosh() * 1 / (1 - x**2).sqrt(),
-                torch.ones_like(x)
-            )
+                x < 1, (1 / x).arccosh() * 1 / (1 - x**2).sqrt(), torch.ones_like(x)
+            ),
         )
         return term_1 + term_2
-    
 
     @unpack(3)
     def reduced_deflection_angle(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        m,
+        c,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
         """
         Compute the reduced deflection angle.
@@ -311,7 +346,18 @@ class NFW(ThinLens):
 
     @unpack(3)
     def convergence(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        m,
+        c,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Compute the convergence (dimensionless surface mass density).
@@ -336,7 +382,18 @@ class NFW(ThinLens):
 
     @unpack(3)
     def potential(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, m, c, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        m,
+        c,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Compute the lensing potential.
@@ -357,4 +414,10 @@ class NFW(ThinLens):
         xi = d_l * th * arcsec_to_rad
         r = xi / scale_radius  # xi / xi_0
         convergence_s = self.get_convergence_s(z_s, params)
-        return 2 * convergence_s * self._g(r) * scale_radius**2 / (d_l**2 * arcsec_to_rad**2)
+        return (
+            2
+            * convergence_s
+            * self._g(r)
+            * scale_radius**2
+            / (d_l**2 * arcsec_to_rad**2)
+        )

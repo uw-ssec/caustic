@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from math import pi
-from typing import Any, Optional
+from typing import Optional
 
 import torch
 from astropy.cosmology import default_cosmology
@@ -30,7 +30,7 @@ Om0_default = float(default_cosmology.get().Om0)
 _comoving_distance_helper_x_grid = 10 ** torch.linspace(-3, 1, 500, dtype=torch.float64)
 _comoving_distance_helper_y_grid = torch.as_tensor(
     _comoving_distance_helper_x_grid
-    * hyp2f1(1 / 3, 1 / 2, 4 / 3, -(_comoving_distance_helper_x_grid ** 3)),
+    * hyp2f1(1 / 3, 1 / 2, 4 / 3, -(_comoving_distance_helper_x_grid**3)),
     dtype=torch.float64,
 )
 
@@ -75,7 +75,9 @@ class Cosmology(Parametrized):
 
     @abstractmethod
     @unpack(1)
-    def comoving_distance(self, z: Tensor, *args, params: Optional["Packed"] = None) -> Tensor:
+    def comoving_distance(
+        self, z: Tensor, *args, params: Optional["Packed"] = None
+    ) -> Tensor:
         """
         Compute the comoving distance to redshift z.
 
@@ -90,7 +92,9 @@ class Cosmology(Parametrized):
 
     @abstractmethod
     @unpack(1)
-    def transverse_comoving_distance(self, z: Tensor, *args, params: Optional["Packed"] = None) -> Tensor:
+    def transverse_comoving_distance(
+        self, z: Tensor, *args, params: Optional["Packed"] = None
+    ) -> Tensor:
         """
         Compute the transverse comoving distance to redshift z (Mpc).
 
@@ -105,7 +109,7 @@ class Cosmology(Parametrized):
 
     @unpack(2)
     def comoving_distance_z1z2(
-            self, z1: Tensor, z2: Tensor, *args, params: Optional["Packed"] = None
+        self, z1: Tensor, z2: Tensor, *args, params: Optional["Packed"] = None
     ) -> Tensor:
         """
         Compute the comoving distance between two redshifts.
@@ -122,7 +126,7 @@ class Cosmology(Parametrized):
 
     @unpack(2)
     def transverse_comoving_distance_z1z2(
-            self, z1: Tensor, z2: Tensor, *args, params: Optional["Packed"] = None
+        self, z1: Tensor, z2: Tensor, *args, params: Optional["Packed"] = None
     ) -> Tensor:
         """
         Compute the transverse comoving distance between two redshifts (Mpc).
@@ -135,10 +139,14 @@ class Cosmology(Parametrized):
         Returns:
             Tensor: The transverse comoving distance between each pair of redshifts in Mpc.
         """
-        return self.transverse_comoving_distance(z2, params) - self.transverse_comoving_distance(z1, params)
+        return self.transverse_comoving_distance(
+            z2, params
+        ) - self.transverse_comoving_distance(z1, params)
 
     @unpack(1)
-    def angular_diameter_distance(self, z: Tensor, *args, params: Optional["Packed"] = None) -> Tensor:
+    def angular_diameter_distance(
+        self, z: Tensor, *args, params: Optional["Packed"] = None
+    ) -> Tensor:
         """
         Compute the angular diameter distance to redshift z.
 
@@ -153,7 +161,7 @@ class Cosmology(Parametrized):
 
     @unpack(2)
     def angular_diameter_distance_z1z2(
-            self, z1: Tensor, z2: Tensor, *args, params: Optional["Packed"] = None
+        self, z1: Tensor, z2: Tensor, *args, params: Optional["Packed"] = None
     ) -> Tensor:
         """
         Compute the angular diameter distance between two redshifts.
@@ -170,7 +178,7 @@ class Cosmology(Parametrized):
 
     @unpack(2)
     def time_delay_distance(
-            self, z_l: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None
+        self, z_l: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None
     ) -> Tensor:
         """
         Compute the time delay distance between lens and source planes.
@@ -190,7 +198,7 @@ class Cosmology(Parametrized):
 
     @unpack(2)
     def critical_surface_density(
-            self, z_l: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None
+        self, z_l: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None
     ) -> Tensor:
         """
         Compute the critical surface density between lens and source planes.
@@ -242,11 +250,17 @@ class FlatLambdaCDM(Cosmology):
         self._comoving_distance_helper_y_grid = _comoving_distance_helper_y_grid.to(
             dtype=torch.float32
         )
-    
-    def to(self, device: Optional[torch.device] = None, dtype: Optional[torch.dtype] = None):
+
+    def to(
+        self, device: Optional[torch.device] = None, dtype: Optional[torch.dtype] = None
+    ):
         super().to(device, dtype)
-        self._comoving_distance_helper_y_grid = self._comoving_distance_helper_y_grid.to(device, dtype)
-        self._comoving_distance_helper_x_grid = self._comoving_distance_helper_x_grid.to(device, dtype)
+        self._comoving_distance_helper_y_grid = (
+            self._comoving_distance_helper_y_grid.to(device, dtype)
+        )
+        self._comoving_distance_helper_x_grid = (
+            self._comoving_distance_helper_x_grid.to(device, dtype)
+        )
 
     def hubble_distance(self, h0):
         """
@@ -261,7 +275,15 @@ class FlatLambdaCDM(Cosmology):
         return c_Mpc_s / (100 * km_to_Mpc) / h0
 
     @unpack(1)
-    def critical_density(self, z: Tensor, h0, central_critical_density, Om0, *args, params: Optional["Packed"] = None) -> torch.Tensor:
+    def critical_density(
+        self,
+        z: Tensor,
+        h0,
+        central_critical_density,
+        Om0,
+        *args,
+        params: Optional["Packed"] = None,
+    ) -> torch.Tensor:
         """
         Calculate the critical density at redshift z.
 
@@ -276,7 +298,9 @@ class FlatLambdaCDM(Cosmology):
         return central_critical_density * (Om0 * (1 + z) ** 3 + Ode0)
 
     @unpack(1)
-    def _comoving_distance_helper(self, x: Tensor, *args, params: Optional["Packed"] = None) -> Tensor:
+    def _comoving_distance_helper(
+        self, x: Tensor, *args, params: Optional["Packed"] = None
+    ) -> Tensor:
         """
         Helper method for computing comoving distances.
 
@@ -293,7 +317,15 @@ class FlatLambdaCDM(Cosmology):
         ).reshape(x.shape)
 
     @unpack(1)
-    def comoving_distance(self, z: Tensor, h0, central_critical_density, Om0, *args, params: Optional["Packed"] = None) -> Tensor:
+    def comoving_distance(
+        self,
+        z: Tensor,
+        h0,
+        central_critical_density,
+        Om0,
+        *args,
+        params: Optional["Packed"] = None,
+    ) -> Tensor:
         """
         Calculate the comoving distance to redshift z.
 
@@ -317,7 +349,12 @@ class FlatLambdaCDM(Cosmology):
 
     @unpack(1)
     def transverse_comoving_distance(
-            self, z: Tensor, h0, central_critical_density, Om0, *args, params: Optional["Packed"] = None
+        self,
+        z: Tensor,
+        h0,
+        central_critical_density,
+        Om0,
+        *args,
+        params: Optional["Packed"] = None,
     ) -> Tensor:
-
         return self.comoving_distance(z, params)

@@ -59,14 +59,14 @@ def test_pixelated_source():
     n = 32
     x, y = get_meshgrid(res, n, n)
     image = torch.ones(n, n)
-    source = Pixelated(image=image, x0=0., y0=0., pixelscale=res)
+    source = Pixelated(image=image, x0=0.0, y0=0.0, pixelscale=res)
     im = source.brightness(x, y)
     print(im)
     assert torch.all(im == image)
-   
+
     # Check smaller res
-    source = Pixelated(image=image, x0=0., y0=0., pixelscale=res/2)
+    source = Pixelated(image=image, x0=0.0, y0=0.0, pixelscale=res / 2)
     im = source.brightness(x, y)
-    expected_im = torch.nn.functional.pad(torch.ones(n//2, n//2), pad=[n//4]*4)
+    expected_im = torch.nn.functional.pad(torch.ones(n // 2, n // 2), pad=[n // 4] * 4)
     print(im)
     assert torch.all(im == expected_im)

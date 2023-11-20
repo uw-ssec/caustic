@@ -7,20 +7,26 @@
 
 ## Getting Started
 
-Welcome to the lensing pipeline of the future: GPU-accelerated, automatically-differentiable,
-highly modular. Currently under heavy development: expect interface changes and
-some imprecise/untested calculations.
+Welcome to the lensing pipeline of the future: GPU-accelerated,
+automatically-differentiable, highly modular. Currently under heavy development:
+expect interface changes and some imprecise/untested calculations.
 
-## Installation 
+## Installation
 
 Simply install caustics from PyPI:
+
 ```bash
 pip install caustics
 ```
 
 ## Documentation
 
+<<<<<<< HEAD
 Please see our [documentation page](Ciela-Institute.github.io/caustics/) for more detailed information.
+=======
+Please see our [documentation page](Ciela-Institute.github.io/caustic/) for more
+detailed information.
+>>>>>>> 151bbb3 (style: pre-commit fixes)
 
 ## Contribution
 

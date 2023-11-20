@@ -2,7 +2,6 @@ from typing import Optional, Union
 
 import torch
 from torch import Tensor
-from .namespace_dict import NamespaceDict
 
 __all__ = ("Parameter",)
 
@@ -19,7 +18,9 @@ class Parameter:
     """
 
     def __init__(
-        self, value: Optional[Union[Tensor, float]] = None, shape: Optional[tuple[int, ...]] = ()
+        self,
+        value: Optional[Union[Tensor, float]] = None,
+        shape: Optional[tuple[int, ...]] = (),
     ):
         # Must assign one of value or shape
         if value is None:
@@ -45,16 +46,18 @@ class Parameter:
     @property
     def value(self) -> Optional[Tensor]:
         return self._value
-    
+
     @value.setter
     def value(self, value: Union[None, Tensor, float]):
         if value is not None:
             value = torch.as_tensor(value)
             if value.shape != self.shape:
-                raise ValueError(f"Cannot set Parameter value with a different shape. Received {value.shape}, expected {self.shape}")
+                raise ValueError(
+                    f"Cannot set Parameter value with a different shape. Received {value.shape}, expected {self.shape}"
+                )
         self._value = value
         self._dtype = None if value is None else value.dtype
-    
+
     @property
     def dtype(self):
         return self._dtype
@@ -62,11 +65,13 @@ class Parameter:
     @property
     def shape(self) -> tuple[int, ...]:
         return self._shape
-    
+
     def set_static(self):
         self.value = None
 
-    def to(self, device: Optional[torch.device] = None, dtype: Optional[torch.dtype] = None):
+    def to(
+        self, device: Optional[torch.device] = None, dtype: Optional[torch.dtype] = None
+    ):
         """
         Moves and/or casts the values of the parameter.
 

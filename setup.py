@@ -2,13 +2,16 @@ import os
 from setuptools import setup, find_packages
 import caustics.__init__ as caustics
 
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+
 def read_lines(fname):
-    
     ret = list(open(os.path.join(os.path.dirname(__file__), fname)).readlines())
     print(ret)
     return ret
+
 
 setup(
     name = "caustics",
@@ -27,7 +30,7 @@ setup(
             "setuptools>=67.2.0",
         ],
     },
-    keywords = [
+    keywords=[
         "gravitational lensing",
         "astrophysics",
         "differentiable programming",
@@ -36,8 +39,8 @@ setup(
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: MIT License",  
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
-    ],    
+    ],
 )

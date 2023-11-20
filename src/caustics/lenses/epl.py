@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 import torch
 from torch import Tensor
@@ -15,13 +15,13 @@ class EPL(ThinLens):
     """
     Elliptical power law (EPL, aka singular power-law ellipsoid) profile.
 
-    This class represents a thin gravitational lens model with an elliptical power law profile. The lensing equations are solved 
+    This class represents a thin gravitational lens model with an elliptical power law profile. The lensing equations are solved
     iteratively using an approach based on Tessore et al. 2015.
 
     Attributes:
         n_iter (int): Number of iterations for the iterative solver.
         s (float): Softening length for the elliptical power-law profile.
-    
+
     Parameters:
         z_l (Optional[Union[Tensor, float]]): This is the redshift of the lens. In the context of gravitational lensing, the lens is the galaxy or other mass distribution that is bending the light from a more distant source.
         x0 and y0 (Optional[Union[Tensor, float]]): These are the coordinates of the lens center in the lens plane. The lens plane is the plane perpendicular to the line of sight in which the deflection of light by the lens is considered.
@@ -76,7 +76,20 @@ class EPL(ThinLens):
 
     @unpack(3)
     def reduced_deflection_angle(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, q, phi, b, t, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        q,
+        phi,
+        b,
+        t,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
         """
         Compute the reduced deflection angles of the lens.
@@ -133,7 +146,20 @@ class EPL(ThinLens):
 
     @unpack(3)
     def potential(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, q, phi, b, t, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        q,
+        phi,
+        b,
+        t,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ):
         """
         Compute the lensing potential of the lens.
@@ -154,7 +180,20 @@ class EPL(ThinLens):
 
     @unpack(3)
     def convergence(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, q, phi, b, t, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        q,
+        phi,
+        b,
+        t,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ):
         """
         Compute the convergence of the lens, which describes the local density of the lens.

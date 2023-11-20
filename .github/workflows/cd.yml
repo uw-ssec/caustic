@@ -36,7 +36,7 @@ jobs:
 
       - name: Check products
         run: pipx run twine check dist/*
-  
+
   test-built-dist:
     needs: [dist]
     name: Test built distribution
@@ -47,7 +47,7 @@ jobs:
       - uses: actions/setup-python@v4.7.0
         name: Install Python
         with:
-          python-version: '3.10'
+          python-version: "3.10"
       - uses: actions/download-artifact@v3
         with:
           name: artifact
@@ -79,7 +79,6 @@ jobs:
           python -m pip install --extra-index-url https://test.pypi.org/simple --upgrade --pre --no-binary=:all: caustic
           python -c "import caustic; print(caustic.__version__)"
           echo "=== Done testing source tar file ==="
-
 
   publish:
     needs: [dist, test-built-dist]

@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union
+from typing import Optional, Union
 
 import torch
 from torch import Tensor
@@ -9,6 +9,7 @@ from .base import ThinLens
 from ..parametrized import unpack
 
 __all__ = ("Point",)
+
 
 class Point(ThinLens):
     """
@@ -23,6 +24,7 @@ class Point(ThinLens):
         th_ein (Optional[Union[Tensor, float]]): Einstein radius of the lens.
         s (float): Softening parameter to prevent numerical instabilities.
     """
+
     def __init__(
         self,
         cosmology: Cosmology,
@@ -54,7 +56,17 @@ class Point(ThinLens):
 
     @unpack(3)
     def reduced_deflection_angle(
-            self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, th_ein, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        th_ein,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> tuple[Tensor, Tensor]:
         """
         Compute the deflection angles.
@@ -76,7 +88,17 @@ class Point(ThinLens):
 
     @unpack(3)
     def potential(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, th_ein, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        th_ein,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Compute the lensing potential.
@@ -96,7 +118,17 @@ class Point(ThinLens):
 
     @unpack(3)
     def convergence(
-        self, x: Tensor, y: Tensor, z_s: Tensor, z_l, x0, y0, th_ein, *args, params: Optional["Packed"] = None, **kwargs
+        self,
+        x: Tensor,
+        y: Tensor,
+        z_s: Tensor,
+        z_l,
+        x0,
+        y0,
+        th_ein,
+        *args,
+        params: Optional["Packed"] = None,
+        **kwargs,
     ) -> Tensor:
         """
         Compute the convergence (dimensionless surface mass density).
