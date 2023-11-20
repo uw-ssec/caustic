@@ -8,7 +8,7 @@ from torch import Tensor
 
 from ..constants import arcsec_to_rad, c_Mpc_s
 from ..cosmology import Cosmology
-from ..parametrized import Parametrized, unpack 
+from ..parametrized import Parametrized, unpack
 from .utils import get_magnification
 from ..utils import batch_lm
 
@@ -22,9 +22,12 @@ class Lens(Parametrized):
         """
         Initializes a new instance of the Lens class.
 
-        Args:
-            name (str): The name of the lens model.
-            cosmology (Cosmology): An instance of a Cosmology class that describes the cosmological parameters of the model.
+        Parameters
+        ----------
+        name: string
+            The name of the lens model.
+        cosmology: Cosmology
+            An instance of a Cosmology class that describes the cosmological parameters of the model.
         """
         super().__init__(name)
         self.cosmology = cosmology
@@ -53,14 +56,21 @@ class Lens(Parametrized):
         """
         Compute the gravitational magnification at the given coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            Tensor: Gravitational magnification at the given coordinates.
+        Returns
+        -------
+        Tensor
+            Gravitational magnification at the given coordinates.
         """
         return get_magnification(partial(self.raytrace, params = params), x, y, z_s)
 
@@ -71,19 +81,29 @@ class Lens(Parametrized):
         """
         Perform a forward ray-tracing operation which maps from the source plane to the image plane.
 
-        Args:
-            bx (Tensor): Tensor of x coordinate in the source plane (scalar).
-            by (Tensor): Tensor of y coordinate in the source plane (scalar).
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
-            epsilon (Tensor): maximum distance between two images (arcsec) before they are considered the same image.
-            n_init (int): number of random initialization points used to try and find image plane points.
-            fov (float): the field of view in which the initial random samples are taken.
+        Parameters
+        ----------
+        bx: Tensor
+            Tensor of x coordinate in the source plane (scalar).
+        by: Tensor
+            Tensor of y coordinate in the source plane (scalar).
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
+        epsilon: Tensor
+            maximum distance between two images (arcsec) before they are considered the same image.
+        n_init: int
+            number of random initialization points used to try and find image plane points.
+        fov: float
+            the field of view in which the initial random samples are taken.
 
-        Returns:
-            tuple[Tensor, Tensor]: Ray-traced coordinates in the x and y directions.
+        Returns
+        -------
+        tuple[Tensor, Tensor]
+            Ray-traced coordinates in the x and y directions.
         """
-        
+
         bxy = torch.stack((bx, by)).repeat(n_init,1) # has shape (n_init, Dout:2)
 
         # TODO make FOV more general so that it doesnt have to be centered on zero,zero
@@ -114,14 +134,16 @@ class Lens(Parametrized):
         res = torch.stack(res,dim = 0)
         return res[...,0], res[...,1]
 
-    
+
 class ThickLens(Lens):
     """
     Base class for modeling gravitational lenses that cannot be treated using the thin lens approximation.
     It is an abstract class and should be subclassed for different types of lens models.
 
-    Attributes:
-        cosmology (Cosmology): An instance of a Cosmology class that describes the cosmological parameters of the model.
+    Attributes
+    ----------
+    cosmology: Cosmology
+        An instance of a Cosmology class that describes the cosmological parameters of the model.
     """
 
     @unpack(3)
@@ -130,15 +152,19 @@ class ThickLens(Lens):
     ) -> tuple[Tensor, Tensor]:
         """
         ThickLens objects do not have a reduced deflection angle since the distance D_ls is undefined
-        
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
 
-        Raises:
-            NotImplementedError
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
+
+        Raises:: NotImplementedError
         """
         warnings.warn("ThickLens objects do not have a reduced deflection angle since they have no unique lens redshift. The distance D_{ls} is undefined in the equation $\alpha_{reduced} = \frac{D_{ls}}{D_s}\alpha_{physical}$. See `effective_reduced_deflection_angle`. Now using effective_reduced_deflection_angle, please switch functions to remove this warning")
         return self.effective_reduced_deflection_angle(x, y, z_s, params)
@@ -154,12 +180,17 @@ class ThickLens(Lens):
         effective reduced deflection angle, $\theta$ are the observed
         angular coordinates, and $\beta$ are the angular coordinates
         to the source plane.
-        
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
         """
         bx, by = self.raytrace(x, y, z_s, params)
@@ -173,14 +204,21 @@ class ThickLens(Lens):
         plane. ThickLens objects have no unique definition of a lens
         plane and so cannot compute a physical_deflection_angle
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            tuple[Tensor, Tensor]: Tuple of Tensors representing the x and y components of the deflection angle, respectively.
+        Returns
+        -------
+        tuple[Tensor, Tensor]
+            Tuple of Tensors representing the x and y components of the deflection angle, respectively.
 
         """
         raise NotImplementedError("Physical deflection angles are computed with respect to a lensing plane. ThickLens objects have no unique definition of a lens plane and so cannot compute a physical_deflection_angle")
@@ -194,13 +232,19 @@ class ThickLens(Lens):
         source plance associated with a given input observed angular
         coordinate x,y.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
+        Returns
+        -------
             tuple[Tensor, Tensor]: Tuple of Tensors representing the x and y coordinates of the ray-traced light rays, respectively.
 
         """
@@ -214,14 +258,21 @@ class ThickLens(Lens):
         """
         Computes the projected mass density at given coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            Tensor: The projected mass density at the given coordinates in units of solar masses per square Megaparsec.
+        Returns
+        -------
+        Tensor
+            The projected mass density at the given coordinates in units of solar masses per square Megaparsec.
         """
         ...
 
@@ -233,14 +284,21 @@ class ThickLens(Lens):
         """
         Computes the gravitational time delay at given coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor ofsource redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor ofsource redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            Tensor: The gravitational time delay at the given coordinates.
+        Returns
+        -------
+        Tensor
+            The gravitational time delay at the given coordinates.
         """
         ...
 
@@ -259,7 +317,7 @@ class ThickLens(Lens):
         J[...,0,1], J[...,0,0] = torch.gradient(ax, spacing = pixelscale)
         J[...,1,1], J[...,1,0] = torch.gradient(ay, spacing = pixelscale)
         return J
-    
+
     @unpack(3)
     def _jacobian_effective_deflection_angle_autograd(
             self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
@@ -281,7 +339,7 @@ class ThickLens(Lens):
         J[...,1,0], = torch.autograd.grad(ay, x, grad_outputs = torch.ones_like(ay), create_graph = True)
         J[...,1,1], = torch.autograd.grad(ay, y, grad_outputs = torch.ones_like(ay), create_graph = True)
         return J.detach()
-    
+
     @unpack(3)
     def jacobian_effective_deflection_angle(
             self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, method = "autograd", pixelscale = None, **kwargs
@@ -311,7 +369,7 @@ class ThickLens(Lens):
         # Build Jacobian
         J = self._jacobian_effective_deflection_angle_finitediff(x, y, z_s, pixelscale, params, **kwargs)
         return torch.eye(2) - J
-    
+
     @unpack(3)
     def _jacobian_lens_equation_autograd(
             self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
@@ -322,7 +380,7 @@ class ThickLens(Lens):
         # Build Jacobian
         J = self._jacobian_effective_deflection_angle_autograd(x, y, z_s, params, **kwargs)
         return torch.eye(2) - J.detach()
-    
+
     @unpack(3)
     def effective_convergence_div(
             self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
@@ -353,10 +411,14 @@ class ThinLens(Lens):
     lensing quantities such as the deflection angle, convergence,
     potential, surface mass density, and gravitational time delay.
 
-    Args:
-        name (str): Name of the lens model.
-        cosmology (Cosmology): Cosmology object that encapsulates cosmological parameters and distances.
-        z_l (Optional[Tensor], optional): Redshift of the lens. Defaults to None.
+    Attributes
+    ----------
+    name: string
+        Name of the lens model.
+    cosmology: Cosmology
+        Cosmology object that encapsulates cosmological parameters and distances.
+    z_l: (Optional[Tensor], optional)
+        Redshift of the lens. Defaults to None.
 
     """
 
@@ -371,14 +433,21 @@ class ThinLens(Lens):
         """
         Computes the reduced deflection angle of the lens at given coordinates [arcsec].
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            tuple[Tensor, Tensor]: Reduced deflection angle in x and y directions.
+        Returns
+        --------
+        tuple[Tensor, Tensor]
+            Reduced deflection angle in x and y directions.
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
         d_ls = self.cosmology.angular_diameter_distance_z1z2(z_l, z_s, params)
@@ -392,14 +461,21 @@ class ThinLens(Lens):
         """
         Computes the physical deflection angle immediately after passing through this lens's plane.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            tuple[Tensor, Tensor]: Physical deflection angle in x and y directions in arcseconds.
+        Returns
+        -------
+        tuple[Tensor, Tensor]
+            Physical deflection angle in x and y directions in arcseconds.
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
         d_ls = self.cosmology.angular_diameter_distance_z1z2(z_l, z_s, params)
@@ -414,14 +490,21 @@ class ThinLens(Lens):
         """
         Computes the convergence of the lens at given coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            Tensor: Convergence at the given coordinates.
+        Returns
+        -------
+        Tensor
+            Convergence at the given coordinates.
         """
         ...
 
@@ -433,13 +516,21 @@ class ThinLens(Lens):
         """
         Computes the gravitational lensing potential at given coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns: Tensor: Gravitational lensing potential at the given coordinates in arcsec^2.
+        Returns
+        -------
+        Tensor
+            Gravitational lensing potential at the given coordinates in arcsec^2.
         """
         ...
 
@@ -450,14 +541,21 @@ class ThinLens(Lens):
         """
         Computes the surface mass density of the lens at given coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            Tensor: Surface mass density at the given coordinates in solar masses per Mpc^2.
+        Returns
+        -------
+        Tensor
+            Surface mass density at the given coordinates in solar masses per Mpc^2.
         """
         critical_surface_density = self.cosmology.critical_surface_density(z_l, z_s, params)
         return self.convergence(x, y, z_s, params) * critical_surface_density
@@ -469,14 +567,21 @@ class ThinLens(Lens):
         """
         Perform a ray-tracing operation by subtracting the deflection angles from the input coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            tuple[Tensor, Tensor]: Ray-traced coordinates in the x and y directions.
+        Returns
+        -------
+        tuple[Tensor, Tensor]
+            Ray-traced coordinates in the x and y directions.
         """
         ax, ay = self.reduced_deflection_angle(x, y, z_s, params)
         return x - ax, y - ay
@@ -488,14 +593,21 @@ class ThinLens(Lens):
         """
         Compute the gravitational time delay for light passing through the lens at given coordinates.
 
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
+        Parameters
+        ----------
+        x: Tensor
+            Tensor of x coordinates in the lens plane.
+        y: Tensor
+            Tensor of y coordinates in the lens plane.
+        z_s: Tensor
+            Tensor of source redshifts.
+        params: (Packed, optional)
+            Dynamic parameter container for the lens model. Defaults to None.
 
-        Returns:
-            Tensor: Time delay at the given coordinates.
+        Returns
+        -------
+        Tensor
+            Time delay at the given coordinates.
         """
         d_l = self.cosmology.angular_diameter_distance(z_l, params)
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
@@ -521,7 +633,7 @@ class ThinLens(Lens):
         J[...,0,1], J[...,0,0] = torch.gradient(ax, spacing = pixelscale)
         J[...,1,1], J[...,1,0] = torch.gradient(ay, spacing = pixelscale)
         return J
-    
+
     @unpack(3)
     def _jacobian_deflection_angle_autograd(
             self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
@@ -543,7 +655,7 @@ class ThinLens(Lens):
         J[...,1,0], = torch.autograd.grad(ay, x, grad_outputs = torch.ones_like(ay), create_graph = True)
         J[...,1,1], = torch.autograd.grad(ay, y, grad_outputs = torch.ones_like(ay), create_graph = True)
         return J.detach()
-    
+
     @unpack(3)
     def jacobian_deflection_angle(
             self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, method = "autograd", pixelscale = None, **kwargs
@@ -562,7 +674,7 @@ class ThinLens(Lens):
             return self._jacobian_deflection_angle_finitediff(x, y, z_s, pixelscale, params)
         else:
             raise ValueError("method should be one of: autograd, finitediff")
-        
+
     @unpack(4)
     def _jacobian_lens_equation_finitediff(
             self, x: Tensor, y: Tensor, z_s: Tensor, pixelscale: Tensor, *args, params: Optional["Packed"] = None, **kwargs
@@ -573,7 +685,7 @@ class ThinLens(Lens):
         # Build Jacobian
         J = self._jacobian_deflection_angle_finitediff(x, y, z_s, pixelscale, params, **kwargs)
         return torch.eye(2) - J
-    
+
     @unpack(3)
     def _jacobian_lens_equation_autograd(
             self, x: Tensor, y: Tensor, z_s: Tensor, *args, params: Optional["Packed"] = None, **kwargs
@@ -584,4 +696,4 @@ class ThinLens(Lens):
         # Build Jacobian
         J = self._jacobian_deflection_angle_autograd(x, y, z_s, params, **kwargs)
         return torch.eye(2) - J.detach()
-    
+
