@@ -4,9 +4,9 @@
 format: jb-book
 root: intro
 chapters:
-- file: get_started
-- file: notebook
-- file: markdown-notebooks
-- file: markdown-notebooks
-- file: markdown-notebooks
-- file: markdown-notebooks
+- file: docs/getting_started         # Getting Started
+- file: docs/install                 # Installation
+- file: docs/tutorials               # Tutorials
+- file: docs/contributing            # Contributing
+- file: docs/citation                # Citation
+- file: docs/license                 # Caustics
