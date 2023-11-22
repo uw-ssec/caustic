@@ -17,16 +17,4 @@ this will install all the required libraries and then install caustic and you ar
 
 # Read The Docs
 ## Contents
-```{tableofcontents}
-docs/getting_started.rst
-docs/install.rst
-docs/tutorials.rst
-docs/contributing.rst
-docs/citation.rst
-docs/license.rst
-```
 
-# Indices and tables
-```{tableofcontents}
-docs/modules.rst
-```
