@@ -10,3 +10,4 @@ chapters:
 - file: docs/contributing            # Contributing
 - file: docs/citation                # Citation
 - file: docs/license                 # Caustics
+- file: docs/modules                 # modules
