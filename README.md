@@ -12,7 +12,9 @@
 
 # caustics
 
-The lensing pipeline of the future: GPU-accelerated, automatically-differentiable, highly modular. Currently under heavy development: expect interface changes and some imprecise/untested calculations.
+The lensing pipeline of the future: GPU-accelerated,
+automatically-differentiable, highly modular. Currently under heavy development:
+expect interface changes and some imprecise/untested calculations.
 
 ## Installation
 
