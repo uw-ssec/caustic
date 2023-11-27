@@ -1,10 +1,11 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-requirements-txt"]
 build-backend = "hatchling.build"
 
 [project]
 name = "caustics"
 version = "0.4.8"
+dynamic = ["dependencies"]
 authors = [
   { name="Connor Stone", email="connor.stone@mila.quebec" },
   { name="Alexandre Adam", email="alexandre.adam@mila.quebec" },
@@ -38,6 +39,14 @@ Documentation = ""
 Repository = "https://github.com/Ciela-Institute/caustics.git"
 Changelog = ""
 Issues = "https://github.com/Ciela-Institute/caustics/issues"
+
+[project.optional-dependencies]
+dev = [
+    "lenstronomy==1.11.1"
+]
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ["requirements.txt"]
 
 [tool.hatch.build]
 sources = ["src"]
