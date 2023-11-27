@@ -58,11 +58,5 @@ jobs:
       - name: Test with pytest
         run: |
           cd $GITHUB_WORKSPACE
-          pytest test
-        shell: bash
-
-      - name: Test with pytest
-        run: |
-          cd $GITHUB_WORKSPACE
-          pytest test
+          pytest -vvv tests/
         shell: bash
