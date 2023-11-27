@@ -14,11 +14,11 @@ def read_lines(fname):
 
 
 setup(
-    name = "caustics",
+    name="caustics",
     version=caustics.__version__,
     description="A gravitational lensing simulator for the future",
     long_description=read("README.md"),
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     url="https://github.com/Ciela-Institute/caustics",
     author=caustics.__author__,
     license="MIT license",

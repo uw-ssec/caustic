@@ -6,7 +6,7 @@
 .. image:: https://github.com/Ciela-Institute/caustics/blob/main/media/AP_logo.png?raw=true
    :width: 100 %
    :target: https://github.com/Ciela-Institute/caustics
-   
+
 |br|
 
 Welcome to Caustics' documentation!

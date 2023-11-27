@@ -22,21 +22,30 @@ pip install caustics
 
 ## Documentation
 
-Please see our [documentation page](Ciela-Institute.github.io/caustics/) for more detailed information.
+Please see our [documentation page](Ciela-Institute.github.io/caustics/) for
+more detailed information.
 
 ## Contribution
 
-We welcome contributions from collaborators and researchers interested in our work. If you have improvements, suggestions, or new findings to share, please submit a pull request. Your contributions help advance our research and analysis efforts.
+We welcome contributions from collaborators and researchers interested in our
+work. If you have improvements, suggestions, or new findings to share, please
+submit a pull request. Your contributions help advance our research and analysis
+efforts.
 
-To get started with your development (or fork), click the "Open with GitHub Codespaces" button below to launch a fully configured development environment with all the necessary tools and extensions.
+To get started with your development (or fork), click the "Open with GitHub
+Codespaces" button below to launch a fully configured development environment
+with all the necessary tools and extensions.
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/uw-ssec/caustic?quickstart=1)
 
-Instruction on how to contribute to this project can be found in the CONTRIBUTION.md
+Instruction on how to contribute to this project can be found in the
+CONTRIBUTION.md
 
 Some guidelines:
+
 - Please use `isort` and `black` to format your code.
-- Use `CamelCase` for class names and `snake_case` for variable and method names.
+- Use `CamelCase` for class names and `snake_case` for variable and method
+  names.
 - Open up issues for bugs/missing features.
 - Use pull requests for additions to the code.
 - Write tests that can be run by [`pytest`](https://docs.pytest.org/).

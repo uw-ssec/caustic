@@ -18,9 +18,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'caustics'
-copyright = '2023, Ciela Institute'
-author = 'Ciela Institute'
+project = "caustics"
+copyright = "2023, Ciela Institute"
+author = "Ciela Institute"
 
 # The short X.Y version
 version = "0.5"
@@ -111,7 +111,7 @@ html_favicon = "../media/caustics_favicon.ico"
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'causticsdoc'
+htmlhelp_basename = "causticsdoc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -135,8 +135,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'caustics.tex', 'caustics Documentation',
-     'Ciela Institute', 'manual'),
+    (master_doc, "caustics.tex", "caustics Documentation", "Ciela Institute", "manual"),
 ]
 
 
@@ -144,10 +143,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'caustics', 'caustics Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, "caustics", "caustics Documentation", [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -156,9 +152,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'caustics', 'caustics Documentation',
-     author, 'caustics', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        "caustics",
+        "caustics Documentation",
+        author,
+        "caustics",
+        "One line description of project.",
+        "Miscellaneous",
+    ),
 ]
 
 
