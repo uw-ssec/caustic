@@ -2,11 +2,11 @@ from math import pi
 
 import torch
 
-from caustic.sims import Lens_Source
-from caustic.cosmology import FlatLambdaCDM
-from caustic.lenses import SIE
-from caustic.light import Sersic
-from caustic.utils import gaussian
+from caustics.sims import Lens_Source
+from caustics.cosmology import FlatLambdaCDM
+from caustics.lenses import SIE
+from caustics.light import Sersic
+from caustics.utils import gaussian
 
 
 def test_simulator_runs():
