@@ -53,3 +53,7 @@ Some guidelines:
 - Open up issues for bugs/missing features.
 - Use pull requests for additions to the code.
 - Write tests that can be run by [`pytest`](https://docs.pytest.org/).
+
+Thanks to our contributors so far!
+
+[![Contributors](https://contrib.rocks/image?repo=Ciela-Institute/caustics)](https://github.com/Ciela-Institute/caustics/graphs/contributors)
