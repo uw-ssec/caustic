@@ -1,5 +1,4 @@
-__version__ = "0.5.0"
-__author__ = "Ciela"
+from ._version import version as VERSION  # noqa
 
 from .constants import *
 from .lenses import *
@@ -11,3 +10,6 @@ from .utils import *
 from .sims import *
 
 # from .demo import *
+
+__version__ = VERSION
+__author__ = "Ciela"
