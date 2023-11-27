@@ -12,7 +12,7 @@ authors = [
 ]
 description = "The lensing pipeline of the future: GPU-accelerated, automatically-differentiable, highly modular. Currently under heavy development: expect interface changes and some imprecise/untested calculations."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 license = {file = "LICENSE"}
 keywords = [
         "caustics",
