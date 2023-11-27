@@ -1,7 +1,7 @@
 [![ssec](https://img.shields.io/badge/SSEC-Project-purple?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAOCAQAAABedl5ZAAAACXBIWXMAAAHKAAABygHMtnUxAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAMNJREFUGBltwcEqwwEcAOAfc1F2sNsOTqSlNUopSv5jW1YzHHYY/6YtLa1Jy4mbl3Bz8QIeyKM4fMaUxr4vZnEpjWnmLMSYCysxTcddhF25+EvJia5hhCudULAePyRalvUteXIfBgYxJufRuaKuprKsbDjVUrUj40FNQ11PTzEmrCmrevPhRcVQai8m1PRVvOPZgX2JttWYsGhD3atbHWcyUqX4oqDtJkJiJHUYv+R1JbaNHJmP/+Q1HLu2GbNoSm3Ft0+Y1YMdPSTSwQAAAABJRU5ErkJggg==&style=plastic)](https://escience.washington.edu/wetai/)
 [![tests](https://github.com/Ciela-Institute/caustics/actions/workflows/python-app.yml/badge.svg?branch=main)](https://github.com/Ciela-Institute/caustics/actions)
 [![Docs](https://github.com/Ciela-Institute/caustics/actions/workflows/documentation.yaml/badge.svg)](https://github.com/Ciela-Institute/caustics/actions/workflows/documentation.yaml)
-[![PyPI version](https://badge.fury.io/py/caustic.svg)](https://pypi.org/project/caustic/)
+[![PyPI version](https://badge.fury.io/py/caustics.svg)](https://pypi.org/project/caustics/)
 [![coverage](https://img.shields.io/codecov/c/github/Ciela-Institute/caustic)](https://app.codecov.io/gh/Ciela-Institute/caustic)
 
 # caustics

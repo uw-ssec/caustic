@@ -1,5 +1,5 @@
-from caustic.lenses import PixelatedConvergence
-from caustic.cosmology import FlatLambdaCDM
+from caustics.lenses import PixelatedConvergence
+from caustics.cosmology import FlatLambdaCDM
 import pytest
 
 # For future PR currently this test fails

@@ -70,14 +70,14 @@ jobs:
           echo "=== Testing wheel file ==="
           # Install wheel to get dependencies and check import
           python -m pip install --extra-index-url https://test.pypi.org/simple --upgrade --pre caustic
-          python -c "import caustic; print(caustic.__version__)"
+          python -c "import caustic; print(caustics.__version__)"
           echo "=== Done testing wheel file ==="
 
           echo "=== Testing source tar file ==="
           # Install tar gz and check import
           python -m pip uninstall --yes caustic
           python -m pip install --extra-index-url https://test.pypi.org/simple --upgrade --pre --no-binary=:all: caustic
-          python -c "import caustic; print(caustic.__version__)"
+          python -c "import caustic; print(caustics.__version__)"
           echo "=== Done testing source tar file ==="
 
   publish:
