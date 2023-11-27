@@ -23,13 +23,8 @@ jobs:
         run: |
           sudo apt-get install -y pandoc
           pip install sphinx sphinx_rtd_theme nbsphinx
-<<<<<<< HEAD
           
       - name: Install Caustics
-=======
-
-      - name: Install Caustic
->>>>>>> 151bbb3 (style: pre-commit fixes)
         run: |
           cd $GITHUB_WORKSPACE
           pip install -e .[dev]

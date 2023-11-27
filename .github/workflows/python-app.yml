@@ -23,13 +23,8 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-<<<<<<< HEAD
-    - name: Checkout caustics
-      uses: actions/checkout@v3
-=======
-      - name: Checkout caustic
+      - name: Checkout caustics
         uses: actions/checkout@v3
->>>>>>> 151bbb3 (style: pre-commit fixes)
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
@@ -53,27 +48,18 @@ jobs:
           pip install -r requirements.txt
         shell: bash
 
-<<<<<<< HEAD
-    - name: Install Caustics
-      run: |
-        cd $GITHUB_WORKSPACE
-        pip install -e .[dev]
-        pip show caustics
-      shell: bash
-
-    - name: Test with pytest
-      run: |
-        cd $GITHUB_WORKSPACE
-        pytest test
-      shell: bash
-=======
-      - name: Install Caustic
+      - name: Install Caustics
         run: |
           cd $GITHUB_WORKSPACE
           pip install -e .[dev]
-          pip show caustic
+          pip show caustics
         shell: bash
->>>>>>> 151bbb3 (style: pre-commit fixes)
+
+      - name: Test with pytest
+        run: |
+          cd $GITHUB_WORKSPACE
+          pytest test
+        shell: bash
 
       - name: Test with pytest
         run: |

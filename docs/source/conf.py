@@ -18,15 +18,9 @@
 
 # -- Project information -----------------------------------------------------
 
-<<<<<<< HEAD
 project = 'caustics'
 copyright = '2023, Ciela Institute'
 author = 'Ciela Institute'
-=======
-project = "caustic"
-copyright = "2023, Ciela Institute"
-author = "Ciela Institute"
->>>>>>> 151bbb3 (style: pre-commit fixes)
 
 # The short X.Y version
 version = "0.5"
@@ -117,11 +111,7 @@ html_favicon = "../media/caustics_favicon.ico"
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-<<<<<<< HEAD
 htmlhelp_basename = 'causticsdoc'
-=======
-htmlhelp_basename = "causticdoc"
->>>>>>> 151bbb3 (style: pre-commit fixes)
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -145,12 +135,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-<<<<<<< HEAD
     (master_doc, 'caustics.tex', 'caustics Documentation',
      'Ciela Institute', 'manual'),
-=======
-    (master_doc, "caustic.tex", "caustic Documentation", "Ciela Institute", "manual"),
->>>>>>> 151bbb3 (style: pre-commit fixes)
 ]
 
 
@@ -158,14 +144,10 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-<<<<<<< HEAD
 man_pages = [
     (master_doc, 'caustics', 'caustics Documentation',
      [author], 1)
 ]
-=======
-man_pages = [(master_doc, "caustic", "caustic Documentation", [author], 1)]
->>>>>>> 151bbb3 (style: pre-commit fixes)
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -174,21 +156,9 @@ man_pages = [(master_doc, "caustic", "caustic Documentation", [author], 1)]
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-<<<<<<< HEAD
     (master_doc, 'caustics', 'caustics Documentation',
      author, 'caustics', 'One line description of project.',
      'Miscellaneous'),
-=======
-    (
-        master_doc,
-        "caustic",
-        "caustic Documentation",
-        author,
-        "caustic",
-        "One line description of project.",
-        "Miscellaneous",
-    ),
->>>>>>> 151bbb3 (style: pre-commit fixes)
 ]
 
 

@@ -22,12 +22,7 @@ pip install caustics
 
 ## Documentation
 
-<<<<<<< HEAD
 Please see our [documentation page](Ciela-Institute.github.io/caustics/) for more detailed information.
-=======
-Please see our [documentation page](Ciela-Institute.github.io/caustic/) for more
-detailed information.
->>>>>>> 151bbb3 (style: pre-commit fixes)
 
 ## Contribution
 
