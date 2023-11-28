@@ -362,10 +362,6 @@ class NFW(ThinLens):
             ),
         )
         return term_1 + term_2
-<<<<<<< HEAD:src/caustics/lenses/nfw.py
-=======
-
->>>>>>> 2a501f3 (update nfw.py):caustic/lenses/nfw.py
 
     @unpack(3)
     def reduced_deflection_angle(

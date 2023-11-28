@@ -135,11 +135,7 @@ class Lens(Parametrized):
             Ray-traced coordinates in the x and y directions.
         """
 
-<<<<<<< HEAD:src/caustics/lenses/base.py
         bxy = torch.stack((bx, by)).repeat(n_init, 1)  # has shape (n_init, Dout:2)
-=======
-        bxy = torch.stack((bx, by)).repeat(n_init,1) # has shape (n_init, Dout:2)
->>>>>>> d79e9f4 (change to numpy doc string for base,py in lensors):caustic/lenses/base.py
 
         # TODO make FOV more general so that it doesnt have to be centered on zero,zero
         if fov is None:
@@ -174,10 +170,6 @@ class Lens(Parametrized):
         return res[..., 0], res[..., 1]
 
 
-<<<<<<< HEAD:src/caustics/lenses/base.py
-=======
-
->>>>>>> d79e9f4 (change to numpy doc string for base,py in lensors):caustic/lenses/base.py
 class ThickLens(Lens):
     """
     Base class for modeling gravitational lenses that cannot be treated using the thin lens approximation.
@@ -201,15 +193,6 @@ class ThickLens(Lens):
     ) -> tuple[Tensor, Tensor]:
         """
         ThickLens objects do not have a reduced deflection angle since the distance D_ls is undefined
-<<<<<<< HEAD:src/caustics/lenses/base.py
-
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
-=======
->>>>>>> d79e9f4 (change to numpy doc string for base,py in lensors):caustic/lenses/base.py
 
         Parameters
         ----------
@@ -247,13 +230,6 @@ class ThickLens(Lens):
         angular coordinates, and $\beta$ are the angular coordinates
         to the source plane.
 
-<<<<<<< HEAD:src/caustics/lenses/base.py
-        Args:
-            x (Tensor): Tensor of x coordinates in the lens plane.
-            y (Tensor): Tensor of y coordinates in the lens plane.
-            z_s (Tensor): Tensor of source redshifts.
-            params (Packed, optional): Dynamic parameter container for the lens model. Defaults to None.
-=======
         Parameters
         ----------
         x: Tensor
@@ -264,7 +240,6 @@ class ThickLens(Lens):
             Tensor of source redshifts.
         params: (Packed, optional)
             Dynamic parameter container for the lens model. Defaults to None.
->>>>>>> d79e9f4 (change to numpy doc string for base,py in lensors):caustic/lenses/base.py
 
         """
         bx, by = self.raytrace(x, y, z_s, params)
@@ -963,7 +938,3 @@ class ThinLens(Lens):
         # Build Jacobian
         J = self._jacobian_deflection_angle_autograd(x, y, z_s, params, **kwargs)
         return torch.eye(2) - J.detach()
-<<<<<<< HEAD:src/caustics/lenses/base.py
-=======
-
->>>>>>> d79e9f4 (change to numpy doc string for base,py in lensors):caustic/lenses/base.py
