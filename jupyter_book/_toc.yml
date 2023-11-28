@@ -4,10 +4,10 @@
 format: jb-book
 root: intro
 chapters:
-- file: docs/getting_started.rst         # Getting Started
-- file: docs/install.rst                 # Installation
-- file: docs/tutorials.rst               # Tutorials
-- file: docs/contributing.rst            # Contributing
-- file: docs/citation.rst                # Citation
-- file: docs/license.rst                 # Caustics
-- file: docs/modules.rst                 # modules
+  - file: docs/getting_started.rst # Getting Started
+  - file: docs/install.rst # Installation
+  - file: docs/tutorials.rst # Tutorials
+  - file: docs/contributing.rst # Contributing
+  - file: docs/citation.rst # Citation
+  - file: docs/license.rst # Caustics
+  - file: docs/modules.rst # modules

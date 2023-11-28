@@ -107,48 +107,48 @@ class Sersic(Source):
         **kwargs,
     ):
         """
-        Implements the `brightness` method for `Sersic`. The brightness at a given point is
-        determined by the Sersic profile formula.
+                Implements the `brightness` method for `Sersic`. The brightness at a given point is
+                determined by the Sersic profile formula.
 
-<<<<<<< HEAD:src/caustics/light/sersic.py
-        Args:
-            x (Tensor): The x-coordinate(s) at which to calculate the source brightness.
-                This could be a single value or a tensor of values.
-            y (Tensor): The y-coordinate(s) at which to calculate the source brightness.
-                This could be a single value or a tensor of values.
-            params (Packed, optional): Dynamic parameter container.
-=======
-        Parameters
-        ----------
-        x: Tensor
-            The x-coordinate(s) at which to calculate the source brightness.
-            This could be a single value or a tensor of values.
-        y: Tensor
-            The y-coordinate(s) at which to calculate the source brightness.
-            This could be a single value or a tensor of values.
-        params: (Packed, optional)
-            Dynamic parameter container.
->>>>>>> 7c3905f (change to numpy docstring for data dir):caustic/light/sersic.py
+        <<<<<<< HEAD:src/caustics/light/sersic.py
+                Args:
+                    x (Tensor): The x-coordinate(s) at which to calculate the source brightness.
+                        This could be a single value or a tensor of values.
+                    y (Tensor): The y-coordinate(s) at which to calculate the source brightness.
+                        This could be a single value or a tensor of values.
+                    params (Packed, optional): Dynamic parameter container.
+        =======
+                Parameters
+                ----------
+                x: Tensor
+                    The x-coordinate(s) at which to calculate the source brightness.
+                    This could be a single value or a tensor of values.
+                y: Tensor
+                    The y-coordinate(s) at which to calculate the source brightness.
+                    This could be a single value or a tensor of values.
+                params: (Packed, optional)
+                    Dynamic parameter container.
+        >>>>>>> 7c3905f (change to numpy docstring for data dir):caustic/light/sersic.py
 
-        Returns
-        -------
-        Tensor
-            The brightness of the source at the given point(s). The output tensor has the same shape as `x` and `y`.
+                Returns
+                -------
+                Tensor
+                    The brightness of the source at the given point(s). The output tensor has the same shape as `x` and `y`.
 
-<<<<<<< HEAD:src/caustics/light/sersic.py
-        Notes:
-=======
-        Notes
-        -----
->>>>>>> 7c3905f (change to numpy docstring for data dir):caustic/light/sersic.py
-            The Sersic profile is defined as: I(r) = Ie * exp(-k * ((r / r_e)^(1/n) - 1)),
-            where Ie is the intensity at the effective radius r_e, n is the Sersic index
-            that describes the concentration of the source, and k is a parameter that
-            depends on n. In this implementation, we use elliptical coordinates ex and ey,
-            and the transformation from Cartesian coordinates is handled by `to_elliptical`.
-            The value of k can be calculated in two ways, controlled by `lenstronomy_k_mode`.
-            If `lenstronomy_k_mode` is True, we use the approximation from Lenstronomy,
-            otherwise, we use the approximation from Ciotti & Bertin (1999).
+        <<<<<<< HEAD:src/caustics/light/sersic.py
+                Notes:
+        =======
+                Notes
+                -----
+        >>>>>>> 7c3905f (change to numpy docstring for data dir):caustic/light/sersic.py
+                    The Sersic profile is defined as: I(r) = Ie * exp(-k * ((r / r_e)^(1/n) - 1)),
+                    where Ie is the intensity at the effective radius r_e, n is the Sersic index
+                    that describes the concentration of the source, and k is a parameter that
+                    depends on n. In this implementation, we use elliptical coordinates ex and ey,
+                    and the transformation from Cartesian coordinates is handled by `to_elliptical`.
+                    The value of k can be calculated in two ways, controlled by `lenstronomy_k_mode`.
+                    If `lenstronomy_k_mode` is True, we use the approximation from Lenstronomy,
+                    otherwise, we use the approximation from Ciotti & Bertin (1999).
         """
         x, y = translate_rotate(x, y, x0, y0, phi)
         ex, ey = to_elliptical(x, y, q)
