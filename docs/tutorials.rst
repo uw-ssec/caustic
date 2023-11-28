@@ -14,10 +14,4 @@ version of each tutorial is available here.
     VisualizeCaustics
     MultiplaneDemo
     InvertLensEquation
-    
-    
-    
-    
-    
-    
-    
+

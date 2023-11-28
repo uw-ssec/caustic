@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: caustic
+title: Caustic
 author: Ciela Institute
 logo: logo.png
 
@@ -16,8 +16,8 @@ latex:
     targetname: book.tex
 
 # Add a bibtex file so that we can create citations
-# bibtex_bibfiles:
-#   - references.bib
+bibtex_bibfiles:
+  - references.bib
 
 # Information about where the book exists on the web
 repository:

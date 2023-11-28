@@ -34,7 +34,7 @@ Read The Docs
    contributing.rst
    citation.rst
    license.rst
-   
+
 Indices and tables
 ==================
 
@@ -42,7 +42,7 @@ Indices and tables
    :maxdepth: 1
 
    modules.rst
-   
+
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
