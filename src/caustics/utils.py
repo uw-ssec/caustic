@@ -519,7 +519,7 @@ def gaussian(pixelscale, nx, ny, sigma, upsample = 1, dtype = torch.float32, dev
 
 ||||||| c8d51f7:caustic/utils.py
 def gaussian(pixelscale, nx, ny, sigma, upsample = 1, dtype = torch.float32, device = None):
-    
+
 =======
 
 def gaussian(pixelscale, nx, ny, sigma, upsample=1, dtype=torch.float32, device=None):
@@ -543,7 +543,7 @@ def gaussian(pixelscale, nx, ny, sigma, upsample=1, dtype=torch.float32, device=
 
 ||||||| c8d51f7:caustic/utils.py
     Z = np.exp(- 0.5 * (X**2 + Y**2) / sigma**2)
-    
+
 =======
     Z = np.exp(-0.5 * (X**2 + Y**2) / sigma**2)
 

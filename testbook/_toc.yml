@@ -4,9 +4,9 @@
 format: jb-book
 root: intro
 chapters:
-- file: get_start
-- file: install
-- file: tutorials
-- file: contributing
-- file: citation
-- file: license
+  - file: get_start
+  - file: install
+  - file: tutorials
+  - file: contributing
+  - file: citation
+  - file: license

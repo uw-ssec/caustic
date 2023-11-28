@@ -234,8 +234,8 @@ class Parametrized:
 
 
 ||||||| c8d51f7:caustic/parametrized.py
-        
-        
+
+
 =======
 
 >>>>>>> c9616623a2664eaff0a8f62f3d10e0b4d060af91:src/caustics/parametrized.py
@@ -264,7 +264,7 @@ class Parametrized:
 <<<<<<< HEAD:caustic/parametrized.py
             n_expected = sum([module.dynamic_size for module in self.dynamic_modules.values()])
 ||||||| c8d51f7:caustic/parametrized.py
-            n_expected = sum([module.dynamic_size for module in self.dynamic_modules.values()]) 
+            n_expected = sum([module.dynamic_size for module in self.dynamic_modules.values()])
 =======
             n_expected = sum(
                 [module.dynamic_size for module in self.dynamic_modules.values()]
