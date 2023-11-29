@@ -14,15 +14,3 @@ version of each tutorial is available here.
     VisualizeCaustics
     MultiplaneDemo
     InvertLensEquation
-<<<<<<< HEAD:docs/tutorials.rst
-
-||||||| c8d51f7:docs/tutorials.rst
-    
-    
-    
-    
-    
-    
-    
-=======
->>>>>>> c9616623a2664eaff0a8f62f3d10e0b4d060af91:docs/source/tutorials.rst

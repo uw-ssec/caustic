@@ -514,16 +514,8 @@ def batch_lm(
 
     return X, L, C
 
-<<<<<<< HEAD:caustic/utils.py
-def gaussian(pixelscale, nx, ny, sigma, upsample = 1, dtype = torch.float32, device = None):
-
-||||||| c8d51f7:caustic/utils.py
-def gaussian(pixelscale, nx, ny, sigma, upsample = 1, dtype = torch.float32, device = None):
-
-=======
 
 def gaussian(pixelscale, nx, ny, sigma, upsample=1, dtype=torch.float32, device=None):
->>>>>>> c9616623a2664eaff0a8f62f3d10e0b4d060af91:src/caustics/utils.py
     X, Y = np.meshgrid(
         np.linspace(
             -(nx * upsample - 1) * pixelscale / 2,
@@ -538,16 +530,8 @@ def gaussian(pixelscale, nx, ny, sigma, upsample=1, dtype=torch.float32, device=
         indexing="xy",
     )
 
-<<<<<<< HEAD:caustic/utils.py
-    Z = np.exp(- 0.5 * (X**2 + Y**2) / sigma**2)
-
-||||||| c8d51f7:caustic/utils.py
-    Z = np.exp(- 0.5 * (X**2 + Y**2) / sigma**2)
-
-=======
     Z = np.exp(-0.5 * (X**2 + Y**2) / sigma**2)
 
->>>>>>> c9616623a2664eaff0a8f62f3d10e0b4d060af91:src/caustics/utils.py
     Z = Z.reshape(ny, upsample, nx, upsample).sum(axis=(1, 3))
 
     return torch.tensor(Z / np.sum(Z), dtype=dtype, device=device)
