@@ -7,7 +7,7 @@ Regular Install
 
 The easiest way to install is to make a new virtual environment then run::
 
-    pip install caustic
+    pip install caustics
 
 this will install all the required libraries and then install caustic and you are ready to go! You can check out the tutorials afterwards to see some of caustic's capabilities.
 
@@ -17,7 +17,7 @@ Developer Install
 
 First clone the repo with::
 
-    git clone git@github.com:Ciela-Institute/caustic.git
+    git clone git@github.com:Ciela-Institute/caustics.git
 
 this will create a directory `caustic` wherever you ran the command. Next go into the directory and install in developer mode::
 
