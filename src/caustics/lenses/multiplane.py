@@ -157,7 +157,7 @@ class Multiplane(ThickLens):
             theta_x = theta_x - alpha_x
             theta_y = theta_y - alpha_y
 
-            # Propogate rays to next plane (basically eq 18)
+            # Propagate rays to next plane (basically eq 18)
             z_next = z_ls[i + 1] if i != lens_planes[-1] else z_end
             D = self.cosmology.transverse_comoving_distance_z1z2(
                 z_ls[i], z_next, params
