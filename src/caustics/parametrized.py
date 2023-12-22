@@ -1,6 +1,6 @@
 from collections import OrderedDict
 from math import prod
-from typing import Optional, Union
+from typing import Optional, Union, List
 import functools
 import inspect
 
@@ -59,6 +59,8 @@ class Parametrized:
         Number of static parameters.
     """
 
+    _name: str = None
+
     def __init__(self, name: str = None):
         if name is None:
             name = self._default_name()
@@ -98,7 +100,7 @@ class Parametrized:
             elif isinstance(value, Parametrized):
                 # Update map from attribute key to module name
                 # for __getattribute__ method
-                self._module_key_map[value.name] = key
+                self._module_key_map[key] = value.name
                 self.add_parametrized(value, set_attr=False)
                 # set attr only to user defined key,
                 # not module name (self.{module.name} is still accessible,
@@ -112,6 +114,14 @@ class Parametrized:
     @property
     def name(self) -> str:
         return self._name
+
+    @property
+    def children(self) -> List["Parametrized"]:
+        return list(self._childs.values())
+
+    @property
+    def parents(self) -> List["Parametrized"]:
+        return list(self._parents.values())
 
     @name.setter
     def name(self, new_name: str):
@@ -382,6 +392,21 @@ class Parametrized:
         return NestedNamespaceDict([("static", static), ("dynamic", dynamic)])
 
     @property
+    def _key_maps(self) -> NamespaceDict:
+        key_maps = NamespaceDict()
+
+        def _get_key_map(module):
+            # Start from root, and move down the DAG
+            if module._module_key_map:
+                key_maps[module.name] = module._module_key_map
+            if module.children:
+                for child in module.children:
+                    _get_key_map(child)
+
+        _get_key_map(self)
+        return key_maps
+
+    @property
     def dynamic_modules(self) -> NamespaceDict[str, "Parametrized"]:
         # Only catch modules with dynamic parameters
         modules = (
@@ -421,12 +446,21 @@ class Parametrized:
 
         desc_dynamic_str = ", ".join(desc_dynamic_strs)
 
+        # Print out children of the module
+        children = ", ".join(
+            [
+                f"{child.__class__.__name__}('{child.name}')"
+                for child in self._childs.values()
+            ]
+        )
+
         return (
             f"{self.__class__.__name__}(\n"
             f"    name='{self.name}',\n"
             f"    static=[{static_str}],\n"
             f"    dynamic=[{dynamic_str}],\n"
             f"    x keys=[{desc_dynamic_str}]\n"
+            f"    children=[{children}]\n"
             f")"
         )
 
