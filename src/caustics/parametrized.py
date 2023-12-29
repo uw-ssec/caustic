@@ -100,7 +100,7 @@ class Parametrized:
             elif isinstance(value, Parametrized):
                 # Update map from attribute key to module name
                 # for __getattribute__ method
-                self._module_key_map[key] = value.name
+                self._module_key_map[value.name] = key
                 self.add_parametrized(value, set_attr=False)
                 # set attr only to user defined key,
                 # not module name (self.{module.name} is still accessible,
