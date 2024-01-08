@@ -59,8 +59,6 @@ class Parametrized:
         Number of static parameters.
     """
 
-    _name: str = None
-
     def __init__(self, name: str = None):
         if name is None:
             name = self._default_name()
