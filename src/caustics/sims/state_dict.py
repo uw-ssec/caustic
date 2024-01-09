@@ -39,7 +39,20 @@ class StateDict(OrderedDict):
         super().__setitem__(key, value)
 
     @classmethod
-    def from_params(cls, params):
+    def from_params(cls, params: NamespaceDict):
+        """Class method to create a StateDict
+        from a dictionary of parameters
+
+        Parameters
+        ----------
+        params : NamespaceDict
+            A dictionary of parameters
+
+        Returns
+        -------
+        StateDict
+            A state dictionary object
+        """
         static_params = params["static"].flatten()
         tensors_dict = {k: v.value for k, v in static_params.items()}
         return cls(tensors_dict)
