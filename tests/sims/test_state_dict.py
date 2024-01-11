@@ -5,7 +5,7 @@ from safetensors.torch import save
 from datetime import datetime as dt
 from caustics.parameter import Parameter
 from caustics.namespace_dict import NamespaceDict, NestedNamespaceDict
-from caustics.sims.state_dict import StateDict, IMMUTABLE_ERR
+from caustics.sims.state_dict import StateDict
 from caustics import __version__
 
 
@@ -15,6 +15,10 @@ class TestStateDict:
     @pytest.fixture(scope="class")
     def simple_state_dict(self):
         return StateDict(self.simple_tensors)
+
+    @pytest.fixture(scope="class")
+    def immutable_message(self):
+        return "'StateDict' cannot be modified after creation."
 
     def test_constructor(self):
         time_format = "%Y-%m-%dT%H:%M:%S"
@@ -32,12 +36,12 @@ class TestStateDict:
         assert sd_ct_str == time_str_now
         assert dict(state_dict) == self.simple_tensors
 
-    def test_setitem(self, simple_state_dict):
-        with pytest.raises(type(IMMUTABLE_ERR), str(IMMUTABLE_ERR)):
+    def test_setitem(self, simple_state_dict, immutable_message):
+        with pytest.raises(TypeError, immutable_message):
             simple_state_dict["var1"] = torch.as_tensor(3.0)
 
-    def test_delitem(self, simple_state_dict):
-        with pytest.raises(type(IMMUTABLE_ERR), str(IMMUTABLE_ERR)):
+    def test_delitem(self, simple_state_dict, immutable_message):
+        with pytest.raises(TypeError, immutable_message):
             del simple_state_dict["var1"]
 
     def test_from_params(self, simple_common_sim):
