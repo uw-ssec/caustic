@@ -1,8 +1,10 @@
 from datetime import datetime as dt
 from collections import OrderedDict
-from typing import Any
+from typing import Any, Dict
+
+from torch import Tensor
 from .._version import __version__
-from ..namespace_dict import NamespaceDict
+from ..namespace_dict import NamespaceDict, NestedNamespaceDict
 
 from safetensors.torch import save
 
@@ -39,22 +41,27 @@ class StateDict(OrderedDict):
         super().__setitem__(key, value)
 
     @classmethod
-    def from_params(cls, params: NamespaceDict):
+    def from_params(cls, params: "NestedNamespaceDict | NamespaceDict"):
         """Class method to create a StateDict
         from a dictionary of parameters
 
         Parameters
         ----------
         params : NamespaceDict
-            A dictionary of parameters
+            A dictionary of parameters,
+            can either be the full parameters
+            that are "static" and "dynamic",
+            or "static" only.
 
         Returns
         -------
         StateDict
             A state dictionary object
         """
-        static_params = params["static"].flatten()
-        tensors_dict = {k: v.value for k, v in static_params.items()}
+        static = "static"
+        if isinstance(params, NestedNamespaceDict) and static in params:
+            params: NamespaceDict = params[static].flatten()
+        tensors_dict: Dict[str, Tensor] = {k: v.value for k, v in params.items()}
         return cls(tensors_dict)
 
     def to_params(self) -> NamespaceDict:
