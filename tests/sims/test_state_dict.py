@@ -1,4 +1,3 @@
-import hashlib
 from typing import Dict
 import pytest
 import torch
@@ -76,7 +75,5 @@ class TestStateDict:
     def test__to_safetensors(self):
         state_dict = StateDict(self.simple_tensors)
         tensors_bytes = state_dict._to_safetensors()
-        digest = hashlib.sha256(tensors_bytes).hexdigest()
         expected_bytes = save(state_dict, metadata=state_dict._metadata)
-        expected_digest = hashlib.sha256(expected_bytes).hexdigest()
-        assert digest == expected_digest
+        assert tensors_bytes == expected_bytes
