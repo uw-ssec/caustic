@@ -73,9 +73,10 @@ class TestStateDict:
             assert isinstance(v, Parameter)
             assert v.value == tensor_value
 
-    def test__to_safetensors(self, simple_state_dict):
-        tensors_bytes = simple_state_dict._to_safetensors()
+    def test__to_safetensors(self):
+        state_dict = StateDict(self.simple_tensors)
+        tensors_bytes = state_dict._to_safetensors()
         digest = hashlib.sha256(tensors_bytes).hexdigest()
-        expected_bytes = save(simple_state_dict, metadata=simple_state_dict._metadata)
+        expected_bytes = save(state_dict, metadata=state_dict._metadata)
         expected_digest = hashlib.sha256(expected_bytes).hexdigest()
         assert digest == expected_digest
