@@ -38,11 +38,11 @@ class TestStateDict:
         assert dict(state_dict) == self.simple_tensors
 
     def test_setitem(self, simple_state_dict, immutable_message):
-        with pytest.raises(TypeError, immutable_message):
+        with pytest.raises(TypeError, match=immutable_message):
             simple_state_dict["var1"] = torch.as_tensor(3.0)
 
     def test_delitem(self, simple_state_dict, immutable_message):
-        with pytest.raises(TypeError, immutable_message):
+        with pytest.raises(TypeError, match=immutable_message):
             del simple_state_dict["var1"]
 
     def test_from_params(self, simple_common_sim):
