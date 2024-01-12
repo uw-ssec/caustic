@@ -1,7 +1,7 @@
 from typing import Dict
 import pytest
 import torch
-from safetensors.torch import save
+from safetensors.torch import save, load
 from datetime import datetime as dt
 from caustics.parameter import Parameter
 from caustics.namespace_dict import NamespaceDict, NestedNamespaceDict
@@ -74,6 +74,14 @@ class TestStateDict:
 
     def test__to_safetensors(self):
         state_dict = StateDict(self.simple_tensors)
+        # Save to safetensors
         tensors_bytes = state_dict._to_safetensors()
         expected_bytes = save(state_dict, metadata=state_dict._metadata)
-        assert tensors_bytes == expected_bytes
+
+        # Reload to back to tensors dict
+        # this is done because the information
+        # might be stored in different arrangements
+        # within the safetensors bytes
+        loaded_tensors = load(tensors_bytes)
+        loaded_expected_tensors = load(expected_bytes)
+        assert loaded_tensors == loaded_expected_tensors
