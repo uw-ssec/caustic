@@ -9,6 +9,7 @@ from ..namespace_dict import NamespaceDict, NestedNamespaceDict
 from safetensors.torch import save
 
 IMMUTABLE_ERR = TypeError("'StateDict' cannot be modified after creation.")
+STATIC_PARAMS = "static"
 
 
 class StateDict(OrderedDict):
@@ -58,9 +59,8 @@ class StateDict(OrderedDict):
         StateDict
             A state dictionary object
         """
-        static = "static"
-        if isinstance(params, NestedNamespaceDict) and static in params:
-            params: NamespaceDict = params[static].flatten()
+        if isinstance(params, NestedNamespaceDict) and STATIC_PARAMS in params:
+            params: NamespaceDict = params[STATIC_PARAMS].flatten()
         tensors_dict: Dict[str, Tensor] = {k: v.value for k, v in params.items()}
         return cls(tensors_dict)
 
