@@ -7,6 +7,8 @@ from caustics.namespace_dict import NamespaceDict, NestedNamespaceDict
 from caustics.sims.state_dict import StateDict, IMMUTABLE_ERR
 from caustics import __version__
 
+from helpers.sims import extract_tensors, isEquals
+
 
 class TestStateDict:
     simple_tensors = {"var1": torch.as_tensor(1.0), "var2": torch.as_tensor(2.0)}
@@ -39,20 +41,20 @@ class TestStateDict:
         with pytest.raises(type(IMMUTABLE_ERR), match=str(IMMUTABLE_ERR)):
             del simple_state_dict["var1"]
 
-    def test_from_params(self, simple_common_sim, sim_utils):
+    def test_from_params(self, simple_common_sim):
         params: NestedNamespaceDict = simple_common_sim.params
 
-        tensors_dict, all_params = sim_utils.extract_tensors(params, True)
+        tensors_dict, all_params = extract_tensors(params, True)
 
         expected_state_dict = StateDict(tensors_dict)
 
         # Full parameters
         state_dict = StateDict.from_params(params)
-        assert sim_utils.isEquals(state_dict, expected_state_dict)
+        assert isEquals(state_dict, expected_state_dict)
 
         # Static only
         state_dict = StateDict.from_params(all_params)
-        assert sim_utils.isEquals(state_dict, expected_state_dict)
+        assert isEquals(state_dict, expected_state_dict)
 
     def test_to_params(self, simple_state_dict):
         params = simple_state_dict.to_params()
