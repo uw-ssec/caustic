@@ -4,7 +4,7 @@ DEFAULT_ENCODING = "utf-8"
 
 
 def to_file(
-    path: str | Path, data: str | bytes, encoding: str = DEFAULT_ENCODING
+    path: "str | Path", data: "str | bytes", encoding: str = DEFAULT_ENCODING
 ) -> str:
     """
     Save data string or bytes to specified file path
