@@ -68,9 +68,10 @@ class StateDict(OrderedDict):
         state_dict_list = [
             (k, v) if v.nelement() > 0 else (k, None) for k, v in self.items()
         ]
+        class_name = self.__class__.__name__
         if not state_dict_list:
-            return "%s()" % (self.__class__.__name__,)
-        return "%s(%r)" % (self.__class__.__name__, state_dict_list)
+            return "%s()" % (class_name,)
+        return "%s(%r)" % (class_name, state_dict_list)
 
     @classmethod
     def from_params(cls, params: "NestedNamespaceDict | NamespaceDict"):
