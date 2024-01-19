@@ -1,11 +1,10 @@
-from typing import Dict
 import pytest
 import torch
 from safetensors.torch import save, load
 from datetime import datetime as dt
 from caustics.parameter import Parameter
 from caustics.namespace_dict import NamespaceDict, NestedNamespaceDict
-from caustics.sims.state_dict import StateDict, IMMUTABLE_ERR, _sanitize
+from caustics.sims.state_dict import StateDict, IMMUTABLE_ERR
 from caustics import __version__
 
 
@@ -40,55 +39,20 @@ class TestStateDict:
         with pytest.raises(type(IMMUTABLE_ERR), match=str(IMMUTABLE_ERR)):
             del simple_state_dict["var1"]
 
-    def test_from_params(self, simple_common_sim):
+    def test_from_params(self, simple_common_sim, sim_utils):
         params: NestedNamespaceDict = simple_common_sim.params
 
-        # Extract the "static" and "dynamic" parameters
-        param_dicts = list(params.values())
-
-        # Extract the "static" and "dynamic" parameters
-        # to a single merged dictionary
-        final_dict = NestedNamespaceDict()
-        for pdict in param_dicts:
-            for k, v in pdict.items():
-                if k not in final_dict:
-                    final_dict[k] = v
-                else:
-                    final_dict[k] = {**final_dict[k], **v}
-
-        # flatten function only exists for NestedNamespaceDict
-        all_params = final_dict.flatten()
-
-        tensors_dict: Dict[str, torch.Tensor] = _sanitize(
-            {k: v.value for k, v in all_params.items()}
-        )
+        tensors_dict, all_params = sim_utils.extract_tensors(params, True)
 
         expected_state_dict = StateDict(tensors_dict)
 
-        def isEquals(a, b):
-            # Go through each key and values
-            # change empty torch to be None
-            # since we can't directly compare
-            # empty torch
-            truthy = []
-            for k, v in a.items():
-                if k not in b:
-                    return False
-                kv = b[k]
-                if (v.nelement() == 0) or (kv.nelement() == 0):
-                    v = None
-                    kv = None
-                truthy.append(v == kv)
-
-            return all(truthy)
-
         # Full parameters
         state_dict = StateDict.from_params(params)
-        assert isEquals(state_dict, expected_state_dict)
+        assert sim_utils.isEquals(state_dict, expected_state_dict)
 
         # Static only
         state_dict = StateDict.from_params(all_params)
-        assert isEquals(state_dict, expected_state_dict)
+        assert sim_utils.isEquals(state_dict, expected_state_dict)
 
     def test_to_params(self, simple_state_dict):
         params = simple_state_dict.to_params()

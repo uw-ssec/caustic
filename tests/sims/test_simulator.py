@@ -9,13 +9,12 @@ def state_dict(simple_common_sim):
 
 
 @pytest.fixture
-def expected_tensors(simple_common_sim):
-    static_params = simple_common_sim.params["static"].flatten()
-    return {k: v.value for k, v in static_params.items()}
+def expected_tensors(simple_common_sim, sim_utils):
+    return sim_utils.extract_tensors(simple_common_sim.params)
 
 
 class TestSimulator:
-    def test_state_dict(self, state_dict, expected_tensors):
+    def test_state_dict(self, state_dict, expected_tensors, sim_utils):
         # Check state_dict type and default keys
         assert isinstance(state_dict, StateDict)
 
@@ -28,4 +27,4 @@ class TestSimulator:
         assert "created_time" in state_dict._metadata
 
         # Check params
-        assert dict(state_dict) == expected_tensors
+        assert sim_utils.isEquals(dict(state_dict), expected_tensors)
