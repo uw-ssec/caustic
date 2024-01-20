@@ -69,14 +69,17 @@ class StateDict(ImmutableODict):
 
     __slots__ = ("_metadata", "_created", "_created_time")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, metadata=None, *args, **kwargs):
         # Get created time
-        self._created_time = dt.now()
+        self._created_time = dt.utcnow()
         # Create metadata
         metadata = {
             "software_version": __version__,
             "created_time": self._created_time.isoformat(),
         }
+        if metadata:
+            metadata.update(metadata)
+
         # Set metadata
         self._metadata = ImmutableODict(metadata)
 
@@ -91,15 +94,6 @@ class StateDict(ImmutableODict):
         if hasattr(self, "_created"):
             raise IMMUTABLE_ERR
         super().__setitem__(key, value)
-
-    def __repr__(self) -> str:
-        state_dict_list = [
-            (k, v) if v.nelement() > 0 else (k, None) for k, v in self.items()
-        ]
-        class_name = self.__class__.__name__
-        if not state_dict_list:
-            return "%s()" % (class_name,)
-        return "%s(%r)" % (class_name, state_dict_list)
 
     @classmethod
     def from_params(cls, params: "NestedNamespaceDict | NamespaceDict"):
@@ -144,10 +138,8 @@ class StateDict(ImmutableODict):
             # Flatten the dictionary to a single level
             params: NamespaceDict = final_dict.flatten()
 
-        tensors_dict: Dict[str, Tensor] = _sanitize(
-            {k: v.value for k, v in params.items()}
-        )
-        return cls(tensors_dict)
+        tensors_dict: Dict[str, Tensor] = {k: v.value for k, v in params.items()}
+        return cls(metadata=None, **tensors_dict)
 
     def to_params(self) -> NestedNamespaceDict:
         """
@@ -208,4 +200,4 @@ class StateDict(ImmutableODict):
         return self._created_time.strftime(file_format)
 
     def _to_safetensors(self) -> bytes:
-        return save(self, metadata=self._metadata)
+        return save(_sanitize(self), metadata=self._metadata)
