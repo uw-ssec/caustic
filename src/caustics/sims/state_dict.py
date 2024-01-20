@@ -9,7 +9,7 @@ from .._version import __version__
 from ..namespace_dict import NamespaceDict, NestedNamespaceDict
 from .. import io
 
-from safetensors.torch import save
+from safetensors.torch import save, load_file
 
 IMMUTABLE_ERR = TypeError("'StateDict' cannot be modified after creation.")
 PARAM_KEYS = ["dynamic", "static"]
@@ -73,15 +73,15 @@ class StateDict(ImmutableODict):
         # Get created time
         self._created_time = dt.utcnow()
         # Create metadata
-        metadata = {
+        _meta = {
             "software_version": __version__,
             "created_time": self._created_time.isoformat(),
         }
         if metadata:
-            metadata.update(metadata)
+            _meta.update(metadata)
 
         # Set metadata
-        self._metadata = ImmutableODict(metadata)
+        self._metadata = ImmutableODict(_meta)
 
         # Now create the object, this will set _created
         # to True, and prevent any further modification
@@ -193,6 +193,33 @@ class StateDict(ImmutableODict):
             raise ValueError(f"File must have '{ext}' extension")
 
         return io.to_file(file_path, self._to_safetensors())
+
+    @classmethod
+    def load(cls, file_path: str) -> "StateDict":
+        """
+        Loads the state dictionary from a
+        specified ``file_path``.
+
+        Parameters
+        ----------
+        file_path : str
+            The file path to load the
+            state dictionary from.
+
+        Returns
+        -------
+        StateDict
+            The loaded state dictionary
+        """
+        # TODO: Need to rethink this for remote paths
+
+        # Load just the metadata
+        metadata = io.get_safetensors_metadata(file_path)
+
+        # Load the full data to cpu first
+        st_dict = load_file(file_path)
+        st_dict = {k: v if v.nelement() > 0 else None for k, v in st_dict.items()}
+        return cls(metadata=metadata, **st_dict)
 
     @property
     def __st_file(self) -> str:
