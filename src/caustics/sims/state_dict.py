@@ -139,7 +139,7 @@ class StateDict(ImmutableODict):
             params: NamespaceDict = final_dict.flatten()
 
         tensors_dict: Dict[str, Tensor] = {k: v.value for k, v in params.items()}
-        return cls(metadata=None, **tensors_dict)
+        return cls(**tensors_dict)
 
     def to_params(self) -> NestedNamespaceDict:
         """
