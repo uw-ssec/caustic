@@ -1,5 +1,4 @@
 from caustics.namespace_dict import NestedNamespaceDict
-from caustics.sims.state_dict import _sanitize
 
 
 def extract_tensors(params, include_params=False):
