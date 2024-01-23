@@ -164,3 +164,6 @@ class TestStateDict:
         fpath = simple_state_dict.save()
         loaded_state_dict = StateDict.load(fpath)
         assert loaded_state_dict == simple_state_dict
+
+        # Cleanup after
+        Path(fpath).unlink()
