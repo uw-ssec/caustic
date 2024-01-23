@@ -1,6 +1,5 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import os
 import sys
 
 import pytest
@@ -138,7 +137,7 @@ class TestStateDict:
 
     def test_save(self, simple_state_dict):
         # Check for default save path
-        expected_fpath = Path(os.path.curdir) / simple_state_dict._StateDict__st_file
+        expected_fpath = Path.cwd() / simple_state_dict._StateDict__st_file
         default_fpath = simple_state_dict.save()
 
         assert Path(default_fpath).exists()
