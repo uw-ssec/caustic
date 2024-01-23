@@ -15,13 +15,13 @@ from caustics.io import (
 
 def test_normalize_path():
     # Test with a string path
-    path_str = "/path/to/file.txt"
+    path_str = str(Path().joinpath("path", "to", "file.txt"))
     normalized_path = _normalize_path(path_str)
     assert normalized_path == Path(path_str)
     assert str(normalized_path), path_str
 
     # Test with a Path object
-    path_obj = Path("/path/to/file.txt")
+    path_obj = Path(path_str)
     normalized_path = _normalize_path(path_obj)
     assert normalized_path == path_obj
 
