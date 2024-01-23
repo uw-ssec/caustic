@@ -1,5 +1,6 @@
 import pytest
 from pathlib import Path
+import sys
 
 import torch
 
@@ -64,5 +65,6 @@ class TestSimulator:
             == simple_common_sim.z_s.value
         )
 
-        # Cleanup
-        Path(fpath).unlink(missing_ok=True)
+        # Cleanup after only for non-windows
+        if not sys.platform.startswith("win"):
+            Path(fpath).unlink(missing_ok=True)

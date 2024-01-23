@@ -1,6 +1,7 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import os
+import sys
 
 import pytest
 import torch
@@ -143,8 +144,9 @@ class TestStateDict:
         assert Path(default_fpath).exists()
         assert default_fpath == str(expected_fpath.absolute())
 
-        # Cleanup after
-        Path(default_fpath).unlink(missing_ok=True)
+        # Cleanup after only for non-windows
+        if not sys.platform.startswith("win"):
+            Path(default_fpath).unlink(missing_ok=True)
 
         # Check for specified save path
         with TemporaryDirectory() as tempdir:
@@ -166,5 +168,6 @@ class TestStateDict:
         loaded_state_dict = StateDict.load(fpath)
         assert loaded_state_dict == simple_state_dict
 
-        # Cleanup after
-        Path(fpath).unlink(missing_ok=True)
+        # Cleanup after only for non-windows
+        if not sys.platform.startswith("win"):
+            Path(fpath).unlink(missing_ok=True)
