@@ -65,4 +65,4 @@ class TestSimulator:
         )
 
         # Cleanup
-        Path(fpath).unlink()
+        Path(fpath).unlink(missing_ok=True)
