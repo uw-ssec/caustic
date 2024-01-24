@@ -148,7 +148,7 @@ class TestStateDict:
         assert default_fpath == str(expected_fpath.absolute())
 
         # Cleanup after
-        Path(default_fpath).unlink(missing_ok=True)
+        Path(default_fpath).unlink()
 
         # Check for specified save path
         with TemporaryDirectory() as tempdir:
