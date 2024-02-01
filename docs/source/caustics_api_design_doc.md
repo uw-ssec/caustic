@@ -56,140 +56,144 @@ beyond. The caustics API plays a pivotal role within this project, serving as
 the gateway for users to harness the power of the underlying simulation engine.
 By encapsulating the intricacies of the simulation process, the API provides
 users with a streamlined and user-friendly interface. Its three main
-functions—creating a simulator, running the forward function routine, and
-plotting results—facilitate a seamless and customizable experience, empowering
+functions-validating parameter inputs, creating a simulator, and running 
+the forward function routine—facilitate a seamless and customizable experience, empowering
 users to effortlessly conduct caustics simulations tailored to their specific
 needs. Through the Caustics API, the project endeavors to democratize access to
 advanced lensing simulations, making it a valuable tool for researchers,
 developers, and enthusiasts alike.
 
-## Functionality
+## Functionality/Usage Examples
 
-### Simulator
+### Input YAML File
 
-- Builds the simulator based on user-defined parameters
+Define pre-validated `build_simulator` parameters.
 
-### Forward
+```yaml
+simulator:
+    name: "sim"
+    kind: "Simulator"
+    params:
+        z_s: 0.8
+    kwargs:
+        pixelscale: 0.3
+        pixels_x: 1
+        lens_light: true
+        psf: 3.1
+        pixels_y: 100
+        upsample_factor: 1
+        psf_pad: true
+        psf_mode: "fft"
+    lens:
+        name: "sie"
+        kind: "SIE"
+        params: {}
+        cosmology:
+            name: "cosmo"
+            kind: "FlatLambdaCDM"
+            params:
+                Om0: 0.3
+                critical_density0: 127052816384
+                h0: 0.67
+    src:
+        name: "src"
+        kind: "Sersic"
+        params: {}
+    forward: |
+    def forward(self, params):
+        # Here the simulator unpacks the parameter it needs
+        z_s = self.unpack(params)
 
-- Runs a set of pre-defined and/or user-defined forward routines
+        # Note this is very similar to before, except the packed up `x` is all the raytrace function needs to work
+        bx, by = self.lens.raytrace(thx, thy, z_s, params)
+        mu_fine = self.src.brightness(bx, by, params)
 
-### Plot
+        # We return the sampled brightness at each pixel location
+        return avg_pool2d(mu_fine.squeeze()[None, None], upsample_factor)[0, 0]
+        
+```
 
-- This section of the API will be finalized at a later time.
+### Create Pydantic Models
 
-## Usage Examples
+Define Pydantic models to validate the input YAML structure. We need models for the overall simulator, lens, source, and cosmology. Here's a simplified example:
 
-### Simulator
+```python
+from pydantic import BaseModel, Field
+from typing import List, Optional
+
+class Cosmology(BaseModel):
+    name: str
+    kind: str
+    params: dict
+
+class Lens(BaseModel):
+    name: str
+    kind: str
+    params: dict
+    cosmology: Optional[Cosmology]
+
+class Source(BaseModel):
+    name: str
+    kind: str
+    params: dict
+
+class SimulatorInput(BaseModel):
+    name: str
+    kind: str
+    params: dict
+    kwargs: dict
+    lens: Lens
+    src: Source
+    forward: str
+```
+
+#### Create a Registry
+
+Maintain a registry of simulator classes, lenses, and sources. We will use a dictionary for this purpose.
+
+### Build Simulators Dynamically
+
+Create a function to build simulators dynamically based on the validated input YAML. We will use Python's `type` function to dynamically create classes. Here's a simplified example:
+
+
+#### Part 1: Build Simulator Class
 
 ```python
 sim = caustics.build_simulator(input)  # input can be pydantic model/yaml file path
 ```
 
-#### Input Parameters
-
-Template yaml
-
-```yaml
-simulator:
-  name: "simulator_name"
-  lens:
-    name: "sie"
-    kind: "SIE"
-    cosmology:
-      name: "cosmo"
-      kind: "FlatLambdaCDM"
-      params: {}
-    params: {}
-    from_file: # optional
-  source:
-    name: "sersic"
-    kind: "Sersic"
-    params: {}
-    from_file: # optional
-  params:
-    z_s: 1.0
-  forward:
-    routine: "default_routine?"
-    from_file: # optional
-  state: # optional
-    load: # optional
-    save: # optional
-```
-
-Multiple lenses example
-
-```yaml
-simulator:
-    name: "simulator_name"
-    lens:
-        name:
-        kind: "Multiplane"
-        lenses:
-        - name: "lens1"
-          kind: "SIE"
-          params: {}
-          from_file: # optional
-        - name: "lens2"
-          kind: "SIE"
-          params: {}
-          from_file: # optional
-        ...
-    ... # same as above
-```
-
-#### Output
-
-- Temporary YAML template file for user to fill in. This file will be stored in
-  a current working directory for user to be able to access.
-
-Example YAML file
-
-```yaml
-params:
-  z_l: # What is it (Suggested Units: )
-  lens_name:
-    x0: 0.7 # What is it (Suggested Units: )
-    y0: 0.13 # What is it (Suggested Units: )
-    q: 0.4 # What is it (Suggested Units: )
-    phi: np.pi / 5 # What is it (Suggested Units: )
-    b: 1.0 # What is it (Suggested Units: )
-  source_name:
-    x0: 0.2 # What is it (Suggested Units: )
-    y0: 0.5 # What is it (Suggested Units: )
-    q: 0.5 # What is it (Suggested Units: )
-    phi: -np.pi / 4 # What is it (Suggested Units: )
-    n: 1.5 # What is it (Suggested Units: )
-    Re: 2.5 # What is it (Suggested Units: )
-    Ie: 1.0 # What is it (Suggested Units: )
-```
-
-### Forward
+Simplified simulator class example
 
 ```python
-results = sim(input)
+from typing import Type, Dict
+
+def build_simulator(input_yaml: dict) -> Type:
+    class_params = input_yaml['simulator']['params']
+    class_name = input_yaml['simulator']['name']
+    
+    class CustomSimulator(BaseModel):
+        class Config:
+            allow_mutation = False
+        ...
+        lens: Lens = Lens(**input_yaml['lens'])
+        src: Source = Source(**input_yaml['src'])
+        forward: str = input_yaml['simulator']['forward']
+
+    return CustomSimulator
 ```
 
-#### Input Parameters
+### Part 2: Hook Forward Implementation
 
-- Accepts loaded `state_dict`, temporary `yaml`, or direct variable input
+Since the forward can contain custom functions and combination of functions, the forward will be directly accepted as Python code (except for "Lens_Source" because it contains a pre-defined forward).
+The forward will use the `@hookimp` for allowing abstraction and real-time implementation.
 
-#### Output
+### Part 3: Output Input Signature
 
-- Routine calculations
+Outputs necessary instructions about required variables along with order and other relevant information for input into the simulator for completing the task.
 
-### Plot
-
+```python
+sim.input_signature()
 ```
-TBD
-```
-
-#### Input Parameters
-
-- TBD
-
-#### Output
-
-- Data plot(s)
 
 ## Testing and Validation
 
@@ -207,8 +211,7 @@ will be used for API validation:
 
    ```python
    from pydantic import BaseModel
-
-
+   
    class User(BaseModel):
        username: str
        email: str
@@ -227,7 +230,6 @@ will be used for API validation:
    from pydantic import BaseModel
 
    app = FastAPI()
-
 
    @app.post("/create_user/")
    async def create_user(user: User):
@@ -248,7 +250,6 @@ will be used for API validation:
        username: str
        email: str
 
-
    @app.post("/create_user/", response_model=UserResponse)
    async def create_user(user: User):
        pass
@@ -265,15 +266,3 @@ API by ensuring that incoming data adheres to the expected structure and
 constraints. This not only helps catch potential errors early in the process but
 also provides automatic documentation to facilitate communication between
 researchers and contributors using the API.
-
-## Action Plan
-
-1. Create Pydantic models
-   1. Common
-   2. Simulator
-   3. Simulator input
-   4. MultiLens
-2. Create validations
-3. Create functions
-4. Create tests
-5. Create documentation
