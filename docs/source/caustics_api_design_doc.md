@@ -56,12 +56,12 @@ beyond. The caustics API plays a pivotal role within this project, serving as
 the gateway for users to harness the power of the underlying simulation engine.
 By encapsulating the intricacies of the simulation process, the API provides
 users with a streamlined and user-friendly interface. Its three main
-functions-validating parameter inputs, creating a simulator, and running 
-the forward function routine—facilitate a seamless and customizable experience, empowering
-users to effortlessly conduct caustics simulations tailored to their specific
-needs. Through the Caustics API, the project endeavors to democratize access to
-advanced lensing simulations, making it a valuable tool for researchers,
-developers, and enthusiasts alike.
+functions-validating parameter inputs, creating a simulator, and running the
+forward function routine—facilitate a seamless and customizable experience,
+empowering users to effortlessly conduct caustics simulations tailored to their
+specific needs. Through the Caustics API, the project endeavors to democratize
+access to advanced lensing simulations, making it a valuable tool for
+researchers, developers, and enthusiasts alike.
 
 ## Functionality/Usage Examples
 
@@ -110,21 +110,24 @@ simulator:
 
         # We return the sampled brightness at each pixel location
         return avg_pool2d(mu_fine.squeeze()[None, None], upsample_factor)[0, 0]
-        
+
 ```
 
 ### Create Pydantic Models
 
-Define Pydantic models to validate the input YAML structure. We need models for the overall simulator, lens, source, and cosmology. Here's a simplified example:
+Define Pydantic models to validate the input YAML structure. We need models for
+the overall simulator, lens, source, and cosmology. Here's a simplified example:
 
 ```python
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
+
 class Cosmology(BaseModel):
     name: str
     kind: str
     params: dict
+
 
 class Lens(BaseModel):
     name: str
@@ -132,10 +135,12 @@ class Lens(BaseModel):
     params: dict
     cosmology: Optional[Cosmology]
 
+
 class Source(BaseModel):
     name: str
     kind: str
     params: dict
+
 
 class SimulatorInput(BaseModel):
     name: str
@@ -149,12 +154,14 @@ class SimulatorInput(BaseModel):
 
 #### Create a Registry
 
-Maintain a registry of simulator classes, lenses, and sources. We will use a dictionary for this purpose.
+Maintain a registry of simulator classes, lenses, and sources. We will use a
+dictionary for this purpose.
 
 ### Build Simulators Dynamically
 
-Create a function to build simulators dynamically based on the validated input YAML. We will use Python's `type` function to dynamically create classes. Here's a simplified example:
-
+Create a function to build simulators dynamically based on the validated input
+YAML. We will use Python's `type` function to dynamically create classes. Here's
+a simplified example:
 
 #### Part 1: Build Simulator Class
 
@@ -167,29 +174,34 @@ Simplified simulator class example
 ```python
 from typing import Type, Dict
 
+
 def build_simulator(input_yaml: dict) -> Type:
-    class_params = input_yaml['simulator']['params']
-    class_name = input_yaml['simulator']['name']
-    
+    class_params = input_yaml["simulator"]["params"]
+    class_name = input_yaml["simulator"]["name"]
+
     class CustomSimulator(BaseModel):
         class Config:
             allow_mutation = False
+
         ...
-        lens: Lens = Lens(**input_yaml['lens'])
-        src: Source = Source(**input_yaml['src'])
-        forward: str = input_yaml['simulator']['forward']
+        lens: Lens = Lens(**input_yaml["lens"])
+        src: Source = Source(**input_yaml["src"])
+        forward: str = input_yaml["simulator"]["forward"]
 
     return CustomSimulator
 ```
 
 ### Part 2: Hook Forward Implementation
 
-Since the forward can contain custom functions and combination of functions, the forward will be directly accepted as Python code (except for "Lens_Source" because it contains a pre-defined forward).
-The forward will use the `@hookimp` for allowing abstraction and real-time implementation.
+Since the forward can contain custom functions and combination of functions, the
+forward will be directly accepted as Python code (except for "Lens_Source"
+because it contains a pre-defined forward). The forward will use the `@hookimp`
+for allowing abstraction and real-time implementation.
 
 ### Part 3: Output Input Signature
 
-Outputs necessary instructions about required variables along with order and other relevant information for input into the simulator for completing the task.
+Outputs necessary instructions about required variables along with order and
+other relevant information for input into the simulator for completing the task.
 
 ```python
 sim.input_signature()
@@ -211,7 +223,8 @@ will be used for API validation:
 
    ```python
    from pydantic import BaseModel
-   
+
+
    class User(BaseModel):
        username: str
        email: str
@@ -231,6 +244,7 @@ will be used for API validation:
 
    app = FastAPI()
 
+
    @app.post("/create_user/")
    async def create_user(user: User):
        # If the request data doesn't match the User model, FastAPI will automatically
@@ -249,6 +263,7 @@ will be used for API validation:
    class UserResponse(BaseModel):
        username: str
        email: str
+
 
    @app.post("/create_user/", response_model=UserResponse)
    async def create_user(user: User):
