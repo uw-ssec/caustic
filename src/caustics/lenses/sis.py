@@ -26,11 +26,16 @@ class SIS(ThinLens):
         The lens redshift.
     x0: Optional[Union[Tensor, float]]
         The x-coordinate of the lens center.
+        *Unit: arcsec*
+
     y0: Optional[Union[Tensor, float]]
         The y-coordinate of the lens center.
+        *Unit: arcsec*
         th_ein (Optional[Union[Tensor, float]]): The Einstein radius of the lens.
+        *Unit: arcsec*
     s: float
         A smoothing factor, default is 0.0.
+        *Unit: radians*
     """
 
     _null_params = {

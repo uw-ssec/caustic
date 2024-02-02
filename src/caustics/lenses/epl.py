@@ -27,6 +27,7 @@ class EPL(ThinLens):
         Number of iterations for the iterative solver.
     s: float
         Softening length for the elliptical power-law profile.
+    *Unit: Meters*
 
     Parameters
     ----------
@@ -46,10 +47,12 @@ class EPL(ThinLens):
         This is the orientation of the lens on the sky,
         typically given as an angle measured counter-clockwise
         from some reference direction.
+    *Unit: radians*
     b: Optional[Union[Tensor, float]]
         This is the scale length of the lens,
         which sets the overall scale of the lensing effect.
         In some contexts, this is referred to as the Einstein radius.
+    *Unit: arcseconds*
     t: Optional[Union[Tensor, float]]
         This is the power-law slope parameter of the lens model.
         In the context of the EPL model,
@@ -106,14 +109,17 @@ class EPL(ThinLens):
         phi: Optional[Tensor]
             Position angle of the lens.
             If not provided, it is considered as a free parameter.
+        *Unit: radians*
         b: Optional[Tensor]
             Scale length of the lens.
             If not provided, it is considered as a free parameter.
+        *Unit: arcseconds*
         t: Optional[Tensor]
             Power law slope (`gamma-1`) of the lens.
             If not provided, it is considered as a free parameter.
         s: float
             Softening length for the elliptical power-law profile.
+        *Unit: meters*
         n_iter: int
             Number of iterations for the iterative solver.
         """
@@ -187,6 +193,7 @@ class EPL(ThinLens):
         ----------
         z: Tensor
             `R * e^(i * phi)`, position vector in the lens plane.
+        *Unit: meters*
         t: Tensor
             Power law slow (`gamma-1`).
         q: Tensor
@@ -196,6 +203,7 @@ class EPL(ThinLens):
         --------
         Tensor
             The value of `R * omega(phi)`.
+        *Unit: meters*
         """
         # constants
         f = (1.0 - q) / (1.0 + q)

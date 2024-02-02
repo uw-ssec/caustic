@@ -22,8 +22,10 @@ def get_pix_jacobian(
         A function that maps the lensing plane coordinates to the source plane coordinates.
     x: Tensor
         The x-coordinate on the lensing plane.
+        *Unit: arcsec*
     y: Tensor
         The y-coordinate on the lensing plane.
+        *Unit: arcsec*
     z_s: Tensor
         The redshift of the source.
 
@@ -49,8 +51,10 @@ def get_pix_magnification(raytrace, x, y, z_s) -> Tensor:
         A function that maps the lensing plane coordinates to the source plane coordinates.
     x: Tensor
         The x-coordinate on the lensing plane.
+        *Unit: arcsec*
     y: Tensor
         The y-coordinate on the lensing plane.
+        *Unit: arcsec*
     z_s: Tensor
         The redshift of the source.
 
@@ -75,8 +79,10 @@ def get_magnification(raytrace, x, y, z_s) -> Tensor:
         A function that maps the lensing plane coordinates to the source plane coordinates.
     x: Tensor
         The x-coordinates on the lensing plane.
+        *Unit: arcsec*
     y: Tensor
         The y-coordinates on the lensing plane.
+        *Unit: arcsec*
     z_s: Tensor
         The redshift of the source.
 

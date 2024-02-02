@@ -53,6 +53,7 @@ class PixelatedConvergence(ThinLens):
             The name of the PixelatedConvergence object.
         fov: float
             The field of view in arcseconds.
+        *Unit: arcseconds*
         n_pix: int
             The number of pixels on each side of the grid.
         cosmology: Cosmology

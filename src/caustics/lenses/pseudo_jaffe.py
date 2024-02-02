@@ -30,14 +30,19 @@ class PseudoJaffe(ThinLens):
         Redshift of the lens.
     x0: Optional[Union[Tensor, float]]
         x-coordinate of the center of the lens (arcsec).
+        *Unit: arcsec*
     y0: Optional[Union[Tensor, float]]
         y-coordinate of the center of the lens (arcsec).
+        *Unit: arcsec*
     mass: Optional[Union[Tensor, float]]
         Total mass of the lens (Msol).
+        *Unit: Msol*
     core_radius: Optional[Union[Tensor, float]]
         Core radius of the lens (arcsec).
+        *Unit: arcsec*
     scale_radius: Optional[Union[Tensor, float]]
         Scaling radius of the lens (arcsec).
+        *Unit: arcsec*
     s: float
         Softening parameter to prevent numerical instabilities.
     """
@@ -75,14 +80,19 @@ class PseudoJaffe(ThinLens):
             Redshift of the lens.
         x0: Optional[Tensor]
             x-coordinate of the center of the lens.
+            *Unit: arcsec*
         y0: Optional[Tensor]
             y-coordinate of the center of the lens.
+            *Unit: arcsec*
         mass: Optional[Tensor]
             Total mass of the lens (Msol).
+            *Unit: Msol*
         core_radius: Optional[Tensor]
             Core radius of the lens.
+            *Unit: arcsec*
         scale_radius: Optional[Tensor]
             Scaling radius of the lens.
+            *Unit: arcsec*
         s: float
             Softening parameter to prevent numerical instabilities.
         """
@@ -135,6 +145,8 @@ class PseudoJaffe(ThinLens):
         ----------
         theta: Tensor
             Radius at which to calculate enclosed mass (arcsec).
+            *Unit: arcsec*
+
         z_s: Tensor
             Source redshift.
         params: (Packed, optional)
@@ -144,6 +156,7 @@ class PseudoJaffe(ThinLens):
         -------
         Tensor
             The mass enclosed within the given radius.
+            *Unit: Msol*
         """
         # fmt: off
         theta = theta + self.s
@@ -177,10 +190,13 @@ class PseudoJaffe(ThinLens):
             Source redshift.
         rho_0: Tensor
             Central mass density.
+        *Unit: Msol/Mpc^3*
         core_radius: Tensor
             Core radius of the lens (must be in Mpc).
+        *Unit: Mpc*
         scale_radius: Tensor
             Scaling radius of the lens (must be in Mpc).
+        *Unit: Mpc*
         cosmology: Cosmology
             The cosmology used for calculations.
 
@@ -213,8 +229,10 @@ class PseudoJaffe(ThinLens):
         ----------
         x: Tensor
             x-coordinate of the lens.
+            *Unit: arcsec*
         y: Tensor
             y-coordinate of the lens.
+            *Unit: arcsec*
         z_s: Tensor
             Source redshift.
         params: (Packed, optional)
@@ -224,6 +242,7 @@ class PseudoJaffe(ThinLens):
         --------
         Tuple[Tensor, Tensor]
             The deflection angle in the x and y directions.
+            *Unit: radians*
         """
         x, y = translate_rotate(x, y, x0, y0)
         R = (x**2 + y**2).sqrt() + self.s
@@ -256,8 +275,10 @@ class PseudoJaffe(ThinLens):
         --------
         x: Tensor
             x-coordinate of the lens.
+            *Unit: arcsec*
         y: Tensor
             y-coordinate of the lens.
+            *Unit: arcsec*
         z_s: Tensor
             Source redshift.
         params: (Packed, optional)
@@ -267,6 +288,7 @@ class PseudoJaffe(ThinLens):
         --------
         Tensor
             The lensing potential (arcsec^2).
+            *Unit: arcsec^2*
         """
 
         # fmt: off
@@ -313,8 +335,10 @@ class PseudoJaffe(ThinLens):
         -----------
         x: Tensor
             x-coordinate of the lens.
+            *Unit: arcsec*
         y: Tensor
             y-coordinate of the lens.
+            *Unit: arcsec*
         z_s: Tensor
             Source redshift.
         params: (Packed, optional)
@@ -324,6 +348,7 @@ class PseudoJaffe(ThinLens):
         -------
         Tensor
             The projected mass density.
+            *Unit: Msol/Mpc^2*
         """
         x, y = translate_rotate(x, y, x0, y0)
         R_squared = x**2 + y**2 + self.s

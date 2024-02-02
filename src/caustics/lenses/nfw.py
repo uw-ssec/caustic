@@ -32,6 +32,7 @@ class NFW(ThinLens):
         y-coordinate of the lens center in the lens plane. Default is None.
     m: Optional[Tensor]
         Mass of the lens. Default is None.
+    *Unit: SolMass*
     c: Optional[Tensor]
         Concentration parameter of the lens. Default is None.
     s: float
@@ -45,12 +46,15 @@ class NFW(ThinLens):
     -------
     get_scale_radius
         Returns the scale radius of the lens.
+        *Unit: meters*
     get_scale_density
         Returns the scale density of the lens.
+
     get_convergence_s
         Returns the dimensionless surface mass density of the lens.
     _f
         Helper method for computing deflection angles.
+        *Unit: radians*
     _g
         Helper method for computing lensing potential.
     _h
@@ -104,6 +108,7 @@ class NFW(ThinLens):
                 Default is None.
         m: Optional[Union[Tensor, float]]
             Mass of the lens. Default is None.
+        *Unit: SolMass*
         c: Optional[Union[Tensor, float]]
             Concentration parameter of the lens. Default is None.
         s: float
@@ -149,6 +154,7 @@ class NFW(ThinLens):
             Redshift of the lens.
         m: Tensor
             Mass of the lens.
+        *Unit: SolMass*
         c: Tensor
             Concentration parameter of the lens.
         x: dict
@@ -191,6 +197,7 @@ class NFW(ThinLens):
         -------
         Tensor
             The scale density of the lens in solar masses per Mpc cubed.
+            *Unit: solMass/Mpc^3*
         """
         sigma_crit = self.cosmology.critical_density(z_l, params)
         return DELTA / 3 * sigma_crit * c**3 / ((1 + c).log() - c / (1 + c))  # fmt: skip
@@ -219,6 +226,7 @@ class NFW(ThinLens):
             Redshift of the source.
         m: Tensor
             Mass of the lens.
+        *Unit: Solar mass*
         c: Tensor
             Concentration parameter of the lens.
         params: (Packed, optional)
@@ -248,6 +256,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the deflection angle computation.
+        *Unit: radians*
         """
         # TODO: generalize beyond torch, or patch Tensor
         f = torch.zeros_like(x)
@@ -269,6 +278,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the deflection angle computation.
+        *Unit: radians*
         """
         # TODO: generalize beyond torch, or patch Tensor
         # fmt: off
@@ -298,6 +308,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the lensing potential computation.
+        *Unit: units of energy per unit mass*
         """
         # TODO: generalize beyond torch, or patch Tensor
         term_1 = (x / 2).log() ** 2

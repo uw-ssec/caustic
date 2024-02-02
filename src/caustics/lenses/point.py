@@ -30,8 +30,10 @@ class Point(ThinLens):
         y-coordinate of the center of the lens.
     th_ein: Optional[Union[Tensor, float]]
         Einstein radius of the lens.
+    *Unit: arcseconds*
     s: float
         Softening parameter to prevent numerical instabilities.
+    *Unit: meters*
     """
 
     _null_params = {
@@ -67,8 +69,10 @@ class Point(ThinLens):
             y-coordinate of the center of the lens.
         th_ein: Optional[Tensor]
             Einstein radius of the lens.
+        *Unit: arcseconds*
         s: float
             Softening parameter to prevent numerical instabilities.
+        *Unit: meters*
         """
         super().__init__(cosmology, z_l, name=name)
 

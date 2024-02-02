@@ -129,12 +129,17 @@ class Lens(Parametrized):
             Tensor of source redshifts.
         params: (Packed, optional)
             Dynamic parameter container for the lens model. Defaults to None.
+
         epsilon: Tensor
             maximum distance between two images (arcsec) before they are considered the same image.
+        *Unit: arcsec*
+
         n_init: int
             number of random initialization points used to try and find image plane points.
         fov: float
             the field of view in which the initial random samples are taken.
+
+        *Unit: radians* 
 
         Returns
         -------
@@ -787,6 +792,7 @@ class ThinLens(Lens):
         -------
         Tensor
             Surface mass density at the given coordinates in solar masses per Mpc^2.
+        *Unit: solar masses per Mpc^2*
         """
         critical_surface_density = self.cosmology.critical_surface_density(
             z_l, z_s, params
@@ -884,6 +890,7 @@ class ThinLens(Lens):
         -------
         Tensor
             Time delay at the given coordinates.
+        *Units: seconds/milli-seconds*
 
         References
         ----------

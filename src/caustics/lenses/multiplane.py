@@ -177,8 +177,10 @@ class Multiplane(ThickLens):
         ----------
         x: Tensor
             angular x-coordinates in the image plane.
+        *Unit: radians*
         y: Tensor
             angular y-coordinates in the image plane.
+        *Unit: radians*
         z_s: Tensor
             Redshifts of the sources.
         params: (Packed, optional)
@@ -188,6 +190,7 @@ class Multiplane(ThickLens):
         -------
         (Tensor, Tensor)
             The reduced deflection angle.
+        *Unit: radians*
 
         References
         ----------
@@ -246,7 +249,7 @@ class Multiplane(ThickLens):
         -------
         Tensor
             Projected mass density [solMass / Mpc^2].
-
+        *Unit: solMass/Mpc^2* 
         Raises
         -------
         NotImplementedError
@@ -304,6 +307,7 @@ class Multiplane(ThickLens):
         -------
         Tensor
             Time delay caused by the lensing.
+        *Unit: seconds*
 
         References
         ----------
