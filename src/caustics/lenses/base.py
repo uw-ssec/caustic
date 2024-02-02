@@ -139,7 +139,7 @@ class Lens(Parametrized):
         fov: float
             the field of view in which the initial random samples are taken.
 
-        *Unit: radians* 
+        *Unit: radians*
 
         Returns
         -------

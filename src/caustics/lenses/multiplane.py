@@ -249,7 +249,7 @@ class Multiplane(ThickLens):
         -------
         Tensor
             Projected mass density [solMass / Mpc^2].
-        *Unit: solMass/Mpc^2* 
+        *Unit: solMass/Mpc^2*
         Raises
         -------
         NotImplementedError
