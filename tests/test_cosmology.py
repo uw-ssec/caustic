@@ -7,7 +7,7 @@ from astropy.cosmology import FlatLambdaCDM as AstropyFlatLambdaCDM
 
 from caustics.cosmology import Cosmology
 from caustics.cosmology import FlatLambdaCDM as CausticFlatLambdaCDM
-from caustics.cosmology import Om0_default, h0_default
+from caustics.cosmology.FlatLambdaCDM import Om0_default, h0_default
 
 
 def get_cosmologies() -> List[Tuple[Cosmology, Cosmology_AP]]:
@@ -37,13 +37,11 @@ def test_comoving_dist():
 
 def test_to_method_flatlambdacdm():
     cosmo = CausticFlatLambdaCDM()
-    # Make sure private tensors are created on float32 by default
-    assert cosmo._comoving_distance_helper_x_grid.dtype == torch.float32
-    assert cosmo._comoving_distance_helper_y_grid.dtype == torch.float32
+    assert cosmo.h0.dtype == torch.float32
+    assert cosmo.Om0.dtype == torch.float32
     cosmo.to(dtype=torch.float64)
-    # Make sure distance helper get sent to proper dtype and device
-    assert cosmo._comoving_distance_helper_x_grid.dtype == torch.float64
-    assert cosmo._comoving_distance_helper_y_grid.dtype == torch.float64
+    assert cosmo.h0.dtype == torch.float64
+    assert cosmo.Om0.dtype == torch.float64
 
 
 if __name__ == "__main__":
