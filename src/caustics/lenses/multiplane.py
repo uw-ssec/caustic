@@ -238,10 +238,10 @@ class Multiplane(ThickLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
-            *Unit: arcsec*            
+            *Unit: arcsec*
         y: Tensor
             y-coordinates in the lens plane.
-            *Unit: arcsec*            
+            *Unit: arcsec*
         z_s: Tensor
             Redshifts of the sources.
         params: (Packed, optional)
@@ -251,7 +251,7 @@ class Multiplane(ThickLens):
         -------
         Tensor
             Projected mass density [Solar Mass / Mpc^2].
-            *Unit: solMass / megaparsec^2* 
+            *Unit: solMass / megaparsec^2*
         Raises
         -------
         NotImplementedError

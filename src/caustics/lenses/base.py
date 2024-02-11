@@ -140,7 +140,7 @@ class Lens(Parametrized):
             number of random initialization points used to try and find image plane points.
         fov: float
             the field of view in which the initial random samples are taken.
-            *Unit: arcsec* 
+            *Unit: arcsec*
 
         Returns
         -------

@@ -78,7 +78,7 @@ class MassSheet(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
-            *Unit: arcsec*            
+            *Unit: arcsec*
         y: Tensor
             y-coordinates in the lens plane.
             *Unit: arcsec*
