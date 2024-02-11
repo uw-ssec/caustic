@@ -110,7 +110,7 @@ class SinglePlane(ThinLens):
         -------
         Tensor
             The total projected mass density.
-            *Unit: Msol/Mpc^2*
+            *Unit: solMass/megaparsec^2*
         """
         convergence = torch.zeros_like(x)
         for lens in self.lenses:

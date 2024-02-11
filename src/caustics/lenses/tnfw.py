@@ -53,15 +53,12 @@ class TNFW(ThinLens):
     x0: Optional[Tensor]
         Center of lens position on x-axis (arcsec).
         *Unit: arcsec*
-
     y0: Optional[Tensor]
         Center of lens position on y-axis (arcsec).
         *Unit: arcsec*
-
     mass: Optional[Tensor]
-        Mass of the lens (Msol).
-        *Unit: Msol*
-
+        Mass of the lens.
+        *Unit: solMass*
     scale_radius: Optional[Tensor]
         Scale radius of the TNFW lens (arcsec).
         *Unit: arcsec*
@@ -180,8 +177,8 @@ class TNFW(ThinLens):
             Center of lens position on y-axis (arcsec).
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
-            *Unit: Msol*
+            Mass of the lens (solMass).
+            *Unit: solMass*
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
             *Unit: arcsec*
@@ -228,8 +225,8 @@ class TNFW(ThinLens):
             Center of lens position on y-axis (arcsec).
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
-            *Unit: Msol*
+            Mass of the lens.
+            *Unit: solMass*
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
             *Unit: arcsec*
@@ -275,8 +272,8 @@ class TNFW(ThinLens):
             Center of lens position on y-axis (arcsec).
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
-            *Unit: Msol*
+            Mass of the lens.
+            *Unit: solMass*
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
             *Unit: arcsec*
@@ -288,8 +285,8 @@ class TNFW(ThinLens):
         Returns
         -------
         Tensor
-            The reference mass of the lens in Msol.
-            *Unit: Msol*
+            The reference mass of the lens in solMass.
+            *Unit: solMass*
         """
         if self.interpret_m_total_mass:
             return mass * (tau**2 + 1) ** 2 / (tau**2 * ((tau**2 - 1) * tau.log() + torch.pi * tau - (tau**2 + 1)))  # fmt: skip
@@ -324,8 +321,8 @@ class TNFW(ThinLens):
             Center of lens position on y-axis (arcsec).
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
-            *Unit: Msol*
+            Mass of the lens.
+            *Unit: solMass*
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
             *Unit: arcsec*
@@ -338,7 +335,7 @@ class TNFW(ThinLens):
         --------
         Tensor
             The scale density of the lens in solar masses per Mpc cubed.
-            *Unit: SolMass/Mpc^3*
+            *Unit: solMass/Mpc^3*
         """
         c = self.get_concentration(params)
         return DELTA / 3 * self.cosmology.critical_density(z_l, params) * c**3 / ((1 + c).log() - c / (1 + c))  # fmt: skip
@@ -374,8 +371,8 @@ class TNFW(ThinLens):
             Center of lens position on y-axis (arcsec).
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
-            *Unit: Msol*
+            Mass of the lens.
+            *Unit: solMass*
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
             *Unit: arcsec*
@@ -424,7 +421,7 @@ class TNFW(ThinLens):
         **kwargs,
     ) -> Tensor:
         """
-        Total projected mass (Msol) within a radius r (arcsec).
+        Total projected mass (solMass) within a radius r (arcsec).
 
         Parameters
         -----------
@@ -437,8 +434,8 @@ class TNFW(ThinLens):
             Center of lens position on y-axis (arcsec).
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
-            *Unit: Msol*
+            Mass of the lens.
+            *Unit: solMass*
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
             *Unit: arcsec*
@@ -494,7 +491,7 @@ class TNFW(ThinLens):
         y0: Tensor
             Center of lens position on y-axis (arcsec).
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
+            Mass of the lens (solMass).
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
         tau: Optional[Tensor]
@@ -506,7 +503,7 @@ class TNFW(ThinLens):
         --------
         tuple[Tensor, Tensor]
             The physical deflection angles in the x and y directions (arcsec).
-
+            *Unit : (arcsec, arcsec)*
         """
         d_l = self.cosmology.angular_diameter_distance(z_l, params)
         x, y = translate_rotate(x, y, x0, y0)
@@ -554,8 +551,8 @@ class TNFW(ThinLens):
             Center of lens position on y-axis (arcsec).
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Mass of the lens (Msol).
-            *Unit: Msol*
+            Mass of the lens (solMass).
+            *Unit: solMass*
         scale_radius: Optional[Tensor]
             Scale radius of the TNFW lens (arcsec).
             *Unit: arcsec*

@@ -35,8 +35,8 @@ class PseudoJaffe(ThinLens):
         y-coordinate of the center of the lens (arcsec).
         *Unit: arcsec*
     mass: Optional[Union[Tensor, float]]
-        Total mass of the lens (Msol).
-        *Unit: Msol*
+        Total mass of the lens (solMass).
+        *Unit: solMass*
     core_radius: Optional[Union[Tensor, float]]
         Core radius of the lens (arcsec).
         *Unit: arcsec*
@@ -85,8 +85,8 @@ class PseudoJaffe(ThinLens):
             y-coordinate of the center of the lens.
             *Unit: arcsec*
         mass: Optional[Tensor]
-            Total mass of the lens (Msol).
-            *Unit: Msol*
+            Total mass of the lens (solMass).
+            *Unit: solMass*
         core_radius: Optional[Tensor]
             Core radius of the lens.
             *Unit: arcsec*
@@ -156,7 +156,7 @@ class PseudoJaffe(ThinLens):
         -------
         Tensor
             The mass enclosed within the given radius.
-            *Unit: Msol*
+            *Unit: solMass*
         """
         # fmt: off
         theta = theta + self.s
@@ -190,7 +190,7 @@ class PseudoJaffe(ThinLens):
             Source redshift.
         rho_0: Tensor
             Central mass density.
-        *Unit: Msol/Mpc^3*
+        *Unit: solMass/megaparsec^3*
         core_radius: Tensor
             Core radius of the lens (must be in Mpc).
         *Unit: Mpc*
@@ -348,7 +348,7 @@ class PseudoJaffe(ThinLens):
         -------
         Tensor
             The projected mass density.
-            *Unit: Msol/Mpc^2*
+            *Unit: solMass/Mpc^2*
         """
         x, y = translate_rotate(x, y, x0, y0)
         R_squared = x**2 + y**2 + self.s

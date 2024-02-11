@@ -53,7 +53,7 @@ class PixelatedConvergence(ThinLens):
             The name of the PixelatedConvergence object.
         fov: float
             The field of view in arcseconds.
-        *Unit: arcseconds*
+            *Unit: arcsec*
         n_pix: int
             The number of pixels on each side of the grid.
         cosmology: Cosmology
@@ -62,8 +62,10 @@ class PixelatedConvergence(ThinLens):
             The redshift of the lens.
         x0: Optional[Tensor]
             The x-coordinate of the center of the grid.
+            *Unit: arcsec*
         y0: Optional[Tensor]
             The y-coordinate of the center of the grid.
+            *Unit: arcsec*
         convergence_map: Optional[Tensor]
             A 2D tensor representing the convergence map.
         shape: Optional[tuple[int, ...]]
@@ -274,8 +276,10 @@ class PixelatedConvergence(ThinLens):
         ----------
         x: Tensor
             The x-coordinates of the positions to compute the deflection angles for.
+            *Unit: arcsec*
         y: Tensor
             The y-coordinates of the positions to compute the deflection angles for.
+            *Unit: arcsec*
         z_s: Tensor
             The source redshift.
         params: (Packed, optional)
@@ -381,8 +385,10 @@ class PixelatedConvergence(ThinLens):
         ----------
         x: Tensor
             The x-coordinates of the positions to compute the lensing potential for.
+            *Unit: arcsec*
         y: Tensor
             The y-coordinates of the positions to compute the lensing potential for.
+            *Unit: arcsec*
         z_s: Tensor
             The source redshift.
         params: (Packed, optional)
@@ -392,6 +398,7 @@ class PixelatedConvergence(ThinLens):
         -------
         Tensor
             The lensing potential at the specified positions.
+            *Unit: arcsec^2*
         """
         if self.convolution_mode == "fft":
             potential_map = self._potential_fft(convergence_map)
@@ -417,6 +424,7 @@ class PixelatedConvergence(ThinLens):
         -------
         Tensor
             The lensing potential.
+            *Unit: arcsec^2*
         """
         convergence_tilde = self._fft2_padded(convergence_map)
         potential = torch.fft.irfft2(
@@ -437,6 +445,7 @@ class PixelatedConvergence(ThinLens):
         -------
         Tensor
             The lensing potential.
+            *Unit: arcsec^2*
         """
         # Use convergence_map as kernel since the kernel is twice as large. Flip since
         # we actually want the cross-correlation.
@@ -467,8 +476,10 @@ class PixelatedConvergence(ThinLens):
         ----------
         x: Tensor
             The x-coordinates of the positions to compute the convergence for.
+            *Unit: arcsec*
         y: Tensor
             The y-coordinates of the positions to compute the convergence for.
+            *Unit: arcsec*
         z_s: Tensor
             The source redshift.
         params: (Packed, optional)

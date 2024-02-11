@@ -24,16 +24,20 @@ class Sersic(Source):
     -----------
     x0: Optional[Tensor]
         The x-coordinate of the Sersic source's center.
+        *Unit: arcsec*
     y0: Optional[Tensor]
         The y-coordinate of the Sersic source's center.
+        *Unit: arcsec*
     q: Optional[Tensor]
         The axis ratio of the Sersic source.
     phi: Optional[Tensor]
         The orientation of the Sersic source (position angle).
+        *Unit: radians*
     n: Optional[Tensor]
         The Sersic index, which describes the degree of concentration of the source.
     Re: Optional[Tensor]
         The scale length of the Sersic source.
+        *Unit: arcsec*
     Ie: Optional[Tensor]
         The intensity at the effective radius.
     s: float
@@ -64,16 +68,20 @@ class Sersic(Source):
             The name of the source.
         x0: Optional[Tensor]
             The x-coordinate of the Sersic source's center.
+            *Unit: arcsec*
         y0: Optional[Tensor]
             The y-coordinate of the Sersic source's center.
+            *Unit: arcsec*
         q: Optional[Tensor])
             The axis ratio of the Sersic source.
         phi: Optional[Tensor]
             The orientation of the Sersic source.
+            *Unit: radians*
         n: Optional[Tensor]
             The Sersic index, which describes the degree of concentration of the source.
         Re: Optional[Tensor]
             The scale length of the Sersic source.
+            *Unit: arcsec*
         Ie: Optional[Tensor]
             The intensity at the effective radius.
         s: float
@@ -118,9 +126,11 @@ class Sersic(Source):
         x: Tensor
             The x-coordinate(s) at which to calculate the source brightness.
             This could be a single value or a tensor of values.
+            *Unit: arcsec*
         y: Tensor
             The y-coordinate(s) at which to calculate the source brightness.
             This could be a single value or a tensor of values.
+            *Unit: arcsec*
         params: Packed, optional
             Dynamic parameter container.
 

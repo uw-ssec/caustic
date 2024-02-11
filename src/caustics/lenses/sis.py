@@ -124,8 +124,10 @@ class SIS(ThinLens):
         ----------
         x: Tensor
             The x-coordinate of the lens.
+            *Unit: arcsec*
         y: Tensor
             The y-coordinate of the lens.
+            *Unit: arcsec*
         z_s: Tensor
             The source redshift.
         params: (Packed, optional)
@@ -135,6 +137,7 @@ class SIS(ThinLens):
         -------
         Tensor
             The lensing potential.
+            *Unit: arcsec^2*
         """
         x, y = translate_rotate(x, y, x0, y0)
         th = (x**2 + y**2).sqrt() + self.s
@@ -161,8 +164,10 @@ class SIS(ThinLens):
         ----------
         x: Tensor
             The x-coordinate of the lens.
+            *Unit: arcsec*
         y: Tensor
             The y-coordinate of the lens.
+            *Unit: arcsec*
         z_s: Tensor
             The source redshift.
         params: (Packed, optional)

@@ -28,11 +28,13 @@ class NFW(ThinLens):
         Redshift of the lens. Default is None.
     x0: Optional[Tensor]
         x-coordinate of the lens center in the lens plane. Default is None.
+        *Unit: arcsec*
     y0: Optional[Tensor]
         y-coordinate of the lens center in the lens plane. Default is None.
+        *Unit: arcsec*
     m: Optional[Tensor]
         Mass of the lens. Default is None.
-    *Unit: SolMass*
+        *Unit: solMass*
     c: Optional[Tensor]
         Concentration parameter of the lens. Default is None.
     s: float
@@ -46,15 +48,13 @@ class NFW(ThinLens):
     -------
     get_scale_radius
         Returns the scale radius of the lens.
-        *Unit: meters*
     get_scale_density
-        Returns the scale density of the lens.
+        Returns the scale density of1` the lens.
 
     get_convergence_s
         Returns the dimensionless surface mass density of the lens.
     _f
         Helper method for computing deflection angles.
-        *Unit: radians*
     _g
         Helper method for computing lensing potential.
     _h
@@ -103,12 +103,14 @@ class NFW(ThinLens):
         x0: Optional[Union[Tensor, float]]
             x-coordinate of the lens center in the lens plane.
                 Default is None.
+            *Unit: arcsec*
         y0: Optional[Union[Tensor, float]]
             y-coordinate of the lens center in the lens plane.
                 Default is None.
+            *Unit: arcsec*
         m: Optional[Union[Tensor, float]]
             Mass of the lens. Default is None.
-        *Unit: SolMass*
+            *Unit: solMass*
         c: Optional[Union[Tensor, float]]
             Concentration parameter of the lens. Default is None.
         s: float
@@ -154,7 +156,7 @@ class NFW(ThinLens):
             Redshift of the lens.
         m: Tensor
             Mass of the lens.
-        *Unit: SolMass*
+            *Unit: solMass*
         c: Tensor
             Concentration parameter of the lens.
         x: dict
@@ -164,6 +166,7 @@ class NFW(ThinLens):
         -------
         Tensor
             The scale radius of the lens in Mpc.
+            *Unit: megaparsec*
         """
         critical_density = self.cosmology.critical_density(z_l, params)
         r_delta = (3 * m / (4 * pi * DELTA * critical_density)) ** (1 / 3)  # fmt: skip
@@ -197,7 +200,7 @@ class NFW(ThinLens):
         -------
         Tensor
             The scale density of the lens in solar masses per Mpc cubed.
-            *Unit: solMass/Mpc^3*
+            *Unit: solMass/megaparsec^3*
         """
         sigma_crit = self.cosmology.critical_density(z_l, params)
         return DELTA / 3 * sigma_crit * c**3 / ((1 + c).log() - c / (1 + c))  # fmt: skip
@@ -226,7 +229,7 @@ class NFW(ThinLens):
             Redshift of the source.
         m: Tensor
             Mass of the lens.
-        *Unit: Solar mass*
+            *Unit: solMass*
         c: Tensor
             Concentration parameter of the lens.
         params: (Packed, optional)
@@ -256,7 +259,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the deflection angle computation.
-        *Unit: radians*
+            *Unit: radians*
         """
         # TODO: generalize beyond torch, or patch Tensor
         f = torch.zeros_like(x)
@@ -278,7 +281,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the deflection angle computation.
-        *Unit: radians*
+            *Unit: radians*
         """
         # TODO: generalize beyond torch, or patch Tensor
         # fmt: off
@@ -308,7 +311,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the lensing potential computation.
-        *Unit: units of energy per unit mass*
+            *Unit: arcsec^2*
         """
         # TODO: generalize beyond torch, or patch Tensor
         term_1 = (x / 2).log() ** 2
@@ -331,6 +334,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the lensing potential computation.
+            *Unit: arcsec^2*
         """
         # TODO: generalize beyond torch, or patch Tensor
         term_1 = (x / 2).log() ** 2
@@ -359,6 +363,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the reduced deflection angle computation.
+            *Unit: radians*
         """
         term_1 = (x / 2).log()
         term_2 = torch.ones_like(x)
@@ -380,6 +385,7 @@ class NFW(ThinLens):
         -------
         Tensor
             Result of the reduced deflection angle computation.
+            *Unit: radians*
         """
         term_1 = (x / 2).log()
         term_2 = torch.where(
@@ -413,8 +419,10 @@ class NFW(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             y-coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Redshifts of the sources.
         params: (Packed, optional)
@@ -424,6 +432,7 @@ class NFW(ThinLens):
         -------
         tuple[Tensor, Tensor]
             The reduced deflection angles in the x and y directions.
+            *Unit: radians*
         """
         x, y = translate_rotate(x, y, x0, y0)
         th = (x**2 + y**2).sqrt() + self.s
@@ -462,8 +471,10 @@ class NFW(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             y-coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Redshifts of the sources.
         params: (Packed, optional)
@@ -505,8 +516,10 @@ class NFW(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             y-coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Redshifts of the sources.
         params: (Packed, optional)
@@ -516,6 +529,7 @@ class NFW(ThinLens):
         -------
         Tensor
             The lensing potential.
+            *Unit: arcsec^2*
         """
         x, y = translate_rotate(x, y, x0, y0)
         th = (x**2 + y**2).sqrt() + self.s

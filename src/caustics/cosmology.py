@@ -44,9 +44,9 @@ class Cosmology(Parametrized):
     such as comoving distance and critical surface density.
 
     Distance
-        *Unit: Mpc*
+        *Unit: megaparsec*
     Mass
-        *Unit: SolMass*
+        *Unit: solMass*
 
     Attributes
     ----------
@@ -81,7 +81,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The critical density at each redshift.
-            *Unit: solMass/Mpc^3*
+            *Unit: solMass/megaparsec^3*
         """
         ...
 
@@ -104,7 +104,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The comoving distance to each redshift.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         ...
 
@@ -127,7 +127,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The transverse comoving distance to each redshift in Mpc.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         ...
 
@@ -151,7 +151,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The comoving distance between each pair of redshifts.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         return self.comoving_distance(z2, params) - self.comoving_distance(z1, params)
 
@@ -175,7 +175,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The transverse comoving distance between each pair of redshifts in Mpc.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         return self.transverse_comoving_distance(
             z2, params
@@ -199,7 +199,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The angular diameter distance to each redshift.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         return self.comoving_distance(z, params, **kwargs) / (1 + z)
 
@@ -223,7 +223,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The angular diameter distance between each pair of redshifts.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         return self.comoving_distance_z1z2(z1, z2, params, **kwargs) / (1 + z2)
 
@@ -252,7 +252,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The time delay distance for each pair of lens and source redshifts.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         d_l = self.angular_diameter_distance(z_l, params)
         d_s = self.angular_diameter_distance(z_s, params)
@@ -284,7 +284,7 @@ class Cosmology(Parametrized):
         -------
         Tensor
             The critical surface density for each pair of lens and source redshifts.
-            *Unit: SolMass/Mpc^2*
+            *Unit: solMass/megaparsec^2*
         """
         d_l = self.angular_diameter_distance(z_l, params)
         d_s = self.angular_diameter_distance(z_s, params)
@@ -316,7 +316,7 @@ class FlatLambdaCDM(Cosmology):
             Hubble constant over 100. Default is h0_default.
         critical_density_0: (Optional[Tensor])
             Critical density at z=0. Default is critical_density_0_default.
-            *Unit: Msol/Mpc^3*
+            *Unit: solMass/megaparsec^3*
         Om0: Optional[Tensor]
             Matter density parameter at z=0. Default is Om0_default.
         """
@@ -357,7 +357,7 @@ class FlatLambdaCDM(Cosmology):
         -------
         Tensor
             Hubble distance.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         return c_Mpc_s / (100 * km_to_Mpc) / h0
 
@@ -386,7 +386,7 @@ class FlatLambdaCDM(Cosmology):
         -------
         torch.Tensor
             Critical density at redshift z.
-            *Unit: Msol/Mpc^3*
+            *Unit: solMass/megaparsec^3*
 
         """
         Ode0 = 1 - Om0
@@ -408,7 +408,7 @@ class FlatLambdaCDM(Cosmology):
         -------
         Tensor
             Computed comoving distances.
-            *Unit: Mpc*
+            *Unit: megaparsec*
 
         """
         return interp1d(
@@ -442,7 +442,7 @@ class FlatLambdaCDM(Cosmology):
         -------
         Tensor
             Comoving distance to redshift z.
-            *Unit: Mpc*
+            *Unit: megaparsec*
         """
         Ode0 = 1 - Om0
         ratio = (Om0 / Ode0) ** (1 / 3)

@@ -87,8 +87,10 @@ class Lens(Parametrized):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -132,14 +134,13 @@ class Lens(Parametrized):
 
         epsilon: Tensor
             maximum distance between two images (arcsec) before they are considered the same image.
-        *Unit: arcsec*
+            *Unit: arcsec*
 
         n_init: int
             number of random initialization points used to try and find image plane points.
         fov: float
             the field of view in which the initial random samples are taken.
-
-        *Unit: radians* 
+            *Unit: arcsec* 
 
         Returns
         -------
@@ -214,8 +215,10 @@ class ThickLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: Packed, optional
@@ -258,8 +261,10 @@ class ThickLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -287,8 +292,10 @@ class ThickLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -299,7 +306,7 @@ class ThickLens(Lens):
         tuple[Tensor, Tensor]
             Tuple of Tensors representing the x and y components
             of the deflection angle, respectively.
-
+            *Unit: (arcsec, arcsec)*
         """
         raise NotImplementedError(
             "Physical deflection angles are computed with respect to a lensing plane. "
@@ -326,8 +333,10 @@ class ThickLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -361,8 +370,10 @@ class ThickLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -373,6 +384,7 @@ class ThickLens(Lens):
         Tensor
             The projected mass density at the given coordinates
             in units of solar masses per square Megaparsec.
+            *Unit: solMass/megaparsec^2*
         """
         ...
 
@@ -394,8 +406,10 @@ class ThickLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor ofsource redshifts.
         params: (Packed, optional)
@@ -405,6 +419,7 @@ class ThickLens(Lens):
         -------
         Tensor
             The gravitational time delay at the given coordinates.
+            *Unit: milliseconds*
         """
         ...
 
@@ -637,8 +652,10 @@ class ThinLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -648,6 +665,7 @@ class ThinLens(Lens):
         --------
         tuple[Tensor, Tensor]
             Reduced deflection angle in x and y directions.
+            *Unit: (arcsec, arcsec)*
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
         d_ls = self.cosmology.angular_diameter_distance_z1z2(z_l, z_s, params)
@@ -677,8 +695,10 @@ class ThinLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -688,6 +708,7 @@ class ThinLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Physical deflection angle in x and y directions in arcseconds.
+            *Unit: (arcsec, arcsec)*
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
         d_ls = self.cosmology.angular_diameter_distance_z1z2(z_l, z_s, params)
@@ -717,8 +738,10 @@ class ThinLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -749,8 +772,10 @@ class ThinLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -760,6 +785,7 @@ class ThinLens(Lens):
         -------
         Tensor
             Gravitational lensing potential at the given coordinates in arcsec^2.
+            *Unit: arsec^2*
         """
         ...
 
@@ -781,8 +807,10 @@ class ThinLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -792,7 +820,7 @@ class ThinLens(Lens):
         -------
         Tensor
             Surface mass density at the given coordinates in solar masses per Mpc^2.
-        *Unit: solar masses per Mpc^2*
+            *Unit: solMass/megaparsec^2*
         """
         critical_surface_density = self.cosmology.critical_surface_density(
             z_l, z_s, params
@@ -817,8 +845,10 @@ class ThinLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         params: (Packed, optional)
@@ -828,6 +858,8 @@ class ThinLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Ray-traced coordinates in the x and y directions.
+            *Unit: (arcsec, arcsec)*
+
         """
         ax, ay = self.reduced_deflection_angle(x, y, z_s, params, **kwargs)
         return x - ax, y - ay
@@ -873,8 +905,10 @@ class ThinLens(Lens):
         ----------
         x: Tensor
             Tensor of x coordinates in the lens plane.
+            *Unit: arcsec*
         y: Tensor
             Tensor of y coordinates in the lens plane.
+            *Unit: arcsec*
         z_s: Tensor
             Tensor of source redshifts.
         z_l: Tensor
@@ -890,7 +924,7 @@ class ThinLens(Lens):
         -------
         Tensor
             Time delay at the given coordinates.
-        *Units: seconds/milli-seconds*
+            *Units: milliseconds*
 
         References
         ----------
