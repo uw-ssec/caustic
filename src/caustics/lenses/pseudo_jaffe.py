@@ -190,13 +190,13 @@ class PseudoJaffe(ThinLens):
             Source redshift.
         rho_0: Tensor
             Central mass density.
-        *Unit: solMass/megaparsec^3*
+            *Unit: solMass/megaparsec^3*
         core_radius: Tensor
             Core radius of the lens (must be in Mpc).
-        *Unit: Mpc*
+            *Unit: megaparsec*
         scale_radius: Tensor
             Scaling radius of the lens (must be in Mpc).
-        *Unit: Mpc*
+            *Unit: megaparsec*
         cosmology: Cosmology
             The cosmology used for calculations.
 

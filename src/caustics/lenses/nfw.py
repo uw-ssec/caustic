@@ -49,7 +49,7 @@ class NFW(ThinLens):
     get_scale_radius
         Returns the scale radius of the lens.
     get_scale_density
-        Returns the scale density of1` the lens.
+        Returns the scale density of the lens.
 
     get_convergence_s
         Returns the dimensionless surface mass density of the lens.

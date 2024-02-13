@@ -306,7 +306,12 @@ class ThickLens(Lens):
         tuple[Tensor, Tensor]
             Tuple of Tensors representing the x and y components
             of the deflection angle, respectively.
-            *Unit: (arcsec, arcsec)*
+            x_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
+            y_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*                
         """
         raise NotImplementedError(
             "Physical deflection angles are computed with respect to a lensing plane. "
@@ -665,7 +670,12 @@ class ThinLens(Lens):
         --------
         tuple[Tensor, Tensor]
             Reduced deflection angle in x and y directions.
-            *Unit: (arcsec, arcsec)*
+            x_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
+            y_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*        
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
         d_ls = self.cosmology.angular_diameter_distance_z1z2(z_l, z_s, params)
@@ -708,7 +718,12 @@ class ThinLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Physical deflection angle in x and y directions in arcseconds.
-            *Unit: (arcsec, arcsec)*
+            x_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
+            y_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
         d_ls = self.cosmology.angular_diameter_distance_z1z2(z_l, z_s, params)
@@ -858,7 +873,12 @@ class ThinLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Ray-traced coordinates in the x and y directions.
-            *Unit: (arcsec, arcsec)*
+            x_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
+            y_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
 
         """
         ax, ay = self.reduced_deflection_angle(x, y, z_s, params, **kwargs)

@@ -96,7 +96,12 @@ class ExternalShear(ThinLens):
         -------
         tuple[Tensor, Tensor]
             The reduced deflection angles in the x and y directions.
-            *Unit: (arcsec, arcsec)*
+            x_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
+            y_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
         """
         x, y = translate_rotate(x, y, x0, y0)
         # Meneghetti eq 3.83

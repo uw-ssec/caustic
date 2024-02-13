@@ -250,7 +250,7 @@ class Multiplane(ThickLens):
         Returns
         -------
         Tensor
-            Projected mass density [Solar Mass / Mpc^2].
+            Projected mass density.
             *Unit: solMass / megaparsec^2*
         Raises
         -------

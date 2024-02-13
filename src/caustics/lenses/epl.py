@@ -27,7 +27,7 @@ class EPL(ThinLens):
         Number of iterations for the iterative solver.
     s: float
         Softening length for the elliptical power-law profile.
-        *Unit: Meters*
+        *Unit: meters*
 
     Parameters
     ----------
@@ -175,7 +175,12 @@ class EPL(ThinLens):
         --------
         tuple[Tensor, Tensor]
             Reduced deflection angles in the x and y directions.
-            *Unit: (arcsec, arcsec)*
+            x_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
+            y_component: Tensor
+                Deflection Angle
+                *Unit: arcsec*
         """
         x, y = translate_rotate(x, y, x0, y0, phi)
 

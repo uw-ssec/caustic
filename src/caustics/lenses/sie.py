@@ -228,7 +228,7 @@ class SIE(ThinLens):
         -------
         Tensor
             The projected mass density.
-            *Unit: solMass/Mpc^2*
+            *Unit: solMass/megaparsec^2*
         """
         x, y = translate_rotate(x, y, x0, y0, phi)
         psi = self._get_potential(x, y, q)
