@@ -311,7 +311,7 @@ class ThickLens(Lens):
                 *Unit: arcsec*
             y_component: Tensor
                 Deflection Angle
-                *Unit: arcsec*                
+                *Unit: arcsec*
         """
         raise NotImplementedError(
             "Physical deflection angles are computed with respect to a lensing plane. "
@@ -675,7 +675,7 @@ class ThinLens(Lens):
                 *Unit: arcsec*
             y_component: Tensor
                 Deflection Angle
-                *Unit: arcsec*        
+                *Unit: arcsec*
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
         d_ls = self.cosmology.angular_diameter_distance_z1z2(z_l, z_s, params)
