@@ -24,23 +24,39 @@ class SIE(ThinLens):
         An instance of the Cosmology class.
     z_l: Optional[Union[Tensor, float]]
         The redshift of the lens.
+
+        *Unit: unitless*
+
     x0: Optional[Union[Tensor, float]]
         The x-coordinate of the lens center.
+
         *Unit: arcsec*
+
     y0: Optional[Union[Tensor, float]]
         The y-coordinate of the lens center.
-        *Unit: arcsec*
+
+         *Unit: arcsec*
+
     q: Optional[Union[Tensor, float]]
         The axis ratio of the lens.
+
+        *Unit: unitless*
+
     phi: Optional[Union[Tensor, float]]
         The orientation angle of the lens (position angle).
+
         *Unit: radians*
+
     b: Optional[Union[Tensor, float]]
         The Einstein radius of the lens.
+
         *Unit: arcsec*
+
     s: float
         The core radius of the lens (defaults to 0.0).
-        *Unit: radians*
+
+        *Unit: meters*
+
     """
 
     _null_params = {
@@ -83,18 +99,26 @@ class SIE(ThinLens):
         ----------
         x: Tensor
             The x-coordinate in the lens plane.
+
             *Unit: arcsec*
+
         y: Tensor
             The y-coordinate in the lens plane.
+
             *Unit: arcsec*
+
         q: Tensor
             The axis ratio of the lens.
+
+            *Unit: unitless*
 
         Returns
         --------
         Tensor
             The radial coordinate in the lens plane.
+
             *Unit: arcsec*
+
         """
         return (q**2 * (x**2 + self.s**2) + y**2).sqrt()  # fmt: skip
 
@@ -121,10 +145,12 @@ class SIE(ThinLens):
         ----------
         x: Tensor
             The x-coordinate of the lens.
+
             *Unit: arcsec*
 
         y: Tensor
             The y-coordinate of the lens.
+
             *Unit: arcsec*
 
         z_s: Tensor
@@ -136,6 +162,7 @@ class SIE(ThinLens):
         --------
         Tuple[Tensor, Tensor]
             The deflection angle in the x and y directions.
+
             *Unit: radians*
 
         """
@@ -170,12 +197,19 @@ class SIE(ThinLens):
         ----------
         x: Tensor
             The x-coordinate of the lens.
+
             *Unit: arcsec*
+
         y: Tensor
             The y-coordinate of the lens.
+
             *Unit: arcsec*
+
         z_s: Tensor
             The source redshift.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -183,7 +217,9 @@ class SIE(ThinLens):
         -------
         Tensor
             The lensing potential.
+
             *Unit: arcsec^2*
+
         """
         ax, ay = self.reduced_deflection_angle(x, y, z_s, params)
         ax, ay = derotate(ax, ay, -phi)
@@ -213,14 +249,19 @@ class SIE(ThinLens):
         ----------
         x: Tensor
             The x-coordinate of the lens.
+
             *Unit: arcsec*
 
         y: Tensor
             The y-coordinate of the lens.
+
             *Unit: arcsec*
 
         z_s: Tensor
             The source redshift.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -228,7 +269,9 @@ class SIE(ThinLens):
         -------
         Tensor
             The projected mass density.
+
             *Unit: solMass/megaparsec^2*
+
         """
         x, y = translate_rotate(x, y, x0, y0, phi)
         psi = self._get_potential(x, y, q)

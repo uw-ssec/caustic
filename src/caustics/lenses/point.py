@@ -24,18 +24,29 @@ class Point(ThinLens):
         The cosmology used for calculations.
     z_l: Optional[Union[Tensor, float]]
         Redshift of the lens.
+
+        *Unit: unitless*
+
     x0: Optional[Union[Tensor, float]]
         x-coordinate of the center of the lens.
+
         *Unit: arcsec*
+
     y0: Optional[Union[Tensor, float]]
         y-coordinate of the center of the lens.
+
         *Unit: arcsec*
+
     th_ein: Optional[Union[Tensor, float]]
         Einstein radius of the lens.
+
         *Unit: arcsec*
+
     s: float
         Softening parameter to prevent numerical instabilities.
+
         *Unit: meters*
+
     """
 
     _null_params = {
@@ -65,18 +76,29 @@ class Point(ThinLens):
             The cosmology used for calculations.
         z_l: Optional[Tensor]
             Redshift of the lens.
+
+            *Unit: unitless*
+
         x0: Optional[Tensor]
             x-coordinate of the center of the lens.
+
             *Unit: arcsec*
+
         y0: Optional[Tensor]
             y-coordinate of the center of the lens.
+
             *Unit: arcsec*
+
         th_ein: Optional[Tensor]
             Einstein radius of the lens.
-        *Unit: arcsec*
+
+            *Unit: arcsec*
+
         s: float
             Softening parameter to prevent numerical instabilities.
+
             *Unit: meters*
+
         """
         super().__init__(cosmology, z_l, name=name)
 
@@ -106,12 +128,19 @@ class Point(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         y: Tensor
             y-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         z_s: Tensor
             Redshifts of the sources.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -121,10 +150,14 @@ class Point(ThinLens):
             The deflection angles in the x and y directions.
             x_component: Tensor
                 Deflection Angle
+
                 *Unit: arcsec*
+
             y_component: Tensor
                 Deflection Angle
+
                 *Unit: arcsec*
+
         """
         x, y = translate_rotate(x, y, x0, y0)
         th = (x**2 + y**2).sqrt() + self.s
@@ -153,12 +186,19 @@ class Point(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         y: Tensor
             y-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         z_s: Tensor
             Redshifts of the sources.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -166,7 +206,9 @@ class Point(ThinLens):
         -------
         Tensor
             The lensing potential.
+
             *Unit: arcsec^2*
+
         """
         x, y = translate_rotate(x, y, x0, y0)
         th = (x**2 + y**2).sqrt() + self.s
@@ -193,12 +235,19 @@ class Point(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         y: Tensor
             y-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         z_s: Tensor
             Redshifts of the sources.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -206,6 +255,9 @@ class Point(ThinLens):
         --------
         Tensor
             The convergence (dimensionless surface mass density).
+
+            *Unit: unitless*
+
         """
         x, y = translate_rotate(x, y, x0, y0)
         return torch.where((x == 0) & (y == 0), torch.inf, 0.0)

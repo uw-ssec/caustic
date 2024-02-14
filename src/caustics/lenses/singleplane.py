@@ -56,12 +56,19 @@ class SinglePlane(ThinLens):
         ----------
         x: Tensor
             The x-coordinate of the lens.
+
             *Unit: arcsec*
+
         y: Tensor
             The y-coordinate of the lens.
+
             *Unit: arcsec*
+
         z_s: Tensor
             The source redshift.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -69,7 +76,9 @@ class SinglePlane(ThinLens):
         -------
         Tuple[Tensor, Tensor]
             The total deflection angle in the x and y directions.
+
             *Unit: radians*
+
         """
         ax = torch.zeros_like(x)
         ay = torch.zeros_like(x)
@@ -97,12 +106,19 @@ class SinglePlane(ThinLens):
         ----------
         x: Tensor
             The x-coordinate of the lens.
+
             *Unit: arcsec*
+
         y: Tensor
             The y-coordinate of the lens.
+
             *Unit: arcsec*
+
         z_s: Tensor
             The source redshift.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -110,7 +126,9 @@ class SinglePlane(ThinLens):
         -------
         Tensor
             The total projected mass density.
+
             *Unit: solMass/megaparsec^2*
+
         """
         convergence = torch.zeros_like(x)
         for lens in self.lenses:
@@ -136,12 +154,19 @@ class SinglePlane(ThinLens):
         -----------
         x: Tensor
             The x-coordinate of the lens.
+
             *Unit: arcsec*
+
         y: Tensor
             The y-coordinate of the lens.
+
             *Unit: arcsec*
+
         z_s: Tensor
             The source redshift.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -149,6 +174,7 @@ class SinglePlane(ThinLens):
         -------
         Tensor
             The total lensing potential.
+
             *Unit: arcsec^2*
 
         """

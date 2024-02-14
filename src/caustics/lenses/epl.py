@@ -27,7 +27,9 @@ class EPL(ThinLens):
         Number of iterations for the iterative solver.
     s: float
         Softening length for the elliptical power-law profile.
+
         *Unit: meters*
+
 
     Parameters
     ----------
@@ -40,7 +42,9 @@ class EPL(ThinLens):
         These are the coordinates of the lens center in the lens plane.
         The lens plane is the plane perpendicular to the line of sight
         in which the deflection of light by the lens is considered.
+
         *Unit: arcsec*
+
     q: Optional[Union[Tensor, float]]
         This is the axis ratio of the lens, i.e., the ratio
         of the minor axis to the major axis of the elliptical lens.
@@ -98,31 +102,50 @@ class EPL(ThinLens):
         z_l: Optional[Tensor]
             Redshift of the lens.
             If not provided, it is considered as a free parameter.
+
+            *Unit: unitless*
+
         x0: Optional[Tensor]
             X coordinate of the lens center.
             If not provided, it is considered as a free parameter.
+
             *Unit: arcsec*
+
         y0: Optional[Tensor]
             Y coordinate of the lens center.
             If not provided, it is considered as a free parameter.
+
             *Unit: arcsec*
+
         q: Optional[Tensor]
             Axis ratio of the lens.
             If not provided, it is considered as a free parameter.
+
+            *Unit: unitless*
+
         phi: Optional[Tensor]
             Position angle of the lens.
             If not provided, it is considered as a free parameter.
+
             *Unit: radians*
+
         b: Optional[Tensor]
             Scale length of the lens.
             If not provided, it is considered as a free parameter.
+
             *Unit: arcsec*
+
         t: Optional[Tensor]
             Power law slope (`gamma-1`) of the lens.
             If not provided, it is considered as a free parameter.
+
+            *Unit: unitless*
+
         s: float
             Softening length for the elliptical power-law profile.
+
             *Unit: meters*
+
         n_iter: int
             Number of iterations for the iterative solver.
         """
@@ -162,12 +185,19 @@ class EPL(ThinLens):
         ----------
         x: Tensor
             X coordinates in the lens plane.
+
             *Unit: arcsec*
+
         y: Tensor
             Y coordinates in the lens plane.
+
             *Unit: arcsec*
+
         z_s: Tensor
             Source redshifts.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container for the lens model.
 
@@ -177,10 +207,14 @@ class EPL(ThinLens):
             Reduced deflection angles in the x and y directions.
             x_component: Tensor
                 Deflection Angle
+
                 *Unit: arcsec*
+
             y_component: Tensor
                 Deflection Angle
+
                 *Unit: arcsec*
+
         """
         x, y = translate_rotate(x, y, x0, y0, phi)
 
@@ -204,9 +238,14 @@ class EPL(ThinLens):
         ----------
         z: Tensor
             `R * e^(i * phi)`, position vector in the lens plane.
+
             *Unit: meters*
+
         t: Tensor
             Power law slow (`gamma-1`).
+
+            *Unit: unitless*
+
         q: Tensor
             Axis ratio.
 
@@ -214,7 +253,9 @@ class EPL(ThinLens):
         --------
         Tensor
             The value of `R * omega(phi)`.
+
             *Unit: meters*
+
         """
         # constants
         f = (1.0 - q) / (1.0 + q)
@@ -255,12 +296,19 @@ class EPL(ThinLens):
         ----------
         x: Tensor
             X coordinates in the lens plane.
+
             *Unit: arcsec*
+
         y: Tensor
             Y coordinates in the lens plane.
+
             *Unit: arcsec*
+
         z_s: Tensor
             Source redshifts.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container for the lens model.
 
@@ -268,7 +316,9 @@ class EPL(ThinLens):
         -------
         Tensor
             The lensing potential.
+
             *Unit: arcsec^2*
+
         """
         ax, ay = self.reduced_deflection_angle(x, y, z_s, params)
         ax, ay = derotate(ax, ay, -phi)
@@ -299,10 +349,19 @@ class EPL(ThinLens):
         ----------
         x: Tensor
             X coordinates in the lens plane.
+
+            *Unit: arcsec*
+
         y: Tensor
             Y coordinates in the lens plane.
+
+            *Unit: arcsec*
+
         z_s: Tensor
             Source redshifts.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container for the lens model.
 
@@ -310,6 +369,9 @@ class EPL(ThinLens):
         -------
         Tensor
             The convergence of the lens.
+
+            *Unit: unitless*
+
         """
         x, y = translate_rotate(x, y, x0, y0, phi)
         psi = (q**2 * (x**2 + self.s**2) + y**2).sqrt()  # fmt: skip

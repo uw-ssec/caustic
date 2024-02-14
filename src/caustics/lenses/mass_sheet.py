@@ -24,11 +24,18 @@ class MassSheet(ThinLens):
         The cosmological model used for lensing calculations.
     z_l: Optional[Union[Tensor, float]]
         The redshift of the lens.
+
+        *Unit: unitless*
+
     x0, y0: Optional[Union[Tensor, float]]
         Coordinates of the shear center in the lens plane.
+
         *Unit: arcsec*
+
     gamma_1, gamma_2: Optional[Union[Tensor, float]]
         Shear components.
+
+        *Unit: unitless*
 
     Notes
     ------
@@ -78,12 +85,19 @@ class MassSheet(ThinLens):
         ----------
         x: Tensor
             x-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         y: Tensor
             y-coordinates in the lens plane.
+
             *Unit: arcsec*
+
         z_s: Tensor
             Redshifts of the sources.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
@@ -93,10 +107,14 @@ class MassSheet(ThinLens):
             The reduced deflection angles in the x and y directions.
             x_component: Tensor
                 Deflection Angle
+
                 *Unit: arcsec*
+
             y_component: Tensor
                 Deflection Angle
+
                 *Unit: arcsec*
+
         """
         x, y = translate_rotate(x, y, x0, y0)
         # Meneghetti eq 3.84
