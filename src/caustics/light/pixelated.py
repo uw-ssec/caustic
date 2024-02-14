@@ -25,10 +25,14 @@ class Pixelated(Source):
     ----------
     x0 : Tensor, optional
         The x-coordinate of the source image's center.
-        *Unit: arcsec*
+       
+       *Unit: arcsec*
+       
     y0 : Tensor, optional
         The y-coordinate of the source image's center.
+        
         *Unit: arcsec*
+
     image : Tensor, optional
         The source image from which brightness values will be interpolated.
     pixelscale : Tensor, optional
@@ -55,10 +59,14 @@ class Pixelated(Source):
             The name of the source.
         x0 : Tensor, optional
             The x-coordinate of the source image's center.
+            
             *Unit: arcsec*
+
         y0 : Tensor, optional
             The y-coordinate of the source image's center.
+            
             *Unit: arcsec*
+
         image : Tensor, optional
             The source image from which brightness values will be interpolated.
         pixelscale : Tensor, optional
@@ -103,11 +111,15 @@ class Pixelated(Source):
         x : Tensor
             The x-coordinate(s) at which to calculate the source brightness.
             This could be a single value or a tensor of values.
+            
             *Unit: arcsec*
+
         y : Tensor
             The y-coordinate(s) at which to calculate the source brightness.
             This could be a single value or a tensor of values.
+            
             *Unit: arcsec*
+
         params : Packed, optional
             A dictionary containing additional parameters that might be required to
             calculate the brightness.

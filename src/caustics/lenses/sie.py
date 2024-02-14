@@ -35,7 +35,7 @@ class SIE(ThinLens):
     y0: Optional[Union[Tensor, float]]
         The y-coordinate of the lens center.
 
-         *Unit: arcsec*
+        *Unit: arcsec*
 
     q: Optional[Union[Tensor, float]]
         The axis ratio of the lens.
@@ -155,6 +155,9 @@ class SIE(ThinLens):
 
         z_s: Tensor
             The source redshift.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 

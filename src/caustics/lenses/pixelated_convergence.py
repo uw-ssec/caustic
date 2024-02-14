@@ -324,6 +324,17 @@ class PixelatedConvergence(ThinLens):
         -------
         tuple[Tensor, Tensor]
             The x and y components of the deflection angles at the specified positions.
+
+            x_component: Tensor
+                Deflection Angle
+
+                *Unit: arcsec*
+
+            y_component: Tensor
+                Deflection Angle
+
+                *Unit: arcsec*
+
         """
         if self.convolution_mode == "fft":
             deflection_angle_x_map, deflection_angle_y_map = self._deflection_angle_fft(

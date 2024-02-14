@@ -598,7 +598,7 @@ class TNFW(ThinLens):
         z_l: Tensor
             Redshift of the lens.
 
-
+            *Unit: unitless*
 
         x0: Tensor
             Center of lens position on x-axis (arcsec).
@@ -632,6 +632,7 @@ class TNFW(ThinLens):
         --------
         tuple[Tensor, Tensor]
             The physical deflection angles in the x and y directions (arcsec).
+            
             x_component: Tensor
                 Deflection Angle
 

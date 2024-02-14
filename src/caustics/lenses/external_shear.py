@@ -110,6 +110,7 @@ class ExternalShear(ThinLens):
         -------
         tuple[Tensor, Tensor]
             The reduced deflection angles in the x and y directions.
+            
             x_component: Tensor
                 Deflection Angle
 

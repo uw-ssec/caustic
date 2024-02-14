@@ -334,6 +334,9 @@ class ThickLens(Lens):
 
         z_s: Tensor
             Tensor of source redshifts.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container for the lens model. Defaults to None.
 
@@ -341,7 +344,8 @@ class ThickLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Tuple of Tensors representing the x and y components
-            of the deflection angle, respectively.
+            of the deflection angle, respectively
+            
             x_component: Tensor
                 Deflection Angle
 
@@ -750,6 +754,7 @@ class ThinLens(Lens):
         --------
         tuple[Tensor, Tensor]
             Reduced deflection angle in x and y directions.
+
             x_component: Tensor
                 Deflection Angle
 
@@ -809,6 +814,7 @@ class ThinLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Physical deflection angle in x and y directions in arcseconds.
+
             x_component: Tensor
                 Deflection Angle
 
@@ -1000,6 +1006,7 @@ class ThinLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Ray-traced coordinates in the x and y directions.
+            
             x_component: Tensor
                 Deflection Angle
 

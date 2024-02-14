@@ -564,6 +564,9 @@ class NFW(ThinLens):
 
         z_s: Tensor
             Redshifts of the sources.
+
+            *Unit: unitless*
+
         params: (Packed, optional)
             Dynamic parameter container.
 
