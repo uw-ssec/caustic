@@ -58,14 +58,14 @@ class EPL(ThinLens):
         This is the orientation of the lens on the sky,
         typically given as an angle measured counter-clockwise
         from some reference direction.
-        
+
         *Unit: radians*
 
     b: Optional[Union[Tensor, float]]
         This is the scale length of the lens,
         which sets the overall scale of the lensing effect.
         In some contexts, this is referred to as the Einstein radius.
-        
+
         *Unit: arcsec*
 
     t: Optional[Union[Tensor, float]]
@@ -75,7 +75,7 @@ class EPL(ThinLens):
         where gamma is the power-law index
         of the radial mass distribution of the lens.
 
-        *Unit: unitless*        
+        *Unit: unitless*
 
     """
 

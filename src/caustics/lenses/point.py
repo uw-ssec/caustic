@@ -148,7 +148,7 @@ class Point(ThinLens):
         -------
         tuple[Tensor, Tensor]
             The deflection angles in the x and y directions.
-            
+
             x_component: Tensor
                 Deflection Angle
 

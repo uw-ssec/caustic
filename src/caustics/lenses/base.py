@@ -345,7 +345,7 @@ class ThickLens(Lens):
         tuple[Tensor, Tensor]
             Tuple of Tensors representing the x and y components
             of the deflection angle, respectively
-            
+
             x_component: Tensor
                 Deflection Angle
 
@@ -1006,7 +1006,7 @@ class ThinLens(Lens):
         -------
         tuple[Tensor, Tensor]
             Ray-traced coordinates in the x and y directions.
-            
+
             x_component: Tensor
                 Deflection Angle
 

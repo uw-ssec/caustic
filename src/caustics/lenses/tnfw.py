@@ -632,7 +632,7 @@ class TNFW(ThinLens):
         --------
         tuple[Tensor, Tensor]
             The physical deflection angles in the x and y directions (arcsec).
-            
+
             x_component: Tensor
                 Deflection Angle
 

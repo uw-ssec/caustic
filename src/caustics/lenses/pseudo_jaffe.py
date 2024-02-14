@@ -33,27 +33,27 @@ class PseudoJaffe(ThinLens):
 
     x0: Optional[Union[Tensor, float]]
         x-coordinate of the center of the lens (arcsec).
-        
+
         *Unit: arcsec*
 
     y0: Optional[Union[Tensor, float]]
         y-coordinate of the center of the lens (arcsec).
-        
+
         *Unit: arcsec*
 
     mass: Optional[Union[Tensor, float]]
         Total mass of the lens (solMass).
-        
+
         *Unit: solMass*
 
     core_radius: Optional[Union[Tensor, float]]
         Core radius of the lens (arcsec).
-        
+
         *Unit: arcsec*
 
     scale_radius: Optional[Union[Tensor, float]]
         Scaling radius of the lens (arcsec).
-        
+
         *Unit: arcsec*
 
     s: float
@@ -96,27 +96,27 @@ class PseudoJaffe(ThinLens):
 
         x0: Optional[Tensor]
             x-coordinate of the center of the lens.
-            
+
             *Unit: arcsec*
 
         y0: Optional[Tensor]
             y-coordinate of the center of the lens.
-            
+
             *Unit: arcsec*
 
         mass: Optional[Tensor]
             Total mass of the lens (solMass).
-            
+
             *Unit: solMass*
 
         core_radius: Optional[Tensor]
             Core radius of the lens.
-            
+
             *Unit: arcsec*
 
         scale_radius: Optional[Tensor]
             Scaling radius of the lens.
-            
+
             *Unit: arcsec*
 
         s: float
@@ -171,7 +171,7 @@ class PseudoJaffe(ThinLens):
         ----------
         theta: Tensor
             Radius at which to calculate enclosed mass (arcsec).
-            
+
             *Unit: arcsec*
 
         z_s: Tensor
@@ -186,7 +186,7 @@ class PseudoJaffe(ThinLens):
         -------
         Tensor
             The mass enclosed within the given radius.
-            
+
             *Unit: solMass*
 
         """
