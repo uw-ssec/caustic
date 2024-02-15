@@ -761,18 +761,15 @@ class ThinLens(Lens):
 
         Returns
         --------
-        tuple[Tensor, Tensor]
-            Reduced deflection angle in x and y directions.
+        x_component: Tensor
+            Deflection Angle in the x-direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: radians*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle in the y-direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
+            *Unit: radians*
 
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
@@ -821,18 +818,15 @@ class ThinLens(Lens):
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            Physical deflection angle in x and y directions in arcseconds.
+        x_component: Tensor
+            Deflection Angle in x-direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: arcsec*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle in y-direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
+            *Unit: arcsec*
 
         """
         d_s = self.cosmology.angular_diameter_distance(z_s, params)
@@ -883,6 +877,7 @@ class ThinLens(Lens):
         -------
         Tensor
             Convergence at the given coordinates.
+            
         """
         ...
 
