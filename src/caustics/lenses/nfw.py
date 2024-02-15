@@ -63,6 +63,7 @@ class NFW(ThinLens):
     -------
     get_scale_radius
         Returns the scale radius of the lens.
+
     get_scale_density
         Returns the scale density of the lens.
 
@@ -74,14 +75,19 @@ class NFW(ThinLens):
         Helper method for computing lensing potential.
     _h
         Helper method for computing reduced deflection angles.
+
     deflection_angle_hat
         Computes the reduced deflection angle.
+
     deflection_angle
         Computes the deflection angle.
+
     convergence
         Computes the convergence (dimensionless surface mass density).
+
     potential
         Computes the lensing potential.
+
     """
 
     _null_params = {
@@ -110,9 +116,11 @@ class NFW(ThinLens):
         ----------
         name: str
             Name of the lens instance.
+
         cosmology: Cosmology
             An instance of the Cosmology class which contains
             information about the cosmological model and parameters.
+
         z_l: Optional[Union[Tensor, float]]
             Redshift of the lens. Default is None.
 
@@ -239,7 +247,7 @@ class NFW(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -291,7 +299,7 @@ class NFW(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -317,6 +325,8 @@ class NFW(ThinLens):
         x: Tensor
             The scaled radius (xi / xi_0).
 
+            *Unit: unitless*
+
         Returns
         -------
         Tensor
@@ -340,6 +350,8 @@ class NFW(ThinLens):
         ----------
         x: Tensor
             The scaled radius (xi / xi_0).
+
+            *Unit: unitless*
 
         Returns
         -------
@@ -373,6 +385,8 @@ class NFW(ThinLens):
         x: Tensor
             The scaled radius (xi / xi_0).
 
+            *Unit: unitless*
+
         Returns
         -------
         Tensor
@@ -397,6 +411,8 @@ class NFW(ThinLens):
         ----------
         x: Tensor
             The scaled radius (xi / xi_0).
+
+            *Unit: unitless*
 
         Returns
         -------
@@ -429,6 +445,8 @@ class NFW(ThinLens):
         x: Tensor
             The scaled radius (xi / xi_0).
 
+            *Unit: unitless*
+
         Returns
         -------
         Tensor
@@ -452,6 +470,8 @@ class NFW(ThinLens):
         ----------
         x: Tensor
             The scaled radius (xi / xi_0).
+
+            *Unit: unitless*
 
         Returns
         -------
@@ -506,13 +526,18 @@ class NFW(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            The reduced deflection angles in the x and y directions.
+        x_component: Tensor
+            The x-component of the reduced deflection angle.
+
+            *Unit: radians*
+
+        y_component: Tensor
+            The y-component of the reduced deflection angle.
 
             *Unit: radians*
 
@@ -567,7 +592,7 @@ class NFW(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -622,7 +647,7 @@ class NFW(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns

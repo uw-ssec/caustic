@@ -28,6 +28,7 @@ class EPL(ThinLens):
     s: float
         Softening length for the elliptical power-law profile.
 
+
         *Unit: meters*
 
 
@@ -215,17 +216,15 @@ class EPL(ThinLens):
 
         Returns
         --------
-        tuple[Tensor, Tensor]
-            Reduced deflection angles in the x and y directions.
-            x_component: Tensor
-                Deflection Angle
+        x_component: Tensor
+            Deflection Angle
 
-                *Unit: arcsec*
+            *Unit: arcsec*
 
-            y_component: Tensor
-                Deflection Angle
+        y_component: Tensor
+            Deflection Angle
 
-                *Unit: arcsec*
+            *Unit: arcsec*
 
         """
         x, y = translate_rotate(x, y, x0, y0, phi)

@@ -55,6 +55,7 @@ def get_pix_magnification(raytrace, x, y, z_s) -> Tensor:
     ----------
     raytrace: function
         A function that maps the lensing plane coordinates to the source plane coordinates.
+
     x: Tensor
         The x-coordinate on the lensing plane.
 
@@ -92,6 +93,7 @@ def get_magnification(raytrace, x, y, z_s) -> Tensor:
     ----------
     raytrace: function
         A function that maps the lensing plane coordinates to the source plane coordinates.
+
     x: Tensor
         The x-coordinates on the lensing plane.
 

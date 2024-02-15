@@ -48,6 +48,7 @@ class Cosmology(Parametrized):
         *Unit: megaparsec*
 
     Mass
+
         *Unit: solMass*
 
     Attributes
@@ -107,7 +108,7 @@ class Cosmology(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional0
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -167,7 +168,7 @@ class Cosmology(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -199,7 +200,7 @@ class Cosmology(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -228,7 +229,7 @@ class Cosmology(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -260,7 +261,7 @@ class Cosmology(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -297,7 +298,7 @@ class Cosmology(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -337,7 +338,7 @@ class Cosmology(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -456,7 +457,7 @@ class FlatLambdaCDM(Cosmology):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns
@@ -519,7 +520,7 @@ class FlatLambdaCDM(Cosmology):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the computation.
 
         Returns

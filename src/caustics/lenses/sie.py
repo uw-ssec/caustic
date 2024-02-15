@@ -20,8 +20,10 @@ class SIE(ThinLens):
     ----------
     name: str
         The name of the lens.
+
     cosmology: Cosmology
         An instance of the Cosmology class.
+
     z_l: Optional[Union[Tensor, float]]
         The redshift of the lens.
 
@@ -158,13 +160,18 @@ class SIE(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
         --------
-        Tuple[Tensor, Tensor]
-            The deflection angle in the x and y directions.
+        x_component: Tensor
+            The x-component of the deflection angle.
+
+            *Unit: radians*
+
+        y_component: Tensor
+            The y-component of the deflection angle.
 
             *Unit: radians*
 
@@ -213,7 +220,7 @@ class SIE(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -265,7 +272,7 @@ class SIE(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns

@@ -87,8 +87,10 @@ class PseudoJaffe(ThinLens):
         ----------
         name: string
             The name of the Pseudo Jaffe lens.
+
         cosmology: Cosmology
             The cosmology used for calculations.
+
         z_l: Optional[Tensor]
             Redshift of the lens.
 
@@ -121,6 +123,7 @@ class PseudoJaffe(ThinLens):
 
         s: float
             Softening parameter to prevent numerical instabilities.
+
         """
         super().__init__(cosmology, z_l, name=name)
 
@@ -179,7 +182,7 @@ class PseudoJaffe(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -289,13 +292,18 @@ class PseudoJaffe(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
         --------
-        Tuple[Tensor, Tensor]
-            The deflection angle in the x and y directions.
+        x_component: Tensor
+            x-component of the deflection angle.
+
+            *Unit: radians*
+
+        y_component: Tensor
+            y-component of the deflection angle.
 
             *Unit: radians*
 
@@ -344,7 +352,7 @@ class PseudoJaffe(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -413,7 +421,7 @@ class PseudoJaffe(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns

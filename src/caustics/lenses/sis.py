@@ -20,8 +20,10 @@ class SIS(ThinLens):
     ----------
     name: str
         The name of the SIS lens.
+
     cosmology: Cosmology
         An instance of the Cosmology class.
+
     z_l: Optional[Union[Tensor, float]]
         The lens redshift.
 
@@ -37,7 +39,8 @@ class SIS(ThinLens):
 
         *Unit: arcsec*
 
-    th_ein (Optional[Union[Tensor, float]]): The Einstein radius of the lens.
+    th_ein (Optional[Union[Tensor, float]])
+        The Einstein radius of the lens.
 
         *Unit: arcsec*
 
@@ -113,18 +116,15 @@ class SIS(ThinLens):
 
         Returns
         -------
-        Tuple[Tensor, Tensor]
-            The deflection angle in the x and y directions.
+        x_component: Tensor
+            Deflection Angle
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: radians*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
+            *Unit: radians*
 
         """
         x, y = translate_rotate(x, y, x0, y0)

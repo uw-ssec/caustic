@@ -54,6 +54,8 @@ class Multiplane(ThickLens):
         --------
         List[Tensor]
             Redshifts of the lenses.
+
+            *Unit: unitless*
         """
         # Relies on z_l being the first element to be unpacked, which should always
         # be the case for a ThinLens
@@ -190,13 +192,18 @@ class Multiplane(ThickLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
         -------
-        (Tensor, Tensor)
-            The reduced deflection angle.
+        x_component: Tensor
+            Reduced deflection angle in the x-direction.
+
+            *Unit: radians*
+
+        y_component: Tensor
+            Reduced deflection angle in the y-direction.
 
             *Unit: radians*
 
@@ -259,7 +266,7 @@ class Multiplane(ThickLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -324,10 +331,12 @@ class Multiplane(ThickLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
+
         shapiro_time_delay: bool
             Whether to include the Shapiro time delay component.
+
         geometric_time_delay: bool
             Whether to include the geometric time delay component.
 

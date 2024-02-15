@@ -89,6 +89,7 @@ class Sersic(Source):
         ----------
         name: str
             The name of the source.
+
         x0: Optional[Tensor]
             The x-coordinate of the Sersic source's center.
 
@@ -186,6 +187,8 @@ class Sersic(Source):
         Tensor
             The brightness of the source at the given point(s).
             The output tensor has the same shape as `x` and `y`.
+
+            *Unit: unitless*
 
         Notes
         -----

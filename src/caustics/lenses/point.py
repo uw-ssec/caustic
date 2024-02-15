@@ -20,8 +20,10 @@ class Point(ThinLens):
     ----------
     name: str
         The name of the point lens.
+
     cosmology: Cosmology
         The cosmology used for calculations.
+
     z_l: Optional[Union[Tensor, float]]
         Redshift of the lens.
 
@@ -72,8 +74,10 @@ class Point(ThinLens):
         ----------
         name: string
             The name of the point lens.
+
         cosmology: Cosmology
             The cosmology used for calculations.
+
         z_l: Optional[Tensor]
             Redshift of the lens.
 
@@ -141,23 +145,20 @@ class Point(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            The deflection angles in the x and y directions.
+        x_component: Tensor
+            Deflection Angle in the x-direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: radians*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle in the y-direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
+            *Unit: radians*
 
         """
         x, y = translate_rotate(x, y, x0, y0)
@@ -200,7 +201,7 @@ class Point(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -249,7 +250,7 @@ class Point(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns

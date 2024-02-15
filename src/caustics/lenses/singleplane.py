@@ -20,10 +20,13 @@ class SinglePlane(ThinLens):
     ----------
     name: str
         The name of the single plane lens.
+
     cosmology: Cosmology
         An instance of the Cosmology class.
+
     lenses: List[ThinLens]
         A list of ThinLens objects that are being combined into a single lensing plane.
+
     """
 
     def __init__(
@@ -69,13 +72,18 @@ class SinglePlane(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
         -------
-        Tuple[Tensor, Tensor]
-            The total deflection angle in the x and y directions.
+        x_component: Tensor
+            The x-component of the deflection angle.
+
+            *Unit: radians*
+
+        y_component: Tensor
+            The y-component of the deflection angle.
 
             *Unit: radians*
 
@@ -119,7 +127,7 @@ class SinglePlane(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns
@@ -167,7 +175,7 @@ class SinglePlane(ThinLens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container.
 
         Returns

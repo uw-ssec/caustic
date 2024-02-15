@@ -35,10 +35,15 @@ class Pixelated(Source):
 
     image : Tensor, optional
         The source image from which brightness values will be interpolated.
+
     pixelscale : Tensor, optional
-        The pixelscale of the source image in the lens plane in units of arcsec/pixel.
-    shape : tuple of ints, optional
+        The pixelscale of the source image in the lens plane.
+
+        *Unit: arcsec/pixel*
+
+    shape : Tuple of ints, optional
         The shape of the source image.
+
     """
 
     def __init__(
@@ -57,6 +62,7 @@ class Pixelated(Source):
         ----------
         name : str
             The name of the source.
+
         x0 : Tensor, optional
             The x-coordinate of the source image's center.
 
@@ -69,10 +75,15 @@ class Pixelated(Source):
 
         image : Tensor, optional
             The source image from which brightness values will be interpolated.
+
         pixelscale : Tensor, optional
-            The pixelscale of the source image in the lens plane in units of arcsec/pixel.
-        shape : tuple of ints, optional
+            The pixelscale of the source image in the lens plane.
+
+            *Unit: arcsec/pixel*
+
+        shape : Tuple of ints, optional
             The shape of the source image.
+
         """
         if image is not None and image.ndim not in [2, 3]:
             raise ValueError(
@@ -130,6 +141,9 @@ class Pixelated(Source):
             The brightness of the source at the given coordinate(s).
             The brightness is determined by interpolating values
             from the source image.
+
+            *Unit: unitless*
+
         """
         fov_x = pixelscale * image.shape[0]
         fov_y = pixelscale * image.shape[1]

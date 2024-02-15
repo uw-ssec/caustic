@@ -29,6 +29,7 @@ class Lens(Parametrized):
         ----------
         name: string
             The name of the lens model.
+
         cosmology: Cosmology
             An instance of a Cosmology class that describes
             the cosmological parametersof the model.
@@ -100,7 +101,7 @@ class Lens(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the lens model. Defaults to None.
 
         Returns
@@ -148,7 +149,7 @@ class Lens(Parametrized):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the lens model. Defaults to None.
 
         epsilon: Tensor
@@ -158,6 +159,9 @@ class Lens(Parametrized):
 
         n_init: int
             number of random initialization points used to try and find image plane points.
+
+            *Unit: unitless*
+
         fov: float
             the field of view in which the initial random samples are taken.
 
@@ -165,8 +169,15 @@ class Lens(Parametrized):
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            Ray-traced coordinates in the x and y directions.
+        x_component: Tensor
+            x-coordinate Tensor of the ray-traced light rays
+
+            *Unit: arcsec*
+
+        y_component: Tensor
+            y-coordinate Tensor of the ray-traced light rays
+
+            *Unit: arcsec*
         """
 
         bxy = torch.stack((bx, by)).repeat(n_init, 1)  # has shape (n_init, Dout:2)
@@ -246,6 +257,7 @@ class ThickLens(Lens):
 
         z_s: Tensor
             Tensor of source redshifts.
+
         params: Packed, optional
             Dynamic parameter container for the lens model. Defaults to None.
 
@@ -299,7 +311,7 @@ class ThickLens(Lens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the lens model. Defaults to None.
 
         """
@@ -337,24 +349,20 @@ class ThickLens(Lens):
 
             *Unit: unitless*
 
-        params: (Packed, optional)
+        params: Packed, optional
             Dynamic parameter container for the lens model. Defaults to None.
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            Tuple of Tensors representing the x and y components
-            of the deflection angle, respectively
+        x_component: Tensor
+            Deflection Angle in x direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: arcsec*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle in y direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
+            *Unit: arcsec*
 
         """
         raise NotImplementedError(
@@ -697,13 +705,14 @@ class ThinLens(Lens):
     ----------
     name: string
         Name of the lens model.
+
     cosmology: Cosmology
         Cosmology object that encapsulates cosmological parameters and distances.
+
     z_l: (Optional[Tensor], optional)
         Redshift of the lens. Defaults to None.
 
         *Unit: unitless*
-
 
     """
 
@@ -1004,19 +1013,15 @@ class ThinLens(Lens):
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            Ray-traced coordinates in the x and y directions.
+        x_component: Tensor
+            Deflection Angle in x direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: arcsec*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle in y direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
-
+            *Unit: arcsec*
 
         """
         ax, ay = self.reduced_deflection_angle(x, y, z_s, params, **kwargs)
@@ -1083,8 +1088,10 @@ class ThinLens(Lens):
 
         params: (Packed, optional)
             Dynamic parameter container for the lens model. Defaults to None.
+
         shapiro_time_delay: bool
             Whether to include the Shapiro time delay component.
+
         geometric_time_delay: bool
             Whether to include the geometric time delay component.
 

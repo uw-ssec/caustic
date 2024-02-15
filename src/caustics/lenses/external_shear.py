@@ -19,8 +19,10 @@ class ExternalShear(ThinLens):
     ----------
     name: str
         Identifier for the lens instance.
+
     cosmology: Cosmology
         The cosmological model used for lensing calculations.
+
     z_l: Optional[Union[Tensor, float]]
         The redshift of the lens.
 
@@ -108,18 +110,15 @@ class ExternalShear(ThinLens):
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            The reduced deflection angles in the x and y directions.
+        x_component: Tensor
+            Deflection Angle in x-direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: arcsec*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle in y-direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
+            *Unit: arcsec*
 
         """
         x, y = translate_rotate(x, y, x0, y0)
@@ -220,6 +219,7 @@ class ExternalShear(ThinLens):
 
         params: (Packed, optional)
             Dynamic parameter container.
+
         Raises
         ------
         NotImplementedError

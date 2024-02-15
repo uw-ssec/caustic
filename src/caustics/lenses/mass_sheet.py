@@ -20,20 +20,32 @@ class MassSheet(ThinLens):
     ----------
     name: string
         Identifier for the lens instance.
+
     cosmology: Cosmology
         The cosmological model used for lensing calculations.
+
     z_l: Optional[Union[Tensor, float]]
         The redshift of the lens.
 
         *Unit: unitless*
 
-    x0, y0: Optional[Union[Tensor, float]]
-        Coordinates of the shear center in the lens plane.
+    x0: Optional[Union[Tensor, float]]
+        x-coordinate of the shear center in the lens plane.
 
         *Unit: arcsec*
 
-    gamma_1, gamma_2: Optional[Union[Tensor, float]]
-        Shear components.
+    y0: Optional[Union[Tensor, float]]
+        y-coordinate of the shear center in the lens plane.
+
+        *Unit: arcsec*
+
+    gamma_1: Optional[Union[Tensor, float]]
+        Shear component [--> domain expertise needed here <--].
+
+        *Unit: unitless*
+
+    gamma_2: Optional[Union[Tensor, float]]
+        Shear component [--> domain expertise needed here <--].
 
         *Unit: unitless*
 
@@ -103,18 +115,15 @@ class MassSheet(ThinLens):
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            The reduced deflection angles in the x and y directions.
+        x_component: Tensor
+            Deflection Angle in x-direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: arcsec*
 
-                *Unit: arcsec*
+        y_component: Tensor
+            Deflection Angle in y-direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: arcsec*
+            *Unit: arcsec*
 
         """
         x, y = translate_rotate(x, y, x0, y0)
