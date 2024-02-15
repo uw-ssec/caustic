@@ -877,7 +877,7 @@ class ThinLens(Lens):
         -------
         Tensor
             Convergence at the given coordinates.
-            
+
         """
         ...
 
