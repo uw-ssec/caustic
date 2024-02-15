@@ -337,18 +337,15 @@ class PixelatedConvergence(ThinLens):
 
         Returns
         -------
-        tuple[Tensor, Tensor]
-            The x and y components of the deflection angles at the specified positions.
+        x_component: Tensor
+            Deflection Angle in the x-direction.
 
-            x_component: Tensor
-                Deflection Angle
+            *Unit: radians*
 
-                *Unit: radians*
+        y_component: Tensor
+            Deflection Angle in the y-direction.
 
-            y_component: Tensor
-                Deflection Angle
-
-                *Unit: radians*
+            *Unit: radians*
 
         """
         if self.convolution_mode == "fft":
