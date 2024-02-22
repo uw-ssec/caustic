@@ -11,7 +11,7 @@ class _KindRegistry(MutableMapping[str, Parametrized | str]):
         "FlatLambdaCDM": "caustics.cosmology.FlatLambdaCDM.FlatLambdaCDM",
         "EPL": "caustics.lenses.epl.EPL",
         "ExternalShear": "caustics.lenses.external_shear.ExternalShear",
-        "PixellatedConvergence": "caustics.lenses.pixellated_convergence.PixellatedConvergence",
+        "PixelatedConvergence": "caustics.lenses.pixelated_convergence.PixelatedConvergence",
         "SinglePlane": "caustics.lenses.singleplane.SinglePlane",
         "Multiplane": "caustics.lenses.multiplane.Multiplane",
         "NFW": "caustics.lenses.nfw.NFW",
