@@ -158,7 +158,7 @@ class EPL(ThinLens):
         s: float
             Softening length for the elliptical power-law profile.
 
-            *Unit: meters*
+            *Unit: arcsec*
 
         n_iter: int
             Number of iterations for the iterative solver.
@@ -268,7 +268,7 @@ class EPL(ThinLens):
         Tensor
             The value of `R * omega(phi)`.
 
-            *Unit: meters*
+            *Unit: arcsec*
 
         """
         # constants
