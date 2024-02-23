@@ -6,7 +6,7 @@ from typing import MutableMapping, Iterator
 from caustics.parametrized import Parametrized
 
 
-class _KindRegistry(MutableMapping[str, Parametrized | str]):
+class _KindRegistry(MutableMapping[str, "Parametrized | str"]):
     known_kinds = {
         "FlatLambdaCDM": "caustics.cosmology.FlatLambdaCDM.FlatLambdaCDM",
         "EPL": "caustics.lenses.epl.EPL",
