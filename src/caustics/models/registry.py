@@ -6,7 +6,7 @@ from typing import MutableMapping, Iterator
 from caustics.parametrized import Parametrized
 
 
-class _KindRegistry(MutableMapping[str, Parametrized | str]):
+class _KindRegistry(MutableMapping[str, "Parametrized | str"]):
     known_kinds = {
         "FlatLambdaCDM": "caustics.cosmology.FlatLambdaCDM.FlatLambdaCDM",
         "EPL": "caustics.lenses.epl.EPL",
@@ -27,10 +27,10 @@ class _KindRegistry(MutableMapping[str, Parametrized | str]):
     }
 
     def __init__(self) -> None:
-        self._m: ChainMap[str, Parametrized | str] = ChainMap({}, self.known_kinds)  # type: ignore
+        self._m: ChainMap[str, "Parametrized | str"] = ChainMap({}, self.known_kinds)  # type: ignore
 
     def __getitem__(self, item: str) -> Parametrized:
-        kind_mod: str | Parametrized | None = self._m.get(item, None)
+        kind_mod: "str | Parametrized | None" = self._m.get(item, None)
         if kind_mod is None:
             raise KeyError(f"{item} not in registry")
         if isinstance(kind_mod, str):
@@ -39,7 +39,7 @@ class _KindRegistry(MutableMapping[str, Parametrized | str]):
             cls = getattr(mod, name)  # type: ignore
         return cls
 
-    def __setitem__(self, item: str, value: Parametrized | str) -> None:
+    def __setitem__(self, item: str, value: "Parametrized | str") -> None:
         if not (
             (isinstance(value, type) and issubclass(value, Parametrized))
             or isinstance(value, str)
@@ -71,7 +71,7 @@ def available_kinds() -> list[str]:
 
 def register_kind(
     name: str,
-    cls: Parametrized | str,
+    cls: "Parametrized | str",
     *,
     clobber: bool = False,
 ) -> None:
@@ -96,7 +96,7 @@ def register_kind(
 @lru_cache
 def get_kind(
     name: str,
-) -> Parametrized | None:
+) -> Parametrized:
     """Get a class from the registry by name.
 
     Parameters
