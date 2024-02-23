@@ -217,7 +217,7 @@ class TNFW(ThinLens):
 
         tau: Optional[Tensor]
             Truncation scale. Ratio of truncation radius to scale radius.
-            
+
             *Unit: unitless*
 
         params: dict

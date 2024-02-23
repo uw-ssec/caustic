@@ -93,13 +93,13 @@ class PixelatedConvergence(ThinLens):
             The convolution mode for calculating deflection angles and lensing potential.
             It can be either "fft" (Fast Fourier Transform) or "conv2d" (2D convolution).
             Default is "fft".
-      
+
         use_next_fast_len: bool, optional
             If True, adds additional padding to speed up the FFT by calling
             `scipy.fft.next_fast_len`.
             The speed boost can be substantial when `n_pix` is a multiple of a
             small prime number. Default is True.
-            
+
         padding: { "zero", "circular", "reflect", "tile" }
 
             Specifies the type of padding to use:
@@ -192,7 +192,7 @@ class PixelatedConvergence(ThinLens):
         -------
         Tensor
             The 2D FFT of the input tensor with zero-padding.
-     
+
         """
         pad = 2 * self.n_pix
         if self.use_next_fast_len:
@@ -225,7 +225,7 @@ class PixelatedConvergence(ThinLens):
         -------
         Tensor
             The input tensor without padding.
-            
+
         """
         return torch.roll(x, (-self._s[0] // 2, -self._s[1] // 2), dims=(-2, -1))[..., : self.n_pix, : self.n_pix]  # fmt: skip
 

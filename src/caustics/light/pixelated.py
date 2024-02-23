@@ -36,7 +36,7 @@ class Pixelated(Source):
 
     image : Tensor, optional
         The source image from which brightness values will be interpolated.
-            
+
         *Unit: flux*
 
     pixelscale : Tensor, optional

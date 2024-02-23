@@ -874,8 +874,8 @@ class ThinLens(Lens):
         -------
         Tensor
             Dimensionless convergence, normalized by the critical surface density at the lens plane
-            
-            *Unit: unitless*            
+
+            *Unit: unitless*
 
         """
         ...
