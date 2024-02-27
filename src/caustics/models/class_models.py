@@ -89,6 +89,112 @@ class Lenses_Class_Params(ClassParams):
     cosmology: cosmology
 
 
+class EPL_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    s: float = Field(0.0, description="The core radius of the lens")
+    n_iter: int = Field(18, description="The number of iterations to compute the value of k")
+
+
+class EPL(Base):
+    kind: Literal["EPL"] = "EPL"
+    params: Optional[EPL_Params] = Field(
+        EPL_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[EPL_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class EXTERNALSHEAR_Class_Params(Parameters):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    s: float = Field(0.0, description="The core radius of the lens")
+
+class EXTERNALSHEAR(Base):
+    kind: Literal["EXTERNALSHEAR"] = "EXTERNALSHEAR"
+    params: Optional[EXTERNALSHEAR_Params] = Field(
+        EXTERNALSHEAR_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[EXTERNALSHEAR_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class MASSSHEET_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+
+
+class MASSSHEET(Base):
+    kind: Literal["MASSSHEET"] = "MASSSHEET"
+    params: None = None
+    class_params: Optional[MASSSHEET_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class NFW_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    s: float = Field(0.0, description="The core radius of the lens")
+
+
+class NFW(Base):
+    kind: Literal["NFW"] = "NFW"
+    params: Optional[NFW_Params] = Field(
+        NFW_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[NFW_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class PIXELATED_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    n_pix: int = Field(100, description="The number of pixels to use for the pixelated lens")
+    pixelscale: float = Field(0.05, description="The pixel scale of the pixelated lens")
+    fov: float = Field(5.0, description="The field of view of the pixelated lens")
+    use_next_fast: bool = Field(None, description="A flag indicating whether to use the next fast method to compute the value of k")
+    padding: float = Field(0.0, description="The padding to use for the pixelated lens")
+
+
+class PIXELATED(Base):
+    kind: Literal["PIXELATED"] = "PIXELATED"
+    params: Optional[PIXELATED_Params] = Field(
+        PIXELATED_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[PIXELATED_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class POINT_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    s: float = Field(0.0, description="The core radius of the lens")
+
+
+class POINT(Base):
+    kind: Literal["POINT"] = "POINT"
+    params: Optional[POINT_Params] = Field(
+        POINT_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[POINT_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class PSEUDOJAFFE_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    s: float = Field(0.0, description="The core radius of the lens")
+
+
+class PSEUDOJAFFE(Base):
+    kind: Literal["PSEUDOJAFFE"] = "PSEUDOJAFFE"
+    params: Optional[PSEUDOJAFFE_Params] = Field(
+        PSEUDOJAFFE_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[PSEUDOJAFFE_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
 class SIE_Class_Params(Lenses_Class_Params):
     z_l: Optional[float] = Field(None, description="The redshift of the lens")
     s: float = Field(0.0, description="The core radius of the lens")
@@ -100,6 +206,37 @@ class SIE(Base):
         SIE_Params(), description="Parameters of the object"
     )
     class_params: Optional[SIE_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class SIS_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    s: float = Field(0.0, description="The core radius of the lens")
+
+
+class SIS(Base):
+    kind: Literal["SIS"] = "SIS"
+    params: Optional[SIS_Params] = Field(
+        SIS_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[SIS_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
+
+
+class TNFW_Class_Params(Lenses_Class_Params):
+    z_l: Optional[float] = Field(None, description="The redshift of the lens")
+    s: float = Field(0.0, description="The core radius of the lens")
+    interpret_m_total_mass: bool = Field(None, description="A flag indicating whether to interpret the total mass as the mass enclosed within the virial radius")
+
+
+class TNFW(Base):
+    kind: Literal["TNFW"] = "TNFW"
+    params: Optional[TNFW_Params] = Field(
+        TNFW_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[TNFW_Class_Params] = Field(
         None, description="Keyword arguments for the object"
     )
 
@@ -120,6 +257,20 @@ class Multiplane(Base):
 
 
 lenses = Annotated[Union[single_lenses, Multiplane], Field(discriminator="kind")]
+
+
+class PIXELATED_Class_Params(Lenses_Class_Params):
+    pass # No class params
+
+
+class PIXELATED(Base):
+    kind: Literal["PIXELATED"] = "PIXELATED"
+    params: Optional[PIXELATED_Params] = Field(
+        PIXELATED_Params(), description="Parameters of the object"
+    )
+    class_params: Optional[_Class_Params] = Field(
+        None, description="Keyword arguments for the object"
+    )
 
 
 class Sersic_Class_Params(ClassParams):
