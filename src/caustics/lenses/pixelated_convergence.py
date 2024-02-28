@@ -61,7 +61,6 @@ class PixelatedConvergence(ThinLens):
         n_pix: int
             The number of pixels on each side of the grid.
 
-            *Unit: number*
 
         cosmology: Cosmology
             An instance of the cosmological parameters.
