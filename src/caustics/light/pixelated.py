@@ -53,10 +53,6 @@ class Pixelated(Source):
             "default": None,
             "description": "The pixelscale of the source image in the lens plane in units of arcsec/pixel.",
         },
-        "shape": {
-            "default": None,
-            "description": "The shape of the source image.",
-        },
     }
 
     def __init__(

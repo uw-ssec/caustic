@@ -1,19 +1,25 @@
 from importlib import import_module
 from functools import lru_cache
-from collections import ChainMap
+from collections import ChainMap, OrderedDict
 from typing import MutableMapping, Iterator
 
 from caustics.parametrized import Parametrized
 
 
-class _KindRegistry(MutableMapping[str, Parametrized | str]):
-    known_kinds = {
+def _import_kind_class(kind_module: str) -> Parametrized:
+    module_name, name = kind_module.rsplit(".", 1)
+    mod = import_module(module_name)
+    return getattr(mod, name)  # type: ignore
+
+
+class _KindRegistry(MutableMapping[str, "Parametrized | str"]):
+    cosmology = {
         "FlatLambdaCDM": "caustics.cosmology.FlatLambdaCDM.FlatLambdaCDM",
+    }
+    single_lenses = {
         "EPL": "caustics.lenses.epl.EPL",
         "ExternalShear": "caustics.lenses.external_shear.ExternalShear",
         "PixelatedConvergence": "caustics.lenses.pixelated_convergence.PixelatedConvergence",
-        "SinglePlane": "caustics.lenses.singleplane.SinglePlane",
-        "Multiplane": "caustics.lenses.multiplane.Multiplane",
         "NFW": "caustics.lenses.nfw.NFW",
         "Point": "caustics.lenses.point.Point",
         "PseudoJaffe": "caustics.lenses.pseudo_jaffe.PseudoJaffe",
@@ -21,9 +27,33 @@ class _KindRegistry(MutableMapping[str, Parametrized | str]):
         "SIS": "caustics.lenses.sis.SIS",
         "TNFW": "caustics.lenses.tnfw.TNFW",
         "MassSheet": "caustics.lenses.mass_sheet.MassSheet",
+    }
+    multi_lenses = {
+        "SinglePlane": "caustics.lenses.singleplane.SinglePlane",
+        "Multiplane": "caustics.lenses.multiplane.Multiplane",
+    }
+    light = {
         "Pixelated": "caustics.light.pixelated.Pixelated",
         "Sersic": "caustics.light.sersic.Sersic",
-        "Lens_Source": "caustics.sims.lens_source.Lens_Source",
+    }
+    simulators = {"Lens_Source": "caustics.sims.lens_source.Lens_Source"}
+
+    _categories = OrderedDict(
+        [
+            ("cosmology", list(cosmology.keys())),
+            ("single_lenses", list(single_lenses.keys())),
+            ("multi_lenses", list(multi_lenses.keys())),
+            ("light", list(light.keys())),
+            ("simulators", list(simulators.keys())),
+        ]
+    )
+
+    known_kinds = {
+        **cosmology,
+        **single_lenses,
+        **multi_lenses,
+        **light,
+        **simulators,
     }
 
     def __init__(self) -> None:
@@ -34,9 +64,9 @@ class _KindRegistry(MutableMapping[str, Parametrized | str]):
         if kind_mod is None:
             raise KeyError(f"{item} not in registry")
         if isinstance(kind_mod, str):
-            module_name, name = kind_mod.rsplit(".", 1)
-            mod = import_module(module_name)
-            cls = getattr(mod, name)  # type: ignore
+            cls = _import_kind_class(kind_mod)
+        else:
+            cls = kind_mod
         return cls
 
     def __setitem__(self, item: str, value: Parametrized | str) -> None:

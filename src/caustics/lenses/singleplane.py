@@ -29,14 +29,14 @@ class SinglePlane(ThinLens):
     def __init__(
         self,
         cosmology: Cosmology,
-        lenses: list[ThinLens],
+        lenses: list["ThinLens"],
         name: Optional[str] = None,
-        **kwargs,
+        z_l: Optional["Tensor | float"] = None,
     ):
         """
         Initialize the SinglePlane lens model.
         """
-        super().__init__(cosmology, name=name, **kwargs)
+        super().__init__(cosmology, z_l=z_l, name=name)
         self.lenses = lenses
         for lens in lenses:
             self.add_parametrized(lens)
