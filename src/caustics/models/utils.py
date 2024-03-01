@@ -1,5 +1,5 @@
 # mypy: disable-error-code="union-attr, valid-type, has-type, assignment, arg-type, dict-item, return-value, misc"
-from typing import List, Literal, Dict, Annotated, Union, Optional, Any, Tuple
+from typing import List, Literal, Dict, Annotated, Union, Any, Tuple
 import inspect
 from pydantic import Field, create_model, field_validator
 import torch
@@ -100,38 +100,41 @@ def create_pydantic_model(
         parametrized_class, dependant_models
     )
 
-    # Setup the pydantic models for the parameters and init_kwargs
-    ParamsModel = create_model(
-        f"{parametrized_class.__name__}_Params",
-        __base__=Parameters,
-        __validators__={
-            # Convert to tensor before passing to the model for additional validation
-            "tensors_validator": field_validator("*", mode="before")(
-                lambda cls, v: (  # noqa
-                    torch.as_tensor(v) if not isinstance(v, torch.Tensor) else v
-                )
-            )
-        },
-        **kwargs_field_definitions[PARAMS],
-    )
-    InitKwargsModel = create_model(
-        f"{parametrized_class.__name__}_Init_Kwargs",
-        __base__=InitKwargs,
-        **kwargs_field_definitions[INIT_KWARGS],
-    )
-
-    # Setup the field definitions for the model
+    # Create the model field definitions
     field_definitions = {
         "kind": (Literal[parametrized_class.__name__], Field(parametrized_class.__name__)),  # type: ignore
-        "params": (
+    }
+
+    if kwargs_field_definitions[PARAMS]:
+        # Setup the pydantic models for the parameters and init_kwargs
+        ParamsModel = create_model(
+            f"{parametrized_class.__name__}_Params",
+            __base__=Parameters,
+            __validators__={
+                # Convert to tensor before passing to the model for additional validation
+                "tensors_validator": field_validator("*", mode="before")(
+                    lambda cls, v: (  # noqa
+                        torch.as_tensor(v) if not isinstance(v, torch.Tensor) else v
+                    )
+                )
+            },
+            **kwargs_field_definitions[PARAMS],
+        )
+        field_definitions["params"] = (
             ParamsModel,
             Field(ParamsModel(), description="Parameters of the object"),
-        ),
-        "init_kwargs": (
-            Optional[InitKwargsModel],
-            Field(None, description="Initiation keyword arguments of the object"),
-        ),
-    }
+        )
+
+    if kwargs_field_definitions[INIT_KWARGS]:
+        InitKwargsModel = create_model(
+            f"{parametrized_class.__name__}_Init_Kwargs",
+            __base__=InitKwargs,
+            **kwargs_field_definitions[INIT_KWARGS],
+        )
+        field_definitions["init_kwargs"] = (
+            InitKwargsModel,
+            Field({}, description="Initiation keyword arguments of the object"),
+        )
 
     # Create the model
     model = create_model(
