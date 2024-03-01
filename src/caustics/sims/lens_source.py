@@ -2,7 +2,7 @@ from copy import copy
 
 from scipy.fft import next_fast_len
 from torch.nn.functional import avg_pool2d, conv2d
-from typing import Optional, Annotated, Literal
+from typing import Optional, Annotated, Literal, Union
 import torch
 from torch import Tensor
 
@@ -101,7 +101,7 @@ class Lens_Source(Simulator):
             Literal["fft", "conv2d"], "Mode for convolving psf"
         ] = "fft",
         z_s: Annotated[
-            Optional["Tensor | float"], "Redshift of the source", True
+            Optional[Union[Tensor, float]], "Redshift of the source", True
         ] = None,
         name: NameType = "sim",
     ):

@@ -88,7 +88,7 @@ class TNFW(ThinLens):
         cosmology: CosmologyType,
         z_l: ZLType = None,
         x0: Annotated[
-            Optional["Tensor | float"],
+            Optional[Union[Tensor, float]],
             "Center of lens position on x-axis",
             True,
             "arcsec",
