@@ -3,8 +3,7 @@ from typing import Optional
 import torch
 from torch import Tensor
 
-from ..cosmology import Cosmology
-from .base import ThinLens
+from .base import ThinLens, CosmologyType, NameType, LensesType, ZLType
 from ..parametrized import unpack
 from ..packed import Packed
 
@@ -28,10 +27,10 @@ class SinglePlane(ThinLens):
 
     def __init__(
         self,
-        cosmology: Cosmology,
-        lenses: list["ThinLens"],
-        name: Optional[str] = None,
-        z_l: Optional["Tensor | float"] = None,
+        cosmology: CosmologyType,
+        lenses: LensesType,
+        name: NameType = None,
+        z_l: ZLType = None,
     ):
         """
         Initialize the SinglePlane lens model.
