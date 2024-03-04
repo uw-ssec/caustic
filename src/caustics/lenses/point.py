@@ -46,19 +46,19 @@ class Point(ThinLens):
         z_l: ZLType = None,
         x0: Annotated[
             Optional[Union[Tensor, float]],
-            "x-coordinate of the center of the lens.",
+            "X coordinate of the center of the lens",
             True,
         ] = None,
         y0: Annotated[
             Optional[Union[Tensor, float]],
-            "y-coordinate of the center of the lens.",
+            "Y coordinate of the center of the lens",
             True,
         ] = None,
         th_ein: Annotated[
-            Optional[Union[Tensor, float]], "Einstein radius of the lens.", True
+            Optional[Union[Tensor, float]], "Einstein radius of the lens", True
         ] = None,
         s: Annotated[
-            float, "Softening parameter to prevent numerical instabilities."
+            float, "Softening parameter to prevent numerical instabilities"
         ] = 0.0,
         name: NameType = None,
     ):

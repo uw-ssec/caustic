@@ -116,7 +116,7 @@ class TNFW(ThinLens):
         ] = None,
         s: Annotated[
             float,
-            "Softening parameter to avoid singularities at the center of the lens.",
+            "Softening parameter to avoid singularities at the center of the lens",
         ] = 0.0,
         interpret_m_total_mass: Annotated[
             bool, "Indicates how to interpret the mass variable 'm'"

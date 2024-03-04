@@ -26,34 +26,34 @@ class PixelatedConvergence(ThinLens):
     def __init__(
         self,
         pixelscale: Annotated[float, "pixelscale"],
-        n_pix: Annotated[int, "The number of pixels on each side of the grid."],
+        n_pix: Annotated[int, "The number of pixels on each side of the grid"],
         cosmology: CosmologyType,
         z_l: ZLType = None,
         x0: Annotated[
             Optional[Union[Tensor, float]],
-            "The x-coordinate of the center of the grid.",
+            "The x-coordinate of the center of the grid",
             True,
         ] = torch.tensor(0.0),
         y0: Annotated[
             Optional[Union[Tensor, float]],
-            "The y-coordinate of the center of the grid.",
+            "The y-coordinate of the center of the grid",
             True,
         ] = torch.tensor(0.0),
         convergence_map: Annotated[
             Optional[Tensor],
-            "A 2D tensor representing the convergence map.",
+            "A 2D tensor representing the convergence map",
             True,
         ] = None,
         shape: Annotated[
-            Optional[tuple[int, ...]], "The shape of the convergence map."
+            Optional[tuple[int, ...]], "The shape of the convergence map"
         ] = None,
         convolution_mode: Annotated[
             Literal["fft", "conv2d"],
-            "The convolution mode for calculating deflection angles and lensing potential.",
+            "The convolution mode for calculating deflection angles and lensing potential",
         ] = "fft",
         use_next_fast_len: Annotated[
             bool,
-            "If True, adds additional padding to speed up the FFT by calling `scipy.fft.next_fast_len`.",
+            "If True, adds additional padding to speed up the FFT by calling `scipy.fft.next_fast_len`",
         ] = True,
         padding: Annotated[
             Literal["zero", "circular", "reflect", "tile"],

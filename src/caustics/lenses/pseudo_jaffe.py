@@ -56,28 +56,28 @@ class PseudoJaffe(ThinLens):
         z_l: ZLType = None,
         x0: Annotated[
             Optional[Union[Tensor, float]],
-            "x-coordinate of the center of the lens.",
+            "X coordinate of the center of the lens",
             True,
         ] = None,
         y0: Annotated[
             Optional[Union[Tensor, float]],
-            "y-coordinate of the center of the lens.",
+            "Y coordinate of the center of the lens",
             True,
         ] = None,
         mass: Annotated[
             Optional[Union[Tensor, float]], "Total mass of the lens", True, "Msol"
         ] = None,
         core_radius: Annotated[
-            Optional[Union[Tensor, float]], "Core radius of the lens.", True, "arcsec"
+            Optional[Union[Tensor, float]], "Core radius of the lens", True, "arcsec"
         ] = None,
         scale_radius: Annotated[
             Optional[Union[Tensor, float]],
-            "Scaling radius of the lens.",
+            "Scaling radius of the lens",
             True,
             "arcsec",
         ] = None,
         s: Annotated[
-            float, "Softening parameter to prevent numerical instabilities."
+            float, "Softening parameter to prevent numerical instabilities"
         ] = 0.0,
         name: NameType = None,
     ):

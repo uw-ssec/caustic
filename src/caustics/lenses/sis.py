@@ -45,13 +45,13 @@ class SIS(ThinLens):
         cosmology: CosmologyType,
         z_l: ZLType = None,
         x0: Annotated[
-            Optional[Union[Tensor, float]], "The x-coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "The x-coordinate of the lens center", True
         ] = None,
         y0: Annotated[
-            Optional[Union[Tensor, float]], "The y-coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "The y-coordinate of the lens center", True
         ] = None,
         th_ein: Annotated[
-            Optional[Union[Tensor, float]], "The Einstein radius of the lens.", True
+            Optional[Union[Tensor, float]], "The Einstein radius of the lens", True
         ] = None,
         s: Annotated[float, "A smoothing factor"] = 0.0,
         name: NameType = None,

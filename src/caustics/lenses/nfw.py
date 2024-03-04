@@ -77,10 +77,10 @@ class NFW(ThinLens):
         cosmology: CosmologyType,
         z_l: ZLType = None,
         x0: Annotated[
-            Optional[Union[Tensor, float]], "X coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "X coordinate of the lens center", True
         ] = None,
         y0: Annotated[
-            Optional[Union[Tensor, float]], "Y coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "Y coordinate of the lens center", True
         ] = None,
         m: Annotated[Optional[Union[Tensor, float]], "Mass of the lens", True] = None,
         c: Annotated[
@@ -88,7 +88,7 @@ class NFW(ThinLens):
         ] = None,
         s: Annotated[
             float,
-            "Softening parameter to avoid singularities at the center of the lens.",
+            "Softening parameter to avoid singularities at the center of the lens",
         ] = 0.0,
         use_case: Annotated[
             Literal["batchable", "differentiable"], "the NFW/TNFW profile"

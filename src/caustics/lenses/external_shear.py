@@ -62,7 +62,7 @@ class ExternalShear(ThinLens):
             Optional[Union[Tensor, float]], "Shear component in the y-direction", True
         ] = None,
         s: Annotated[
-            float, "Softening length for the elliptical power-law profile."
+            float, "Softening length for the elliptical power-law profile"
         ] = 0.0,
         name: NameType = None,
     ):

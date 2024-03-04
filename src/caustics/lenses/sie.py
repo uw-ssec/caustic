@@ -51,21 +51,21 @@ class SIE(ThinLens):
         cosmology: CosmologyType,
         z_l: ZLType = None,
         x0: Annotated[
-            Optional[Union[Tensor, float]], "The x-coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "The x-coordinate of the lens center", True
         ] = None,
         y0: Annotated[
-            Optional[Union[Tensor, float]], "The y-coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "The y-coordinate of the lens center", True
         ] = None,
         q: Annotated[
-            Optional[Union[Tensor, float]], "The axis ratio of the lens.", True
+            Optional[Union[Tensor, float]], "The axis ratio of the lens", True
         ] = None,  # TODO change to true axis ratio
         phi: Annotated[
             Optional[Union[Tensor, float]],
-            "The orientation angle of the lens (position angle).",
+            "The orientation angle of the lens (position angle)",
             True,
         ] = None,
         b: Annotated[
-            Optional[Union[Tensor, float]], "The Einstein radius of the lens.", True
+            Optional[Union[Tensor, float]], "The Einstein radius of the lens", True
         ] = None,
         s: Annotated[float, "The core radius of the lens"] = 0.0,
         name: NameType = None,

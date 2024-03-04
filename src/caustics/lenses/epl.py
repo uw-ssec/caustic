@@ -73,29 +73,29 @@ class EPL(ThinLens):
         cosmology: CosmologyType,
         z_l: ZLType = None,
         x0: Annotated[
-            Optional[Union[Tensor, float]], "X coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "X coordinate of the lens center", True
         ] = None,
         y0: Annotated[
-            Optional[Union[Tensor, float]], "Y coordinate of the lens center.", True
+            Optional[Union[Tensor, float]], "Y coordinate of the lens center", True
         ] = None,
         q: Annotated[
-            Optional[Union[Tensor, float]], "Axis ratio of the lens.", True
+            Optional[Union[Tensor, float]], "Axis ratio of the lens", True
         ] = None,
         phi: Annotated[
-            Optional[Union[Tensor, float]], "Position angle of the lens.", True
+            Optional[Union[Tensor, float]], "Position angle of the lens", True
         ] = None,
         b: Annotated[
-            Optional[Union[Tensor, float]], "Scale length of the lens.", True
+            Optional[Union[Tensor, float]], "Scale length of the lens", True
         ] = None,
         t: Annotated[
             Optional[Union[Tensor, float]],
-            "Power law slope (`gamma-1`) of the lens.",
+            "Power law slope (`gamma-1`) of the lens",
             True,
         ] = None,
         s: Annotated[
-            float, "Softening length for the elliptical power-law profile."
+            float, "Softening length for the elliptical power-law profile"
         ] = 0.0,
-        n_iter: Annotated[int, "Number of iterations for the iterative solver."] = 18,
+        n_iter: Annotated[int, "Number of iterations for the iterative solver"] = 18,
         name: NameType = None,
     ):
         """

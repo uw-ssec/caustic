@@ -47,12 +47,12 @@ class Sersic(Source):
         self,
         x0: Annotated[
             Optional[Union[Tensor, float]],
-            "The x-coordinate of the Sersic source's center.",
+            "The x-coordinate of the Sersic source's center",
             True,
         ] = None,
         y0: Annotated[
             Optional[Union[Tensor, float]],
-            "The y-coordinate of the Sersic source's center.",
+            "The y-coordinate of the Sersic source's center",
             True,
         ] = None,
         q: Annotated[
@@ -78,7 +78,7 @@ class Sersic(Source):
             "The intensity at the effective radius",
             True,
         ] = None,
-        s: Annotated[float, "A small constant for numerical stability."] = 0.0,
+        s: Annotated[float, "A small constant for numerical stability"] = 0.0,
         use_lenstronomy_k: Annotated[
             bool,
             "A flag indicating whether to use lenstronomy to compute the value of k.",

@@ -83,7 +83,7 @@ class Lens_Source(Simulator):
         source: Annotated[
             Source, "caustics light object which defines the background source"
         ],
-        pixelscale: Annotated[float, "pixelscale of the sampling grid."],
+        pixelscale: Annotated[float, "pixelscale of the sampling grid"],
         pixels_x: Annotated[
             int, "number of pixels on the x-axis for the sampling grid"
         ],
@@ -91,11 +91,11 @@ class Lens_Source(Simulator):
             Optional[Source],
             "caustics light object which defines the lensing object's light",
         ] = None,
-        psf: Annotated[Optional[Tensor], "An image to convolve with the scene."] = None,
+        psf: Annotated[Optional[Tensor], "An image to convolve with the scene"] = None,
         pixels_y: Annotated[
-            Optional[int], "number of pixels on the y-axis for the sampling grid."
+            Optional[int], "number of pixels on the y-axis for the sampling grid"
         ] = None,
-        upsample_factor: Annotated[int, "Amount of upsampling to model the image."] = 1,
+        upsample_factor: Annotated[int, "Amount of upsampling to model the image"] = 1,
         psf_pad: Annotated[bool, "Flag to apply padding to psf"] = True,
         psf_mode: Annotated[
             Literal["fft", "conv2d"], "Mode for convolving psf"
