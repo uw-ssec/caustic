@@ -1,6 +1,6 @@
 # mypy: disable-error-code="misc"
 from math import pi
-from typing import Callable, Optional, Tuple, Union
+from typing import Callable, Optional, Tuple, Union, Any
 from importlib import import_module
 from functools import partial, lru_cache
 
@@ -11,7 +11,7 @@ import numpy as np
 from scipy.special import roots_legendre
 
 
-def _import_func_or_class(module_path: str) -> Callable:
+def _import_func_or_class(module_path: str) -> Any:
     """
     Import a function or class from a module path
 
