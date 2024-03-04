@@ -18,10 +18,10 @@ __all__ = ("ThinLens", "ThickLens")
 
 CosmologyType = Annotated[
     Cosmology,
-    "Cosmology object that encapsulates cosmological parameters and distances.",
+    "Cosmology object that encapsulates cosmological parameters and distances",
 ]
-NameType = Annotated[Optional[str], "Name of the lens model."]
-ZLType = Annotated[Optional[Union[Tensor, float]], "The redshift of the lens.", True]
+NameType = Annotated[Optional[str], "Name of the lens model"]
+ZLType = Annotated[Optional[Union[Tensor, float]], "The redshift of the lens", True]
 LensesType = Annotated[List["ThinLens"], "A list of ThinLens objects"]
 
 
