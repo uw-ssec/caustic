@@ -1,13 +1,15 @@
 # mypy: disable-error-code="union-attr, valid-type, has-type, assignment, arg-type, dict-item, return-value, misc"
+import typing
 from typing import List, Literal, Dict, Annotated, Union, Any, Tuple
 import inspect
-from pydantic import Field, create_model, field_validator
+from pydantic import Field, create_model, field_validator, ValidationInfo
 import torch
 
 from ..parametrized import Parametrized
 from .base_models import Base, Parameters, InitKwargs
 from .registry import get_kind, _registry
 from ..parametrized import ClassParam
+from ..utils import _import_func_or_class, _eval_expression
 
 PARAMS = "params"
 INIT_KWARGS = "init_kwargs"
@@ -106,17 +108,25 @@ def create_pydantic_model(
     }
 
     if kwargs_field_definitions[PARAMS]:
+
+        def _param_field_tensor_check(cls, v):
+            """Checks the ``params`` fields input
+            and converts to tensor if necessary"""
+            if not isinstance(v, torch.Tensor):
+                if isinstance(v, str):
+                    v = _eval_expression(v)
+                v = torch.as_tensor(v)
+            return v
+
         # Setup the pydantic models for the parameters and init_kwargs
         ParamsModel = create_model(
             f"{parametrized_class.__name__}_Params",
             __base__=Parameters,
             __validators__={
                 # Convert to tensor before passing to the model for additional validation
-                "tensors_validator": field_validator("*", mode="before")(
-                    lambda cls, v: (  # noqa
-                        torch.as_tensor(v) if not isinstance(v, torch.Tensor) else v
-                    )
-                )
+                "field_tensor_check": field_validator(
+                    "*", mode="before", check_fields=True
+                )(_param_field_tensor_check)
             },
             **kwargs_field_definitions[PARAMS],
         )
@@ -126,10 +136,43 @@ def create_pydantic_model(
         )
 
     if kwargs_field_definitions[INIT_KWARGS]:
+
+        def _init_kwargs_field_check(cls, v, info: ValidationInfo):
+            """Checks the ``init_kwargs`` fields input"""
+            field_name = info.field_name
+            field = cls.model_fields[field_name]
+            anno_args = typing.get_args(field.annotation)
+            if len(anno_args) == 2 and anno_args[1] == type(None):
+                # This means that the anno is optional
+                expected_type = next(
+                    filter(lambda x: x is not None, typing.get_args(field.annotation))
+                )
+                if not isinstance(v, expected_type):
+                    if isinstance(v, dict):
+                        if all(k for k in ["func", "kwargs"]):
+                            # Special case for the init_kwargs
+                            # this is to allow for creating tensor with some
+                            # caustics utils function, such as
+                            # `caustics.utils.gaussian`
+                            func = _import_func_or_class(v["func"])
+                            v = func(**v["kwargs"])  # type: ignore
+                    elif expected_type == torch.Tensor:
+                        # Try to cast to tensor if expected type is tensor
+                        v = torch.as_tensor(v)
+                    else:
+                        # Try to cast to the expected type
+                        v = expected_type(v)
+            return v
+
         InitKwargsModel = create_model(
             f"{parametrized_class.__name__}_Init_Kwargs",
             __base__=InitKwargs,
             **kwargs_field_definitions[INIT_KWARGS],
+            __validators__={
+                "field_check": field_validator("*", mode="before", check_fields=True)(
+                    _init_kwargs_field_check
+                )
+            },
         )
         field_definitions["init_kwargs"] = (
             InitKwargsModel,

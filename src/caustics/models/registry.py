@@ -1,15 +1,9 @@
-from importlib import import_module
 from functools import lru_cache
 from collections import ChainMap, OrderedDict
 from typing import MutableMapping, Iterator, Optional
 
 from caustics.parametrized import Parametrized
-
-
-def _import_kind_class(kind_module: str) -> Parametrized:
-    module_name, name = kind_module.rsplit(".", 1)
-    mod = import_module(module_name)
-    return getattr(mod, name)  # type: ignore
+from caustics.utils import _import_func_or_class
 
 
 class _KindRegistry(MutableMapping[str, "Parametrized | str"]):
@@ -64,10 +58,10 @@ class _KindRegistry(MutableMapping[str, "Parametrized | str"]):
         if kind_mod is None:
             raise KeyError(f"{item} not in registry")
         if isinstance(kind_mod, str):
-            cls = _import_kind_class(kind_mod)
+            cls = _import_func_or_class(kind_mod)
         else:
-            cls = kind_mod
-        return cls
+            cls = kind_mod  # type: ignore
+        return cls  # type: ignore
 
     def __setitem__(self, item: str, value: "Parametrized | str") -> None:
         if not (
