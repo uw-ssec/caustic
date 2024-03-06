@@ -1,6 +1,5 @@
 Glossary
 ========
-```{glossary}
 
 arcsec
 ------
@@ -59,6 +58,3 @@ flux
 unitless
 --------
     Indicates a dimensionless quantity, used here for redshifts, the axis ratio of the lens, the power-law slope parameter of the lens model, shear components, the redshift of the lens, the concentration parameter, and the convergence of the lens.
-
-
-```
