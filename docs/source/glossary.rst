@@ -1,3 +1,4 @@
+Glossary
 ========
 ```{glossary}
 
