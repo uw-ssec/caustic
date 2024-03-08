@@ -21,3 +21,25 @@ The following files can be found:
 - `run-tests.sh`: A really simple script file that is accessible via command
   line within the container by calling `/bin/run-tests`. This file essentially
   runs `pytests`.
+
+## Using the docker image within HPC
+
+To use the docker image within the HPC, firstly, you will need to figure out
+which image to use within the github registry. Then pull the image using
+apptainer, which will create an apptainer singularity image format (.sif). Use
+this image to run any commands with caustics environment already setup and
+configured.
+
+_Note: You will need to have the apptainer program installed on your system to
+use the following commands. Additionally, please ignore any warning from
+Apptainer when pulling the image._
+
+```bash
+apptainer pull docker://ghcr.io/ciela-institute/caustics:dev-cuda-11.8.0
+apptainer run --nv caustics_dev-cuda-11.8.0.sif /bin/run-tests
+```
+
+In the example above, we are pulling the `dev-cuda-11.8.0` image from the github
+registry and then running the `/bin/run-tests` script within the container to
+run all of the tests for caustics. The `--nv` flag is used to enable GPU access
+within the container.
