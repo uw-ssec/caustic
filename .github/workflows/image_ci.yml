@@ -110,4 +110,4 @@ jobs:
         if: ${{ env.GITHUB_REF != 'refs/heads/main' }}
         run: |
           docker run ${{ steps.registry_org.outputs.image_base }}/${{ env.PROJECT_NAME }}:${{ steps.github_sha.outputs.short_sha }}-cuda-${{ matrix.CUDA_VERSION }} micromamba list
-          docker images ls
+          docker image ls
