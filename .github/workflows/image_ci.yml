@@ -5,9 +5,13 @@ on:
     branches:
       - main
       - dev
-    paths-ignore:
-      - "LICENSE"
-      - "README.md"
+    paths:
+      - "src"
+      - "tests"
+      - "resources/docker/Dockerfile"
+      - "resources/docker/*.lock"
+      - "resources/docker/*.yaml"
+      - "resources/docker/*.sh"
   pull_request:
     branches:
       - "dev-**"
