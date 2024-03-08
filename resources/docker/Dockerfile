@@ -65,7 +65,8 @@ COPY . ${CAUSTICS_HOME}
 # Install caustics from a branch or distribution
 RUN echo "Installing caustics ..." \
     # Allow for "main" or "dev" to be used as a version
-    ; if [[ $CAUSTICS_VERSION = *"main"* || $CAUSTICS_VERSION = *"dev"* ]]; then \
+    # or if it's pull request 'merge'
+    ; if [[ $CAUSTICS_VERSION = *"main"* || $CAUSTICS_VERSION = *"dev"* || $CAUSTICS_VERSION = *"merge"* ]]; then \
     echo "Installing development caustics: ${CAUSTICS_VERSION}..." ; \
     pip install -e "${CAUSTICS_HOME}[dev]" \
     ; else echo "Installing from production distribution version: ${CAUSTICS_VERSION}" ; \
