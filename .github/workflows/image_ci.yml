@@ -6,8 +6,8 @@ on:
       - main
       - dev
     paths:
-      - "src"
-      - "tests"
+      - "src/**"
+      - "tests/**"
       - "resources/docker/Dockerfile"
       - "resources/docker/*.lock"
       - "resources/docker/*.yaml"
