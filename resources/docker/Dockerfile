@@ -16,6 +16,9 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Switch over to root user to install apt-get packages
 USER root
 
+# Copying caustics over
+COPY --chown=$MAMBA_USER:$MAMBA_USER . ${CAUSTICS_HOME}
+
 # Make everything in opt rootless
 RUN chown -R ${MAMBA_USER}:${MAMBA_USER} /opt
 
@@ -58,9 +61,6 @@ RUN micromamba install --name base --yes --file /tmp/conda-linux-64.lock \
 
 # Set to activate mamba environment, otherwise python will not be found
 ARG MAMBA_DOCKERFILE_ACTIVATE=1
-
-# Copying caustics over
-COPY . ${CAUSTICS_HOME}
 
 # Install caustics from a branch or distribution
 RUN echo "Installing caustics ..." \
