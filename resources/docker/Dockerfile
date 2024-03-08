@@ -16,6 +16,11 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Switch over to root user to install apt-get packages
 USER root
 
+# Setup caustics directory in case we are working with
+# dev repo
+RUN echo "Setup caustics directory..." \
+    && mkdir ${CAUSTICS_HOME}
+
 # Copying caustics over
 COPY --chown=$MAMBA_USER:$MAMBA_USER . ${CAUSTICS_HOME}
 
@@ -45,12 +50,6 @@ RUN echo "Installing Apt-get packages..." \
 
 # Switch back to mamba user after all apt-get packages are installed
 USER $MAMBA_USER
-
-# Setup caustics directory in case we are working with
-# dev repo
-RUN echo "Setup caustics directory..." \
-    && mkdir ${CAUSTICS_HOME} \
-    && chown -R $MAMBA_USER:$MAMBA_USER ${CAUSTICS_HOME}
 
 # Copy over the conda lock file from host machine to docker build engine
 COPY --chown=$MAMBA_USER:$MAMBA_USER ./resources/docker/conda-linux-64.lock /tmp/conda-linux-64.lock
